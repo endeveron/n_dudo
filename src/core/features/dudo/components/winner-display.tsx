@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Fireworks from '@/core/components/shared/fireworks/fireworks';
+import Fireworks from '@/core/components/shared/firework/firework';
 import { Card, CardContent } from '@/core/components/ui/card';
 import NewGameControls from '@/core/features/dudo/components/new-game-controls';
 import { USER_NAME } from '@/core/features/dudo/constants';

@@ -56,15 +56,14 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 5px;
-  height: 5px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background: radial-gradient(circle, var(--c1) 0%, var(--c2) 70%);
   --dist: 80px;
   --dur: 0.8s;
   --delay: 0s;
+  background: var(--color);
   animation: explode var(--dur) ease-out forwards infinite;
-  /* animation-iteration-count: 10; */
   animation-delay: var(--delay);
 }
 

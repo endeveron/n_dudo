@@ -3,24 +3,23 @@
 import { useEffect, useState } from 'react';
 
 import AnimatedAppear from '@/core/components/shared/animated-appear';
-import './fireworks.css';
+import './firework.css';
 
 type FireworksProps = {
   active?: boolean;
   iterations?: number;
   children: React.ReactNode;
-  colors?: [string, string]; // gradient: center, mid, edge
+  color?: string;
   duration?: number;
 };
 
 const Fireworks = ({
   active = false,
   children,
-  colors = ['#efda9d', '#d7095f'],
-  duration = 5000,
+  color = '#ff2056',
+  duration = 10,
 }: FireworksProps) => {
   const [isActive, setIsActive] = useState(false);
-  const [color1, color2] = colors;
 
   useEffect(() => {
     if (active) {
@@ -41,8 +40,7 @@ const Fireworks = ({
           className="explosion"
           style={
             {
-              '--c1': color1,
-              '--c2': color2,
+              '--color': color,
             } as React.CSSProperties
           }
         >
