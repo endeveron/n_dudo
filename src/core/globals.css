@@ -1,0 +1,300 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: #fafafa; /* zinc-50 */
+  --foreground: #18181b; /* zinc-900 */
+
+  --main-image-background: #fafafa; /* zinc-50 */
+
+  --accent: #27272a; /* zinc-800 */
+  --accent-foreground: white;
+  --brand: var(--blue);
+
+  --muted: #4b4b54; /* zinc-600 */
+  --border: #ffffff70;
+  --input: rgba(255, 255, 255, 0.4);
+  --input-border: rgba(255, 255, 255, 0.4);
+  --input-autofill: #f1edea;
+  --overlay: white;
+  --icon: #3f3f46; /* zinc-700 */
+  --dice: #fbfbfb;
+
+  --positive: #0aa394;
+  --positive-text: #008e80;
+  --negative: #ff3467;
+  --negative-text: #ef1b50;
+
+  --ring: var(--accent);
+
+  --btn-foreground: white;
+  --btn-background: var(--accent);
+  --btn-background-hover: #04897c;
+  --btn-secondary-foreground: #27272a; /* zinc-800 */
+  --btn-secondary-background: #fafafa;
+  --btn-secondary-background-hover: white;
+  --btn-accent-foreground: white;
+  --btn-accent-background: var(--accent);
+  --btn-accent-background-hover: #04897c;
+
+  --btn-positive-background: #089d8e;
+  --btn-positive-background-hover: #04897c;
+  --btn-negative-background: #d4345c;
+  --btn-negative-background-hover: #c1264d;
+
+  --card: rgba(255, 255, 255, 0.35);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+
+  --gform-background: white;
+  --gform-text: #1f1f1f;
+  --gform-description: #1f1f1f;
+  --gform-label: #2d2d2d;
+  --gform-border: #1f1f1f;
+  --gform-border-active: #186ef9;
+  --gform-link: #0b57d0;
+  --gform-link-background: #dfe1e5;
+  --gform-button-background: #0b57d0;
+  --gform-button-text: white;
+  --gform-progressbar: #1565c0;
+  --gform-progressbar-background: #c8e6ff;
+  --gform-error: #f04949;
+  --gform-autofill-text: #1f1f1f;
+  --gform-autofill-background: white;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #09090b; /* zinc-950 */
+    --foreground: #fafafa; /* zinc-50 */
+
+    --main-image-background: #18181b; /* zinc-900 */
+
+    --accent: #ffdeb8;
+    --accent-foreground: black;
+    --brand: var(--blue);
+
+    --muted: #7e7e87; /* zinc-500 */
+    --border: #ffffff20;
+    --input: rgba(39, 39, 42, 0.8); /* zinc-800 */
+    --input-border: #27272a; /* zinc-800 */
+    --input-autofill: #1a1917;
+    --overlay: #27272a; /* zinc-800 */
+    --icon: #71717b; /* zinc-500 */
+    --dice: #f5f5f5; /* zinc-100 */
+
+    --positive: #07a192;
+    --positive-text: #03bfac;
+    --negative: #f32e60;
+    --negative-text: #ff547e;
+
+    --btn-foreground: white;
+    --btn-background: var(--accent);
+    --btn-background-hover: #ffc889;
+    --btn-secondary-foreground: #f5f5f5; /* neutral-100 */
+    --btn-secondary-background: #262626; /* neutral-800 */
+    --btn-secondary-background-hover: #353535; /* ~neutral-700 */
+    --btn-accent-foreground: black;
+    --btn-accent-background: var(--accent);
+    --btn-accent-background-hover: #ffc889;
+
+    --btn-positive-background: #008f81;
+    --btn-positive-background-hover: #007b6f;
+    --btn-negative-background: #c52e54;
+    --btn-negative-background-hover: #ab2748;
+
+    --card: rgba(23, 23, 23, 0.8);
+
+    --gform-background: #0e0e0e;
+    --gform-text: #e3e3e3;
+    --gform-description: #c4c7c5;
+    --gform-label: #8e918f;
+    --gform-border: #8e918f;
+    --gform-border-active: #a8c7fa;
+    --gform-link: #a8c7fa;
+    --gform-link-background: #2c2d2f;
+    --gform-button-background: #a8c7fa;
+    --gform-button-text: #062e6f;
+    --gform-progressbar: #a8c7fa;
+    --gform-progressbar-background: #2a364c;
+    --gform-error: #f2b8b5;
+    --gform-autofill-text: #ededed;
+    --gform-autofill-background: #18191a;
+  }
+}
+
+@theme inline {
+  --font-inter-sans: var(--font-inter-sans);
+  --font-google-sans: var(--font-google-sans);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* --color-main-image-foreground: var(--main-image-foreground); */
+  --color-main-image-background: var(--main-image-background);
+
+  --color-brand: var(--brand);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-input-border: var(--input-border);
+  --color-overlay: var(--overlay);
+  --color-icon: var(--icon);
+  --color-dice: var(--dice);
+
+  --color-positive: var(--positive);
+  --color-positive-text: var(--positive-text);
+  --color-negative: var(--negative);
+  --color-negative-text: var(--negative-text);
+
+  --color-btn-foreground: var(--btn-foreground);
+  --color-btn-background: var(--btn-background);
+  --color-btn-background-hover: var(--btn-background-hover);
+  --color-btn-secondary-foreground: var(--btn-secondary-foreground);
+  --color-btn-secondary-background: var(--btn-secondary-background);
+  --color-btn-secondary-background-hover: var(--btn-secondary-background-hover);
+  --color-btn-accent-foreground: var(--btn-accent-foreground);
+  --color-btn-accent-background: var(--btn-accent-background);
+  --color-btn-accent-background-hover: var(--btn-accent-background-hover);
+
+  --color-btn-positive-background: var(--btn-positive-background);
+  --color-btn-positive-background-hover: var(--btn-positive-background-hover);
+  --color-btn-negative-background: var(--btn-negative-background);
+  --color-btn-negative-background-hover: var(--btn-negative-background-hover);
+
+  --color-card: var(--card);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  /* Shadcn */
+  --color-ring: var(--ring);
+
+  /* Google Form */
+  --color-gform-background: var(--gform-background);
+  --color-gform-text: var(--gform-text);
+  --color-gform-description: var(--gform-description);
+  --color-gform-label: var(--gform-label);
+  --color-gform-border: var(--gform-border);
+  --color-gform-border-active: var(--gform-border-active);
+  --color-gform-link: var(--gform-link);
+  --color-gform-link-background: var(--gform-link-background);
+  --color-gform-button-background: var(--gform-button-background);
+  --color-gform-button-text: var(--gform-button-text);
+  --color-gform-progressbar: var(--gform-progressbar);
+  --color-gform-progressbar-background: var(--gform-progressbar-background);
+  --color-gform-error: var(--gform-error);
+  --color-gform-autofill-text: var(--gform-autofill-text);
+  --color-gform-autofill-background: var(--gform-autofill-background);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring;
+  }
+
+  body {
+    @apply font-inter-sans bg-background text-foreground;
+  }
+
+  /* Hide arrows in number input (Chrome, Safari, Edge) */
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Reset appearance for Firefox */
+  input[type='number'] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+  }
+
+  /* Customize autofull area color */
+  input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 100px var(--input-autofill) inset !important;
+    -webkit-text-fill-color: var(--accent-text) !important;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    input:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 100px var(--input-autofill) inset !important;
+    }
+  }
+}
+
+@layer utilities {
+  strong {
+    @apply text-accent;
+  }
+
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  .no-select {
+    @apply cursor-default select-none;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+@layer components {
+  .layout {
+    @apply w-full min-w-96 h-dvh min-h-dvh m-auto;
+  }
+
+  .layout,
+  main {
+    @apply flex flex-col grow-1;
+  }
+
+  .layout.align-center {
+    @apply flex-col items-center justify-center box-border;
+  }
+
+  .text-system {
+    @apply text-muted/80 select-none;
+  }
+
+  .auth-form {
+    @apply relative w-72 flex flex-col gap-6 transition-opacity;
+  }
+
+  .auth-form.inactive {
+    @apply opacity-20;
+  }
+
+  .auth-form_button {
+    @apply w-full my-1;
+  }
+
+  .auth-form_link {
+    @apply mt-2 text-center text-sm text-muted hover:text-foreground transition-colors;
+  }
+
+  .form-control-with-icon input {
+    @apply pr-10;
+  }
+
+  .dudo-container {
+    @apply w-[640px] pb-10 flex flex-col flex-1 items-center justify-center cursor-default;
+  }
+
+  @media (max-height: 640px) {
+    .dudo-container {
+      @apply pt-10 pb-0;
+    }
+  }
+}

@@ -1,0 +1,144 @@
+.fireworks {
+  position: relative;
+}
+
+.explosion {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.pw {
+  position: absolute;
+  transform-origin: center;
+}
+.pw:nth-child(1) {
+  transform: rotate(0deg);
+}
+.pw:nth-child(2) {
+  transform: rotate(30deg);
+}
+.pw:nth-child(3) {
+  transform: rotate(60deg);
+}
+.pw:nth-child(4) {
+  transform: rotate(90deg);
+}
+.pw:nth-child(5) {
+  transform: rotate(120deg);
+}
+.pw:nth-child(6) {
+  transform: rotate(150deg);
+}
+.pw:nth-child(7) {
+  transform: rotate(180deg);
+}
+.pw:nth-child(8) {
+  transform: rotate(210deg);
+}
+.pw:nth-child(9) {
+  transform: rotate(240deg);
+}
+.pw:nth-child(10) {
+  transform: rotate(270deg);
+}
+.pw:nth-child(11) {
+  transform: rotate(300deg);
+}
+.pw:nth-child(12) {
+  transform: rotate(330deg);
+}
+
+.p {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--c1) 0%, var(--c2) 70%);
+  --dist: 80px;
+  --dur: 0.8s;
+  --delay: 0s;
+  animation: explode var(--dur) ease-out forwards infinite;
+  /* animation-iteration-count: 10; */
+  animation-delay: var(--delay);
+}
+
+.pw:nth-child(1) .p {
+  --dist: 78px;
+  --dur: 0.76s;
+  --delay: 0.02s;
+}
+.pw:nth-child(2) .p {
+  --dist: 90px;
+  --dur: 0.92s;
+  --delay: 0s;
+}
+.pw:nth-child(3) .p {
+  --dist: 72px;
+  --dur: 0.7s;
+  --delay: 0.04s;
+}
+.pw:nth-child(4) .p {
+  --dist: 85px;
+  --dur: 0.88s;
+  --delay: 0.01s;
+}
+.pw:nth-child(5) .p {
+  --dist: 93px;
+  --dur: 0.95s;
+  --delay: 0.03s;
+}
+.pw:nth-child(6) .p {
+  --dist: 68px;
+  --dur: 0.66s;
+  --delay: 0.05s;
+}
+.pw:nth-child(7) .p {
+  --dist: 82px;
+  --dur: 0.8s;
+  --delay: 0s;
+}
+.pw:nth-child(8) .p {
+  --dist: 91px;
+  --dur: 0.93s;
+  --delay: 0.02s;
+}
+.pw:nth-child(9) .p {
+  --dist: 69px;
+  --dur: 0.68s;
+  --delay: 0.04s;
+}
+.pw:nth-child(10) .p {
+  --dist: 88px;
+  --dur: 0.9s;
+  --delay: 0.01s;
+}
+.pw:nth-child(11) .p {
+  --dist: 76px;
+  --dur: 0.74s;
+  --delay: 0.03s;
+}
+.pw:nth-child(12) .p {
+  --dist: 95px;
+  --dur: 0.98s;
+  --delay: 0.05s;
+}
+
+@keyframes explode {
+  0% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(var(--dist)) scale(0.5);
+    opacity: 0;
+  }
+}
