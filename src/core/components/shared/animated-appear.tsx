@@ -7,11 +7,18 @@ type AnimatedAppearProps = PropsWithChildren &
   React.HTMLAttributes<HTMLDivElement> & {
     isShown?: boolean;
     delay?: number;
+    duration?: 'fast' | 'normal';
   };
 
 const AnimatedAppear = forwardRef<HTMLDivElement, AnimatedAppearProps>(
-  ({ children, className, delay, isShown, onClick }, ref) => {
+  (
+    { children, className, delay, duration = 'normal', isShown, onClick },
+    ref
+  ) => {
     const [isReady, setIsReady] = useState(false);
+
+    const durationClassName =
+      duration === 'fast' ? 'duration-100' : 'duration-500';
 
     useEffect(() => {
       let delayTimeout: NodeJS.Timeout;
@@ -39,10 +46,9 @@ const AnimatedAppear = forwardRef<HTMLDivElement, AnimatedAppearProps>(
         ref={ref}
         onClick={onClick}
         className={cn(
-          `opacity-0 transition-opacity duration-500`,
-          {
-            'opacity-100': isReady,
-          },
+          `opacity-0 transition-opacity`,
+          isReady && 'opacity-100',
+          durationClassName,
           className
         )}
       >

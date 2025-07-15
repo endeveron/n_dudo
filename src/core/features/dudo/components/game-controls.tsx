@@ -41,7 +41,7 @@ const GameControls = ({
 
   return (
     <div className="w-full h-[112px] rounded-xl bg-card/30">
-      <AnimatedAppear isShown={isGameControls}>
+      <AnimatedAppear isShown={isGameControls} duration="fast">
         <Card>
           <CardContent className="py-6 flex-center">
             <div className="flex-center gap-4">
