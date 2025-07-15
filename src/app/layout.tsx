@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: 'https://typify-zeta.vercel.app/icons/icon.svg',
+        url: 'https://games-livid-one.vercel.app/icons/icon.svg',
         width: 1024,
         height: 1024,
       },
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: {
-      url: 'https://typify-zeta.vercel.app/favicon.ico',
+      url: 'https://games-livid-one.vercel.app/favicon.ico',
       type: 'image/image/ico',
     },
   },
