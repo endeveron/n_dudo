@@ -4,7 +4,8 @@ import {
   GameStateAnalysis,
   ProbabilityAnalysis,
 } from '@/core/features/dudo/types/advanced-logic';
-import { getValuableDiceNumber } from '@/core/features/dudo/utils/advanced-logic';
+import { getValuableDiceNumber } from '@/core/features/dudo/utils';
+import { calculateGameProgression } from '@/core/features/dudo/utils/advanced-logic';
 import { calculateSuspicionLevel } from '@/core/features/dudo/utils/advanced-player-analysis';
 import { calculateBinomialProbability } from '@/core/features/dudo/utils/advanced-probability-utils';
 
@@ -91,9 +92,12 @@ export const analyzeBehavior = (context: BettingContext): BehaviorAnalysis => {
 export const analyzeGameState = (
   context: BettingContext
 ): GameStateAnalysis => {
-  const { roundNumber, activePlayerCount, totalDiceCount } = context;
+  const { activePlayerCount, initialDiceCount, totalDiceCount } = context;
 
-  const gameProgression = Math.min(1, roundNumber / 15);
+  const gameProgression = calculateGameProgression({
+    initialDiceCount,
+    totalDiceCount,
+  });
   const eliminationPressure = Math.max(0, (5 - activePlayerCount) / 4);
   const diceScarcity = Math.max(0, (25 - totalDiceCount) / 25);
   const urgencyLevel = gameProgression * 0.4 + eliminationPressure * 0.6;

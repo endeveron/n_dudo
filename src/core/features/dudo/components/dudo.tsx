@@ -7,7 +7,6 @@ import Assistant from '@/core/features/dudo/components/assistant';
 import BettingDisplay from '@/core/features/dudo/components/betting-display';
 import DiceRoll from '@/core/features/dudo/components/dice-roll';
 import GameControls from '@/core/features/dudo/components/game-controls';
-// import GameHistory from '@/core/features/dudo/components/history-display';
 import PlayersDisplay from '@/core/features/dudo/components/players-display';
 import StartNewGame from '@/core/features/dudo/components/start-new-game';
 import StatisticsDisplay from '@/core/features/dudo/components/statistics-display';
@@ -21,7 +20,7 @@ const DudoClient = () => {
     inputValue,
     currentBet,
     currentPlayer,
-    gameHistory,
+    // gameHistory,
     gamePhase,
     gameMode,
     isPlayerTurn,
@@ -32,7 +31,7 @@ const DudoClient = () => {
     recentAction,
     // recentPlayer,
     rolling,
-    roundNumber,
+    // roundNumber,
     totalDiceCount,
     winner,
     challengeBet,
@@ -128,12 +127,9 @@ const DudoClient = () => {
       <Assistant
         allDice={allDice}
         currentBet={currentBet}
-        gameHistory={gameHistory}
         gamePhase={gamePhase}
         isPlayerTurn={isPlayerTurn}
-        player={players[0]}
         players={players}
-        roundNumber={roundNumber}
       />
 
       {/* Winner announcement ( z-30 ) */}

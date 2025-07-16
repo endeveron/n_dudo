@@ -21,7 +21,7 @@ import {
 
 const useDudo = () => {
   const [gameMode, setGameMode] = useState<GameMode>('blitz');
-  // const [initialDiceCount, setInitialDiceCount] = useState(0);
+  const [initialDiceCount, setInitialDiceCount] = useState(0);
   const [roundNumber, setRoundNumber] = useState(1);
   const [players, setPlayers] = useState<Player[]>([]);
   const [currentPlayer, setCurrentPlayer] = useState(0);
@@ -56,7 +56,7 @@ const useDudo = () => {
         diceCount,
         ...data,
       }));
-      // setInitialDiceCount(diceCount * playerCount);
+      setInitialDiceCount(diceCount * playerCount);
       setPlayers(extendedPlayers);
       setGameMode(mode);
       setCurrentPlayer(0);
@@ -213,6 +213,7 @@ const useDudo = () => {
         allDice,
         currentBet,
         gameHistory,
+        initialDiceCount,
         player,
         players,
         roundNumber,
@@ -223,7 +224,7 @@ const useDudo = () => {
 
       return botDecision;
     },
-    [allDice, gameHistory, isPlayerTurn, players, roundNumber]
+    [allDice, gameHistory, initialDiceCount, isPlayerTurn, players, roundNumber]
   );
 
   // Helper function to find next active player

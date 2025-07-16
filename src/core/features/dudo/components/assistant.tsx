@@ -3,139 +3,132 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import Dice from '@/core/features/dudo/components/dice';
-import {
-  AdvancedBetParams,
-  Decision,
-  Strategy,
-} from '@/core/features/dudo/types/advanced-logic';
-import { getAdvancedDecision } from '@/core/features/dudo/utils/advanced-logic';
+import { Bet, GamePhase, Player } from '@/core/features/dudo/types';
+import { Decision } from '@/core/features/dudo/types/advanced-logic';
+import { getPremiumDecision } from '@/core/features/dudo/utils/premium-logic';
 import { cn } from '@/core/utils/common';
-import { GamePhase } from '@/core/features/dudo/types';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/core/components/ui/select';
-import { STRATEGIES } from '@/core/features/dudo/constants/advanced-bot-personalities';
-import { Switch } from '@/core/components/ui/switch';
+import DiamondIcon from '~/public/icons/ui/diamond.svg';
 
 const HIDE_DELAY = 5000;
+
+export interface AssistantProps {
+  allDice: number[];
+  currentBet: Bet | null;
+  gamePhase: GamePhase;
+  isPlayerTurn: boolean;
+  players: Player[];
+}
 
 const Assistant = ({
   allDice,
   currentBet,
-  gameHistory,
   gamePhase,
   isPlayerTurn,
   players,
-  roundNumber,
-}: Omit<AdvancedBetParams, 'strategy'> & {
-  gamePhase: GamePhase;
-  isPlayerTurn: boolean;
-}) => {
+}: AssistantProps) => {
   const [active, setActive] = useState(false);
-  const [decision, setDecision] = useState<Decision | null>(null);
-  const [strategy, setStrategy] = useState<Strategy | ''>('');
+  const [data, setData] = useState<{
+    decision: Decision | null;
+    confidence: number;
+  } | null>(null);
 
   const hideTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const allowed =
     players.length && isPlayerTurn && gamePhase === 'betting' && currentBet;
 
-  const handleChangeStrategy = (value: string) => {
-    setStrategy(value as Strategy);
-  };
+  const decision = data?.decision;
+  const confidence = data?.confidence ? `${data.confidence}` : null;
+  const isChallenge = decision === 'challenge';
 
-  const getAssist = useCallback(() => {
-    const advancedDecision = getAdvancedDecision({
+  const getDecision = useCallback(() => {
+    const premiumDecision = getPremiumDecision({
       allDice,
       currentBet,
-      gameHistory,
-      player: players[0],
       players,
-      roundNumber,
-      preferredStrategy: strategy === '' ? undefined : strategy, // '' should be used as default value for <Select value={''}>
     });
+    // console.log('premiumDecision', premiumDecision);
 
-    // console.info('Advanced decision', advancedDecision);
+    // const advancedDecision = getAdvancedDecision({
+    //   allDice,
+    //   currentBet,
+    //   gameHistory,
+    //   player: players[0],
+    //   players,
+    //   roundNumber,
+    // });
+    // // console.info('Advanced decision', advancedDecision);
 
-    return advancedDecision;
-  }, [allDice, currentBet, gameHistory, players, roundNumber, strategy]);
+    return premiumDecision;
+  }, [allDice, currentBet, players]);
 
   useEffect(() => {
     if (!active || !allowed) return;
 
-    const assist = getAssist() ?? null;
-    setDecision(assist);
+    const decision = getDecision() ?? null;
+    setData(decision);
 
-    if (assist !== null) {
+    if (decision !== null) {
       hideTimeout.current = setTimeout(() => {
-        setDecision(null);
+        setData(null);
       }, HIDE_DELAY);
     }
 
     return () => {
       if (hideTimeout.current) clearTimeout(hideTimeout.current);
     };
-  }, [active, allowed, getAssist]);
+  }, [active, allowed, getDecision]);
 
   if (!players.length) return null;
 
   return (
     <div
       className={cn(
-        'fixed top-[10px] -translate-x-12 z-50',
+        'fixed top-5 z-50',
         allowed && 'opacity-100 pointer-events-auto'
       )}
     >
       <div className="flex-center gap-4">
-        {/* <div
-          className={cn('font-bold', active ? 'text-accent' : 'text-muted/60')}
-        >
-          Tips
-        </div> */}
-        <Switch checked={active} onClick={() => setActive((prev) => !prev)} />
-
         <div className="relative flex items-center gap-4">
-          <Select
-            value={strategy}
-            onValueChange={handleChangeStrategy}
-            disabled={!active}
-          >
-            <SelectTrigger className="w-36">
-              <SelectValue placeholder="Bet assistant" />
-            </SelectTrigger>
-            <SelectContent>
-              {STRATEGIES.map((strategy) => (
-                <SelectItem key={strategy} value={strategy}>
-                  {strategy
-                    .replace(/-/g, ' ')
-                    .replace(/\b\w/g, (l) => l.toUpperCase())}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-
-          {/* Bet tip */}
+          {/* Toggle */}
           <div
             className={cn(
-              'absolute opacity-0 h-12 w-36 left-1/2 top-14 -translate-x-1/2 flex-center rounded-md bg-card pointer-events-none transition-opacity duration-300',
+              'h-6 w-6 -translate-y-0.5 cursor-pointer transition-all',
+              active ? 'text-accent' : 'text-muted opacity-60'
+            )}
+            onClick={() => setActive((prev) => !prev)}
+            title="Pro tips"
+          >
+            <DiamondIcon />
+          </div>
+
+          {/* Bet tooltip */}
+          <div
+            className={cn(
+              'absolute w-30 opacity-0 top-11 left-1/2 -translate-x-1/2 rounded-md bg-card pointer-events-none transition-opacity duration-300',
               active && allowed && decision && 'opacity-100'
             )}
           >
-            {typeof decision === 'string' ? (
-              <div className="my-1 text-sm text-accent font-bold uppercase">
-                {decision}
-              </div>
-            ) : decision ? (
-              <div className="flex-center gap-2 font-bold">
-                <div className="text-xl leading-none">{decision.count}</div>
-                <div className="text-xl">×</div>
-                <Dice size="sm" value={decision.value} />
-              </div>
-            ) : null}
+            <div className="relative py-3">
+              {isChallenge ? (
+                <div className="text-sm text-accent text-center font-bold">
+                  Challenge
+                </div>
+              ) : decision ? (
+                <div className="flex-center gap-2 font-bold">
+                  <div className="text-xl leading-none">{decision.count}</div>
+                  <div className="text-xl">×</div>
+                  <Dice size="sm" value={decision.value} />
+                </div>
+              ) : null}
+
+              {confidence ? (
+                <div
+                  className="absolute left-0 bottom-0 h-0.75 bg-accent rounded-xs transition-all duration-500"
+                  style={{ width: `${confidence}%` }}
+                ></div>
+              ) : null}
+            </div>
           </div>
         </div>
       </div>

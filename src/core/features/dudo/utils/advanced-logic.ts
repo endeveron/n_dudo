@@ -1,4 +1,3 @@
-import { FORCED_CHALLENGE_PROBABILITY } from '@/core/features/dudo/constants';
 import { BOT_PERSONALITIES } from '@/core/features/dudo/constants/advanced-bot-personalities';
 import {
   AdvancedBetParams,
@@ -9,8 +8,8 @@ import {
   Decision,
   GameStateAnalysis,
   ProbabilityAnalysis,
-  Strategy,
 } from '@/core/features/dudo/types/advanced-logic';
+import { getValuableDiceNumber } from '@/core/features/dudo/utils';
 import {
   evaluateBettingOption,
   generateBettingOptions,
@@ -22,55 +21,6 @@ import {
   analyzeProbabilities,
 } from '@/core/features/dudo/utils/advanced-probability-analysis';
 
-// v 1
-// export const calculateChallengeProbability = (
-//   personality: BotPersonality,
-//   probAnalysis: ProbabilityAnalysis,
-//   behaviorAnalysis: BehaviorAnalysis,
-//   gameStateAnalysis: GameStateAnalysis
-// ): number => {
-//   let challengeProb = 0;
-
-//   // Base challenge probability from personality
-//   challengeProb += personality.challengeThreshold * 0.3;
-
-//   // Probability-based challenge
-//   if (probAnalysis.actualProbability < 0.2) {
-//     challengeProb += 0.5;
-//   } else if (probAnalysis.actualProbability < 0.4) {
-//     challengeProb += 0.3;
-//   } else if (probAnalysis.actualProbability < 0.6) {
-//     challengeProb += 0.1;
-//   }
-
-//   // NEW: Use contextual confidence adjustment
-//   const confidenceAdjustment = () => {
-//     // If we're very confident in our analysis, trust it more
-//     if (probAnalysis.confidenceLevel > 0.8) {
-//       return probAnalysis.confidenceLevel * 0.2;
-//     }
-//     return 0;
-//   };
-
-//   challengeProb += confidenceAdjustment();
-
-//   // Behavior-based challenge
-//   challengeProb += behaviorAnalysis.suspicionLevel * 0.4;
-
-//   // Game state adjustments
-//   challengeProb += gameStateAnalysis.urgencyLevel * 0.2;
-
-//   // Analytical depth modifier
-//   challengeProb *= 0.5 + personality.analyticalDepth * 0.5;
-
-//   return Math.max(0, Math.min(1, challengeProb));
-// };
-//
-// v2
-// More realistic reaction to probability — smooth scaling rather than thresholds.
-// Higher suspicion when probability is low and confidence is high.
-// Still includes behavior and urgency influences.
-// Personality influences both base and final weighting.
 export const calculateChallengeProbability = ({
   behaviorAnalysis,
   challengeProbCoefficient = 1, // Default to 1 (no change)
@@ -86,26 +36,15 @@ export const calculateChallengeProbability = ({
 }): number => {
   let challengeProb = 0;
 
-  // Base challenge probability from personality
-  challengeProb += personality.challengeThreshold * 0.5; // Initial 0.3
-  //                    0.5   0.3
-  // Conservative	 0.4	1.0	  0.12
-  // Aggressive	   0.7	1.05	1.21
-  // Analytical	   0.3	1.10	0.09
-  // Bluffer	     0.5	0.9 	0.15
+  // Base challenge probability from personality.
+  // Sets each bot's default tendency to challenge based on personality,
+  // enabling behavior that reflects traits like paranoia or trust.
+  challengeProb += personality.challengeThreshold * 0.5;
 
   // Sanity check: if we already have enough dice, don't challenge
   if (probAnalysis.myCount >= probAnalysis.expectedTotal * 0.8) {
     challengeProb *= 0.1; // Drammatically reduce challenge probability
   }
-
-  // // Apply an additional reduction factor
-  // if (
-  //   probAnalysis.actualProbability > 0.8 &&
-  //   probAnalysis.confidenceLevel > 0.7
-  // ) {
-  //   challengeProb *= 0.2; // Reduce when both probability and confidence are high
-  // }
 
   // Probability-based challenge (sigmoid-based logic)
   const probabilityWeight = (p: number): number => {
@@ -116,21 +55,16 @@ export const calculateChallengeProbability = ({
   const probWeight = probabilityWeight(probAnalysis.actualProbability);
 
   // Integrate confidence into weight scaling (more confidence = more influence)
-  // challengeProb += probWeight * (0.3 + probAnalysis.confidenceLevel * 0.2);
   challengeProb += probWeight * (0.3 + probAnalysis.confidenceLevel * 0.2);
 
   // Behavior-based challenge
-  challengeProb += behaviorAnalysis.suspicionLevel * 0.4; // Initial 0.4
+  challengeProb += behaviorAnalysis.suspicionLevel * 0.4;
 
   // Game state adjustments
-  challengeProb += gameStateAnalysis.urgencyLevel * 0.2; // Initial 0.2
+  challengeProb += gameStateAnalysis.urgencyLevel * 0.2;
 
   // Decrease `challengeProb` based on bot analytical depth modifier
   challengeProb *= 0.5 + personality.analyticalDepth * 0.5;
-  // Conservative	 0.6	0.80
-  // Aggressive	   0.4	0.70
-  // Analytical	   0.9	0.95
-  // Bluffer	     0.3	0.65
 
   // Apply the probability coefficient for correction
   challengeProb *= challengeProbCoefficient;
@@ -143,66 +77,61 @@ export const selectBestBettingOption = ({
   options,
   personality,
   probAnalysis,
-  preferredStrategy,
 }: {
   options: BettingOption[];
   personality: BotPersonality;
   // context: BettingContext;
   probAnalysis: ProbabilityAnalysis;
-  preferredStrategy?: Strategy;
 }): BettingOption => {
   let bestOption = options[0];
   let bestScore = -Infinity;
 
-  if (!preferredStrategy) {
-    for (const option of options) {
-      let score = 0;
+  for (const option of options) {
+    let score = 0;
 
-      // Expected value weight
-      score += option.expectedValue * 0.4;
+    // Expected value weight
+    score += option.expectedValue * 0.4;
 
-      // Personality-based scoring
-      switch (option.type) {
-        case 'conservative':
-          score += (1 - personality.aggressionLevel) * 0.3;
-          break;
-        case 'aggressive':
-          score += personality.aggressionLevel * 0.3;
-          break;
-        case 'analytical':
-          score += personality.analyticalDepth * 0.2;
-          break;
-        case 'bluffer':
-          score += personality.bluffTendency * 0.5;
-          break;
-      }
-
-      // Risk tolerance adjustment - NOW USING ADJUSTED RISK from betting-options.ts > riskAdjustment()
-      score -= option.riskTolerance * (1 - personality.riskTolerance) * 0.3;
-
-      // PREV: Confidence modifier
-      // score += probAnalysis.confidenceLevel * 0.2;
-
-      // NEW: Contextual value bonus
-      const contextualBonus = () => {
-        let bonus = 0;
-        const contributionRatio = probAnalysis.myCount / option.count;
-        if (contributionRatio > 0.5) bonus += 0.15;
-
-        if (probAnalysis.confidenceLevel > 0.8) bonus += 0.1;
-        return bonus;
-      };
-
-      score += contextualBonus();
-
-      if (score > bestScore) {
-        bestScore = score;
-        bestOption = option;
-      }
+    // Personality-based scoring
+    switch (option.type) {
+      case 'conservative':
+        score += (1 - personality.aggressionLevel) * 0.3;
+        break;
+      case 'aggressive':
+        score += personality.aggressionLevel * 0.3;
+        break;
+      case 'analytical':
+        score += personality.analyticalDepth * 0.2;
+        break;
+      case 'bluffer':
+        score += personality.bluffTendency * 0.5;
+        break;
     }
-  } else {
-    const matchingOption = options.find((o) => o.type === preferredStrategy);
-    bestOption = matchingOption || options[0];
+
+    // The risk tolerance adjustment is essentially a personality-based
+    // penalty system that makes bots behave authentically according to
+    // their character traits.
+    // The key insight is that it's not just about finding the
+    // mathematically optimal move - it's about finding the move that
+    // feels right for that particular bot's personality.
+    score -= option.riskTolerance * (1 - personality.riskTolerance) * 0.3;
+
+    // Calculate a bonus based on contribution ratio and confidence level
+    const contextualBonus = () => {
+      let bonus = 0;
+      const contributionRatio = probAnalysis.myCount / option.count;
+      if (contributionRatio > 0.5) bonus += 0.15;
+
+      if (probAnalysis.confidenceLevel > 0.8) bonus += 0.1;
+      return bonus;
+    };
+
+    score += contextualBonus();
+
+    if (score > bestScore) {
+      bestScore = score;
+      bestOption = option;
+    }
   }
 
   return bestOption;
@@ -213,12 +142,10 @@ export const makeAdvancedDecision = ({
   context,
   isBot,
   personality,
-  preferredStrategy,
 }: {
   context: BettingContext;
   isBot?: boolean;
   personality: BotPersonality;
-  preferredStrategy?: Strategy;
 }): Decision => {
   // Update player profiles
   const updatedProfiles = new Map(context.playerProfiles);
@@ -231,7 +158,7 @@ export const makeAdvancedDecision = ({
     )
   );
 
-  const { currentBet, myDice, totalDiceCount } = context;
+  const { currentBet, myDice, initialDiceCount, totalDiceCount } = context;
   let challengeAllowed = true;
 
   if (currentBet) {
@@ -250,9 +177,15 @@ export const makeAdvancedDecision = ({
         return 'challenge';
       }
 
+      // Forced challenges increase as the game becomes more desperate.
       if (isBot) {
-        const isChallenge = Math.random() < FORCED_CHALLENGE_PROBABILITY;
-        if (isChallenge) return 'challenge';
+        const gameProgression = calculateGameProgression({
+          initialDiceCount,
+          totalDiceCount,
+        });
+        if (Math.random() < Math.max(0.02, 0.15 - gameProgression * 0.1)) {
+          return 'challenge';
+        }
       }
     }
   }
@@ -288,9 +221,6 @@ export const makeAdvancedDecision = ({
 
   // Generate and evaluate betting options
   const bettingOptions = generateBettingOptions(updatedContext);
-  // if (!bettingOptions.length) {
-  //   return 'challenge';
-  // }
 
   const evaluatedOptions = bettingOptions.map((option) =>
     // evaluateBettingOption(option, updatedContext, probAnalysis)
@@ -303,10 +233,9 @@ export const makeAdvancedDecision = ({
     personality,
     // updatedContext,
     probAnalysis,
-    preferredStrategy,
   });
 
-  // Prepare decision for logging
+  // // Prepare decision for logging
   // const bestOptionData = {
   //   ...bestOption,
   //   expectedValue: roundValue(bestOption.expectedValue),
@@ -321,35 +250,42 @@ export const getAdvancedDecision = ({
   allDice,
   currentBet,
   gameHistory,
+  initialDiceCount,
   isBot,
   player,
   players,
-  preferredStrategy,
   roundNumber,
 }: AdvancedBetParams): Decision => {
   const activePlayerCount = players.filter((p) => p.isActive).length;
-  const personality = BOT_PERSONALITIES[preferredStrategy ?? 'conservative'];
 
   // Get last bettor from history
   const lastBettorId =
     gameHistory.length > 0 ? gameHistory[gameHistory.length - 1].player : 0;
 
   const context: BettingContext = {
-    currentBet,
-    myDice: player.dice,
-    totalDiceCount: allDice.length,
-    roundNumber,
-    gameHistory,
     activePlayerCount,
-    playerProfiles: new Map(),
+    currentBet,
+    gameHistory,
+    initialDiceCount,
     lastBettorId,
+    myDice: player.dice,
+    playerProfiles: new Map(),
+    roundNumber,
+    totalDiceCount: allDice.length,
   };
+
+  // const personality = BOT_PERSONALITIES.analytical;
+
+  const personality = selectBotPersonality(player.id, {
+    roundNumber: context.roundNumber,
+    totalDiceCount: context.totalDiceCount,
+    activePlayerCount: context.activePlayerCount,
+  });
 
   const decision = makeAdvancedDecision({
     personality,
     context,
     isBot,
-    preferredStrategy,
   });
 
   // Fallback to simple bet if challenge not implemented
@@ -360,6 +296,60 @@ export const getAdvancedDecision = ({
   return decision;
 };
 
-export const getValuableDiceNumber = (dice: number[], value: number) => {
-  return dice.filter((d) => d === value || d === 1).length;
+// Helper function to randomly select a personality for variety
+export const getRandomPersonality = (): BotPersonality => {
+  const personalities = Object.values(BOT_PERSONALITIES);
+  return personalities[Math.floor(Math.random() * personalities.length)];
+};
+
+// Helper function to create dynamic personalities based on game state
+export const createDynamicPersonality = (
+  basePersonality: string,
+  gameState: {
+    roundNumber: number;
+    totalDiceCount: number;
+    activePlayerCount: number;
+  }
+): BotPersonality => {
+  const base = BOT_PERSONALITIES[basePersonality];
+  const desperation = Math.min(1, gameState.roundNumber / 15);
+  const pressure = Math.max(0, (5 - gameState.activePlayerCount) / 4);
+
+  return {
+    ...base,
+    aggressionLevel: Math.min(1, base.aggressionLevel + desperation * 0.2),
+    riskTolerance: Math.min(1, base.riskTolerance + pressure * 0.15),
+    challengeThreshold: Math.max(
+      0,
+      base.challengeThreshold - desperation * 0.1
+    ),
+  };
+};
+
+// Personality selection strategy
+export const selectBotPersonality = (
+  playerId: number,
+  gameState: {
+    roundNumber: number;
+    totalDiceCount: number;
+    activePlayerCount: number;
+  }
+): BotPersonality => {
+  // Assign consistent personalities based on player ID
+  const personalityNames = Object.keys(BOT_PERSONALITIES);
+  const basePersonalityName =
+    personalityNames[playerId % personalityNames.length];
+
+  // Apply dynamic adjustments based on game state
+  return createDynamicPersonality(basePersonalityName, gameState);
+};
+
+export const calculateGameProgression = ({
+  totalDiceCount,
+  initialDiceCount = 25,
+}: {
+  totalDiceCount: number;
+  initialDiceCount: number;
+}) => {
+  return Math.min(1, (initialDiceCount - totalDiceCount) / initialDiceCount);
 };

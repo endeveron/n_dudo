@@ -5,12 +5,11 @@ export type DifficultyLevel = 'easy' | 'medium' | 'hard' | 'expert';
 export type Strategy = (typeof STRATEGIES)[number];
 
 export interface BotPersonality {
-  // name: string;
-  aggressionLevel: number; // 0-1
-  riskTolerance: number; // 0-1
-  bluffTendency: number; // 0-1
-  analyticalDepth: number; // 0-1
-  challengeThreshold: number; // 0-1
+  riskTolerance: number; // 0-1: willingness to take risks
+  aggressionLevel: number; // 0-1: tendency to make aggressive bets
+  analyticalDepth: number; // 0-1: depth of analysis before decision
+  bluffTendency: number; // 0-1: likelihood to bluff
+  challengeThreshold: number; // 0-1: readiness to challenge others
 }
 
 export interface PlayerProfile {
@@ -23,14 +22,15 @@ export interface PlayerProfile {
 }
 
 export interface BettingContext {
-  currentBet: Bet | null;
-  myDice: number[];
-  totalDiceCount: number;
-  roundNumber: number;
-  gameHistory: GameHistoryEntry[];
   activePlayerCount: number;
-  playerProfiles: Map<number, PlayerProfile>;
+  currentBet: Bet | null;
+  gameHistory: GameHistoryEntry[];
+  initialDiceCount: number;
   lastBettorId: number;
+  myDice: number[];
+  playerProfiles: Map<number, PlayerProfile>;
+  roundNumber: number;
+  totalDiceCount: number;
 }
 
 export interface ProbabilityAnalysis {
@@ -68,9 +68,9 @@ export interface AdvancedBetParams {
   allDice: number[];
   currentBet: Bet | null;
   gameHistory: GameHistoryEntry[];
+  initialDiceCount: number;
   player: Player;
   players: Player[];
   roundNumber: number;
-  preferredStrategy?: Strategy;
   isBot?: boolean;
 }

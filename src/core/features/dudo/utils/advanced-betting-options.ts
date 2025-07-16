@@ -3,7 +3,7 @@ import {
   BettingContext,
   BettingOption,
 } from '@/core/features/dudo/types/advanced-logic';
-import { getValuableDiceNumber } from '@/core/features/dudo/utils/advanced-logic';
+import { getValuableDiceNumber } from '@/core/features/dudo/utils';
 import { calculateBinomialProbability } from '@/core/features/dudo/utils/advanced-probability-utils';
 // import { roundValue } from '@/core/features/dudo/utils/advanced-probability-analysis';
 

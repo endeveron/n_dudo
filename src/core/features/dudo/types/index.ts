@@ -2,12 +2,12 @@ export type GameMode = 'standart' | 'rapid' | 'blitz';
 export type GamePhase = 'rolling' | 'betting' | 'challenging' | 'gameOver';
 
 export type Player = {
-  id: number;
-  name: string;
   dice: number[];
   diceCount: number;
-  isBot: boolean;
+  id: number;
   isActive: boolean;
+  isBot: boolean;
+  name: string;
 };
 
 export type Bet = {
