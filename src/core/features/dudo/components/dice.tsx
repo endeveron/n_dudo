@@ -5,7 +5,7 @@ import { cn } from '@/core/utils/common';
 const PIP_COLOR = '#09090b';
 const WILD_PIP_COLOR = '#DA2B57';
 
-type DiceSize = 'sm' | 'md' | 'lg';
+export type DiceSize = 'sm' | 'md' | 'lg';
 
 interface DiceProps {
   value: number;

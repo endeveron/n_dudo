@@ -18,7 +18,7 @@ const Topbar = ({ email, title }: TopbarProps) => {
     .replace(/^./, (c) => c.toUpperCase());
 
   return (
-    <div className="relative w-full max-w-[640px] mx-auto flex items-center justify-between p-4 rounded-b-xl bg-card cursor-default z-50">
+    <div className="topbar">
       {title || heading ? (
         <div className="ml-1 -translate-y-0.5 text-2xl font-bold text-accent leading-none">
           {title || heading}
@@ -27,7 +27,7 @@ const Topbar = ({ email, title }: TopbarProps) => {
       <div />
       {email ? (
         <div className="flex items-center gap-2">
-          <div className="-translate-y-[1px] text-sm text-muted leading-none">
+          <div className="-translate-y-[1px] text-sm text-muted/70 dark:text-accent dark:text-shadow-xs leading-none">
             {email}
           </div>
           <SignOutButton />

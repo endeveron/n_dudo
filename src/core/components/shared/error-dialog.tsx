@@ -13,8 +13,8 @@ const ErrorDialog = ({ error, onReset }: TErrorProps) => {
 
   return (
     <div className="error-dialog card rounded-xl w-full max-w-xl flex flex-col items-center p-4 m-auto cursor-default">
-      <div className="min-w-96 p-8 rounded-2xl bg-card">
-        <h2 className="text-5xl font-bold text-accent cursor-default">Oops!</h2>
+      <div className="min-w-80 p-8 rounded-2xl bg-card">
+        <h3 className="title text-5xl">Oops!</h3>
         <p className="py-6 font-medium">
           {error?.message || 'Something went wrong.'}
         </p>

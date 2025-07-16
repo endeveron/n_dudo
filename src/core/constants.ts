@@ -11,8 +11,6 @@ const EMAIL_JWT = process.env.EMAIL_JWT as string;
 const NODEMAILER_USER = process.env.NODEMAILER_USER as string;
 const NODEMAILER_PASSWORD = process.env.NODEMAILER_PASSWORD as string;
 
-const ZEN_QUOTES_API_URL = process.env.ZEN_QUOTES_API_URL as string;
-
 const DATE_FORMAT = 'dd MMM yyyy';
 
 // LocalStorage keys
@@ -35,7 +33,6 @@ export {
   EMAIL_JWT,
   NODEMAILER_USER,
   NODEMAILER_PASSWORD,
-  ZEN_QUOTES_API_URL,
   LANG_CODE_KEY,
   REFERRAL_CODE_KEY,
   EMAIL_CONFIRMED_KEY,

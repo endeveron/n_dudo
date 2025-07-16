@@ -12,7 +12,7 @@ export default function AuthLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="relative h-dvh flex-center bg-main-image-background">
+    <main className="main">
       <BackgroundImage />
 
       {/* Content */}

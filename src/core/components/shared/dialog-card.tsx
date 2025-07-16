@@ -13,7 +13,7 @@ type DialogCardProps = TWithChildren & {
 
 const DialogCard = ({ title, description, children }: DialogCardProps) => {
   return (
-    <Card className="card w-96">
+    <Card className="w-96">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>

@@ -17,10 +17,8 @@ const buttonVariants = cva(
           'text-btn-secondary-foreground/80 bg-btn-secondary-background hover:text-btn-secondary-foreground hover:bg-btn-secondary-background-hover shadow-xs',
         outline:
           'border border-border text-foreground/70 hover:text-foreground hover:bg-btn-secondary-background-hover hover:border-transparent',
-        positive:
-          'text-btn-foreground font-semibold bg-btn-positive-background hover:bg-btn-positive-background-hover',
-        negative:
-          'text-btn-foreground font-semibold bg-btn-negative-background hover:bg-btn-negative-background-hover',
+        danger:
+          'text-btn-foreground font-semibold bg-btn-danger-background hover:bg-btn-danger-background-hover',
         ghost: 'hover:bg-btn-secondary-background hover:text-foreground',
         link: 'text-blue underline-offset-4 hover:underline',
       },

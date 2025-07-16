@@ -17,7 +17,7 @@ const PlayersDisplay: React.FC<PlayersDisplayProps> = ({
   recentHistoryResult,
 }) => {
   return (
-    <div className="w-[640px] flex-center gap-4 p-2 rounded-xl bg-card/30">
+    <div className="dudo_players ">
       {players.map((player) => (
         <PlayerCard
           key={player.id}

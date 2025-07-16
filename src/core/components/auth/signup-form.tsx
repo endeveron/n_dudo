@@ -81,7 +81,7 @@ const SignUpForm = () => {
             Continue
           </Button>
           <div className="flex justify-center">
-            <Link href="/sign-in" className="auth-form_link">
+            <Link href="/signin" className="auth-form_link">
               Already have an account ?
             </Link>
           </div>

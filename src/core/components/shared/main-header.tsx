@@ -1,4 +1,4 @@
-import SignInButton from '@/core/components/auth/sign-in-button';
+import SignInButton from '@/core/components/auth/signin-button';
 
 const MainHeader = async () => {
   return (

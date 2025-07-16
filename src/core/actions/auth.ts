@@ -12,6 +12,7 @@ import { mongoDB } from '@/core/lib/mongo';
 import UserModel from '@/core/models/user';
 import {
   Credentials,
+  CustomToken,
   SignInArgs,
   SignInSocialArgs,
   SignUpArgs,
@@ -31,6 +32,46 @@ import { BASE_URL, EMAIL_JWT } from '@/core/constants';
 type TJwtEmailPayload = {
   userId: string;
   exp: number;
+};
+
+// Function to refresh the access token
+export const refreshAccessToken = async (
+  token: CustomToken
+): Promise<CustomToken> => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/refresh`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          refreshToken: token.refreshToken,
+        }),
+      }
+    );
+
+    const refreshedTokens = await response.json();
+
+    if (!response.ok) {
+      throw new Error('Failed to refresh token');
+    }
+
+    return {
+      ...token,
+      accessToken: refreshedTokens.accessToken,
+      accessTokenExpires: Date.now() + refreshedTokens.expiresIn * 1000,
+      refreshToken: refreshedTokens.refreshToken ?? token.refreshToken,
+    };
+  } catch (error) {
+    console.error('Error refreshing access token:', error);
+
+    return {
+      ...token,
+      error: 'RefreshAccessTokenError',
+    };
+  }
 };
 
 /**
@@ -290,7 +331,7 @@ export const signUp = async ({
 };
 
 /**
- * Handles user sign-in using email and password, calling an authentication method.
+ * Handles user signin using email and password, calling an authentication method.
  *
  * @param {string} params.email email address of the user.
  * @param {string} params.password password to the user account.
@@ -369,7 +410,7 @@ export const authorizeUser = async ({
 };
 
 /**
- * Handles user sign-in with social providers, creating a new user or updating existing user information in the database.
+ * Handles user signin with social providers, creating a new user or updating existing user information in the database.
  *
  * @param {string} params.provider SocialProvider enum value.
  * @param {string} params.email user's email address.

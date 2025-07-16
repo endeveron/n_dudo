@@ -1,7 +1,6 @@
 'use client';
 
 import ScreenSizeAlert from '@/core/components/shared/screen-size-alert';
-import { Card, CardContent } from '@/core/components/ui/card';
 import { Separator } from '@/core/components/ui/separator';
 import Assistant from '@/core/features/dudo/components/assistant';
 import BettingDisplay from '@/core/features/dudo/components/betting-display';
@@ -31,7 +30,7 @@ const DudoClient = () => {
     recentAction,
     // recentPlayer,
     rolling,
-    // roundNumber,
+    roundNumber,
     totalDiceCount,
     winner,
     challengeBet,
@@ -45,11 +44,11 @@ const DudoClient = () => {
   } = useDudo();
 
   return (
-    <div className="dudo-container">
+    <div className="dudo_container">
       {/* Game board */}
-      {players.length > 0 && (
+      {!winner && players.length > 0 && (
         <div className="flex gap-4">
-          <div className="flex flex-col gap-4">
+          <div className="dudo_content">
             {/* Header */}
             <PlayersDisplay
               inputValue={inputValue}
@@ -60,57 +59,48 @@ const DudoClient = () => {
             />
 
             {/* Main */}
-            <div className="flex gap-4">
-              {/* Left side block */}
-              <Card className="flex-1">
-                <CardContent className="pt-4 flex-center flex-1 flex-col">
-                  <BettingDisplay
-                    className="h-24"
-                    currentBet={currentBet}
-                    gamePhase={gamePhase}
-                    recentAction={recentAction}
-                    recentChallengeResult={recentChallengeResult}
-                  />
+            <div className="dudo_main">
+              <div className="dudo_main_column">
+                <BettingDisplay
+                  currentBet={currentBet}
+                  gamePhase={gamePhase}
+                  recentAction={recentAction}
+                  recentChallengeResult={recentChallengeResult}
+                />
+                <Separator />
+                <StatisticsDisplay totalDiceCount={totalDiceCount} />
+              </div>
 
-                  <Separator className="my-2" />
-
-                  <StatisticsDisplay
-                    className="h-10"
-                    totalDiceCount={totalDiceCount}
-                  />
-                </CardContent>
-              </Card>
-
-              {/* Right side block */}
-              <Card className="flex flex-col flex-1">
-                <CardContent className="pb-0 flex-1 flex-center flex-col">
-                  <DiceRoll
-                    rolling={rolling}
-                    mainPlayerLost={mainPlayerLost}
-                    gamePhase={gamePhase}
-                    winner={winner}
-                    playerDice={players[0].dice}
-                    gameMode={gameMode}
-                    onRollDice={rollDice}
-                    onStartNewGame={handleStartNewGame}
-                  />
-                </CardContent>
-              </Card>
+              <div className="dudo_main_column">
+                <DiceRoll
+                  rolling={rolling}
+                  mainPlayerLost={mainPlayerLost}
+                  gamePhase={gamePhase}
+                  winner={winner}
+                  playerDice={players[0].dice}
+                />
+              </div>
             </div>
 
             {/* Footer */}
             <GameControls
+              currentBet={currentBet}
+              gameMode={gameMode}
               inputCount={inputCount}
               inputValue={inputValue}
-              currentBet={currentBet}
               isGameControls={
                 isPlayerTurn && gamePhase === 'betting' && !winner
               }
+              mainPlayerLost={mainPlayerLost}
+              rolling={rolling}
+              roundNumber={roundNumber}
               totalDiceCount={totalDiceCount}
+              onChallengeBet={challengeBet}
               onDiceCountUpdate={(value: number) => setInputCount(value)}
               onDiceValueUpdate={(value: number) => setInputValue(value)}
               onMakeBet={handleMakeBet}
-              onChallengeBet={challengeBet}
+              onRollDice={rollDice}
+              onStartNewGame={handleStartNewGame}
             />
           </div>
 
@@ -123,7 +113,13 @@ const DudoClient = () => {
 
       {/* Elevated overlay elements */}
 
-      {/* Assistant ( z-20 ) */}
+      {/* Winner announcement ( z-30 ) */}
+      <WinnerDisplay winner={winner} onStartNewGame={handleStartNewGame} />
+
+      {/* Alert ( z-40 ) */}
+      <ScreenSizeAlert />
+
+      {/* Assistant ( z-60 ) */}
       <Assistant
         allDice={allDice}
         currentBet={currentBet}
@@ -131,12 +127,6 @@ const DudoClient = () => {
         isPlayerTurn={isPlayerTurn}
         players={players}
       />
-
-      {/* Winner announcement ( z-30 ) */}
-      <WinnerDisplay winner={winner} onStartNewGame={handleStartNewGame} />
-
-      {/* Small screen size alert ( z-40 ). Opens for screen w < 640px h < 512px */}
-      <ScreenSizeAlert />
     </div>
   );
 };

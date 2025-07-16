@@ -12,8 +12,8 @@ export const authRoutes: string[] = [
   '/email/result',
   '/email/verify',
   '/onboarding',
-  '/sign-up',
-  '/sign-in',
+  '/signup',
+  '/signin',
 ];
 
 /**

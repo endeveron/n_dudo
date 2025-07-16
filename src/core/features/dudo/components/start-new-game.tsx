@@ -20,10 +20,10 @@ const StartNewGame = ({ players, onGameStart }: StartNewGameProps) => {
 
   return (
     <AnimatedAppear>
-      <Card className="p-4 space-y-4">
+      <Card className="-mx-4 py-6 sm:px-6 space-y-4">
         <CardHeader>
-          <CardTitle className="text-center text-3xl font-extrabold">
-            New game
+          <CardTitle className="text-center text-4xl font-extrabold">
+            New Game
           </CardTitle>
         </CardHeader>
         <CardContent>

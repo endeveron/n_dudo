@@ -11,17 +11,30 @@ interface DiceValueSelectProps {
 
 const DiceValueSelect = ({ inputValue, onSelect }: DiceValueSelectProps) => {
   return (
-    <div className="w-24 mx-2 flex-center flex-wrap gap-2">
-      {values.map((value) => (
-        <Dice
-          size="md"
-          value={value}
-          onClick={onSelect}
-          key={value}
-          inputValue={inputValue}
-        />
-      ))}
-    </div>
+    <>
+      <div className="dudo_dice_select dudo_dice_select--small-screen">
+        {values.map((value) => (
+          <Dice
+            size="lg"
+            value={value}
+            onClick={onSelect}
+            key={value}
+            inputValue={inputValue}
+          />
+        ))}
+      </div>
+      <div className="dudo_dice_select dudo_dice_select--normal-screen">
+        {values.map((value) => (
+          <Dice
+            size="md"
+            value={value}
+            onClick={onSelect}
+            key={value}
+            inputValue={inputValue}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 

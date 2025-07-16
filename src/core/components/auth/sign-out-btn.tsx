@@ -18,22 +18,16 @@ const SignOutButton = () => {
     <div
       onClick={handleClick}
       className={cn(
-        'scale-75 opacity-60 hover:opacity-100 transition-opacity cursor-pointer',
+        'scale-75 opacity-55 dark:opacity-70 hover:opacity-100 dark:hover:opacity-100 transition-opacity cursor-pointer',
         {
           'opacity-100': pending,
         }
       )}
       title="Sign out"
     >
-      {pending ? (
-        <div className="w-6 h-6 flex-center">
-          <LoadingIcon />
-        </div>
-      ) : (
-        <div className="w-6 h-6 flex-center">
-          <LogoutIcon />
-        </div>
-      )}
+      <div className="w-6 h-6 flex-center">
+        {pending ? <LoadingIcon /> : <LogoutIcon />}
+      </div>
     </div>
   );
 };

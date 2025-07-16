@@ -1,10 +1,28 @@
+import { Session } from 'next-auth';
+import { JWT } from 'next-auth/jwt';
+
 import { UserRole } from '@/core/types/user';
 
-declare module 'next-auth' {
-  interface User {
+export interface CustomToken extends JWT {
+  sub?: string;
+  role: UserRole;
+  accessToken?: string;
+  refreshToken?: string;
+  accessTokenExpires?: number;
+  error?: string;
+}
+
+// Extended session type with custom properties
+export interface ExtendedSession extends Session {
+  accessToken?: string;
+  error?: string;
+  user: {
+    id: string;
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
     role: UserRole;
-  }
-  // interface Session { user: User }
+  };
 }
 
 export enum SocialProvider {
@@ -41,27 +59,3 @@ export type OnboardUserArgs = {
 export type CreateUserArgs = {
   email: string;
 };
-
-// export type Token = {
-//   _id: ObjectId;
-//   email: string;
-//   token: string;
-//   id?: string;
-//   expiresAt?: number;
-// };
-
-// export type TAccount = {
-//   _id: ObjectId;
-//   userId: string;
-//   type: string;
-//   provider: string;
-//   id?: string;
-//   providerAccountId: string;
-//   refreshToken?: string;
-//   accessToken?: string;
-//   expiresAt?: Date;
-//   tokenType?: string;
-//   scope?: string;
-//   idToken?: string;
-//   sessionState?: string;
-// };

@@ -1,6 +1,6 @@
 'use client';
 
-import SignInButton from '@/core/components/auth/sign-in-button';
+import SignInButton from '@/core/components/auth/signin-button';
 import AnimatedAppear from '@/core/components/shared/animated-appear';
 import BackgroundImage from '@/core/components/shared/background-image';
 
@@ -12,7 +12,7 @@ const WelcomeClient = () => {
       <div className="py-8 relative flex-center flex-1 flex-col cursor-default z-20">
         {/* Title */}
         <AnimatedAppear>
-          <h1 className="text-6xl text-accent font-black">Welcome!</h1>
+          <h1 className="text-6xl text-title font-black">Welcome!</h1>
         </AnimatedAppear>
 
         {/* Signin Button */}

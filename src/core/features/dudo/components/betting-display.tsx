@@ -32,7 +32,7 @@ const BettingDisplay: React.FC<BettingDisplayProps> = ({
 
     if (isBettingPhase && currentBet) {
       return (
-        <div className="text-xl text-accent font-bold leading-none">
+        <div className="text-center text-xl text-title font-bold leading-none">
           {recentAction}
         </div>
       );
@@ -40,28 +40,28 @@ const BettingDisplay: React.FC<BettingDisplayProps> = ({
 
     if (isRollingPhase) {
       const actionElement = (
-        <div className="text-xl text-accent font-bold leading-none">
+        <div className="text-center text-xl text-title font-bold leading-none">
           {recentAction}
         </div>
       );
 
       if (recentChallengeResult?.actualCount) {
-        const resultMessage = recentChallengeResult.betWasCorrect
-          ? `${recentChallengeResult.actualCount} correct dice were in play`
-          : `Only ${recentChallengeResult.actualCount} dice were in play`;
+        const diceCount = recentChallengeResult.betWasCorrect
+          ? recentChallengeResult.actualCount
+          : recentChallengeResult.actualCount;
 
         return (
-          <div className="flex-center flex-col gap-3">
+          <div className="flex flex-1 flex-col justify-center gap-3">
             {actionElement}
-            <div className="text-sm text-muted leading-none">
-              {resultMessage}
+            <div className="text-center text-sm text-muted leading-none">
+              {diceCount} dice were in play
             </div>
           </div>
         );
       }
 
       return (
-        <div className="flex-center flex-col gap-3">
+        <div className="flex-center flex-1 flex-col gap-3">
           {actionElement}
           <div className="text-sm text-muted leading-none">
             Too few correct dice
@@ -84,7 +84,7 @@ const BettingDisplay: React.FC<BettingDisplayProps> = ({
   // Memoized placeholder content
   const placeholderContent = useMemo(() => {
     if (!currentBet && (!hasRecentAction || isBettingPhase)) {
-      return <div className="text-sm text-system">No bet yet</div>;
+      return <div className="flex-center text-sm text-system">No bet yet</div>;
     }
     return null;
   }, [currentBet, hasRecentAction, isBettingPhase]);
@@ -103,7 +103,7 @@ const BettingDisplay: React.FC<BettingDisplayProps> = ({
   }, [currentBet]);
 
   return (
-    <div className={cn('flex-center flex-col gap-3', className)}>
+    <div className={cn('dudo_main_bet', className)}>
       {recentActionContent}
       {placeholderContent}
       {currentBetContent}

@@ -4,47 +4,43 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #fafafa; /* zinc-50 */
-  --foreground: #18181b; /* zinc-900 */
+  --background: #fffaf4;
+  --foreground: #1a171a;
 
-  --main-image-background: #fafafa; /* zinc-50 */
+  --main-image-background: #ffbbeb;
 
-  --accent: #27272a; /* zinc-800 */
-  --accent-foreground: white;
+  --accent: #1c141c;
+  --title: #fffcfa;
   --brand: var(--blue);
 
-  --muted: #4b4b54; /* zinc-600 */
-  --border: #ffffff70;
-  --input: rgba(255, 255, 255, 0.4);
+  --muted: #1e1a18b3;
+  --border: #fffcfa2f;
+  --input: rgba(254, 252, 249, 0.35);
   --input-border: rgba(255, 255, 255, 0.4);
-  --input-autofill: #f1edea;
-  --overlay: white;
-  --icon: #3f3f46; /* zinc-700 */
-  --dice: #fbfbfb;
+  --input-autofill: #fff3ed;
+  --overlay: #fff9f3;
+  --icon: #1e1a18;
+  --dice: #fff3ea;
 
-  --positive: #0aa394;
-  --positive-text: #008e80;
-  --negative: #ff3467;
-  --negative-text: #ef1b50;
+  --positive: hsl(164, 86%, 34%);
+  --danger: hsl(348, 100%, 60%);
 
   --ring: var(--accent);
 
   --btn-foreground: white;
   --btn-background: var(--accent);
-  --btn-background-hover: #04897c;
-  --btn-secondary-foreground: #27272a; /* zinc-800 */
-  --btn-secondary-background: #fafafa;
-  --btn-secondary-background-hover: white;
-  --btn-accent-foreground: white;
-  --btn-accent-background: var(--accent);
-  --btn-accent-background-hover: #04897c;
+  --btn-background-hover: hsl(164, 86%, 30%);
+  --btn-secondary-foreground: #262626; /* neutral-800 */
+  --btn-secondary-background: #fff9f1c0; /* neutral-50 */
+  --btn-secondary-background-hover: #fff8f1;
+  --btn-accent-foreground: #fff9f3;
+  --btn-accent-background: #170114;
+  --btn-accent-background-hover: #3b0026;
 
-  --btn-positive-background: #089d8e;
-  --btn-positive-background-hover: #04897c;
-  --btn-negative-background: #d4345c;
-  --btn-negative-background-hover: #c1264d;
+  --btn-danger-background: hsl(352, 70%, 52%);
+  --btn-danger-background-hover: hsl(352, 70%, 42%);
 
-  --card: rgba(255, 255, 255, 0.35);
+  --card: hsla(334, 100%, 97%, 0.18);
   --popover: var(--card);
   --popover-foreground: var(--foreground);
 
@@ -67,45 +63,42 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #09090b; /* zinc-950 */
-    --foreground: #fafafa; /* zinc-50 */
+    --background: #0f0e0e;
+    --foreground: #fffbf6;
 
-    --main-image-background: #18181b; /* zinc-900 */
+    --main-image-background: hsl(293, 100%, 13%);
+    /* --main-image-background: #46003f; */
 
-    --accent: #ffdeb8;
-    --accent-foreground: black;
+    --accent: #ffe5c7;
+    --title: var(--accent);
     --brand: var(--blue);
 
-    --muted: #7e7e87; /* zinc-500 */
-    --border: #ffffff20;
-    --input: rgba(39, 39, 42, 0.8); /* zinc-800 */
-    --input-border: #27272a; /* zinc-800 */
-    --input-autofill: #1a1917;
-    --overlay: #27272a; /* zinc-800 */
-    --icon: #71717b; /* zinc-500 */
-    --dice: #f5f5f5; /* zinc-100 */
+    --muted: #fffaf68d;
+    --border: #fff5fd23;
+    --input: rgba(255, 255, 255, 0.15);
+    --input-border: #262626; /* neutral-800 */
+    --input-autofill: #4e2229;
+    --overlay: #100f0f;
+    --icon: var(--accent);
+    --dice: #fff3ea;
 
-    --positive: #07a192;
-    --positive-text: #03bfac;
-    --negative: #f32e60;
-    --negative-text: #ff547e;
+    --positive: hsl(164, 86%, 33%);
+    --danger: hsl(346, 88%, 54%);
 
     --btn-foreground: white;
     --btn-background: var(--accent);
     --btn-background-hover: #ffc889;
     --btn-secondary-foreground: #f5f5f5; /* neutral-100 */
     --btn-secondary-background: #262626; /* neutral-800 */
-    --btn-secondary-background-hover: #353535; /* ~neutral-700 */
-    --btn-accent-foreground: black;
+    --btn-secondary-background-hover: #323232; /* ~neutral-700 */
+    --btn-accent-foreground: #1c1918;
     --btn-accent-background: var(--accent);
-    --btn-accent-background-hover: #ffc889;
+    --btn-accent-background-hover: #ffd2a2;
 
-    --btn-positive-background: #008f81;
-    --btn-positive-background-hover: #007b6f;
-    --btn-negative-background: #c52e54;
-    --btn-negative-background-hover: #ab2748;
+    --btn-danger-background: hsl(350, 71%, 44%);
+    --btn-danger-background-hover: hsl(350, 71%, 49%);
 
-    --card: rgba(23, 23, 23, 0.8);
+    --card: #35002821;
 
     --gform-background: #0e0e0e;
     --gform-text: #e3e3e3;
@@ -137,6 +130,7 @@
 
   --color-brand: var(--brand);
   --color-muted: var(--muted);
+  --color-title: var(--title);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
 
@@ -148,9 +142,7 @@
   --color-dice: var(--dice);
 
   --color-positive: var(--positive);
-  --color-positive-text: var(--positive-text);
-  --color-negative: var(--negative);
-  --color-negative-text: var(--negative-text);
+  --color-danger: var(--danger);
 
   --color-btn-foreground: var(--btn-foreground);
   --color-btn-background: var(--btn-background);
@@ -162,10 +154,8 @@
   --color-btn-accent-background: var(--btn-accent-background);
   --color-btn-accent-background-hover: var(--btn-accent-background-hover);
 
-  --color-btn-positive-background: var(--btn-positive-background);
-  --color-btn-positive-background-hover: var(--btn-positive-background-hover);
-  --color-btn-negative-background: var(--btn-negative-background);
-  --color-btn-negative-background-hover: var(--btn-negative-background-hover);
+  --color-btn-danger-background: var(--btn-danger-background);
+  --color-btn-danger-background-hover: var(--btn-danger-background-hover);
 
   --color-card: var(--card);
   --color-popover: var(--popover);
@@ -197,8 +187,31 @@
     @apply border-border outline-ring;
   }
 
+  html,
+  body {
+    @apply h-dvh min-h-dvh;
+  }
+
   body {
     @apply font-inter-sans bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  strong {
+    @apply text-accent;
+  }
+
+  .title {
+    @apply font-bold text-title leading-none;
+  }
+
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  .no-select {
+    @apply cursor-default select-none;
   }
 
   /* Hide arrows in number input (Chrome, Safari, Edge) */
@@ -225,20 +238,6 @@
       -webkit-box-shadow: 0 0 0 100px var(--input-autofill) inset !important;
     }
   }
-}
-
-@layer utilities {
-  strong {
-    @apply text-accent;
-  }
-
-  .flex-center {
-    @apply flex items-center justify-center;
-  }
-
-  .no-select {
-    @apply cursor-default select-none;
-  }
 
   @keyframes spin {
     0% {
@@ -252,7 +251,7 @@
 
 @layer components {
   .layout {
-    @apply w-full min-w-96 h-dvh min-h-dvh m-auto;
+    @apply h-full m-auto;
   }
 
   .layout,
@@ -260,16 +259,20 @@
     @apply flex flex-col grow-1;
   }
 
+  .main {
+    @apply relative h-dvh flex-col items-center justify-center;
+  }
+
   .layout.align-center {
     @apply flex-col items-center justify-center box-border;
   }
 
   .text-system {
-    @apply text-muted/80 select-none;
+    @apply text-muted/55 select-none;
   }
 
   .auth-form {
-    @apply relative w-72 flex flex-col gap-6 transition-opacity;
+    @apply relative w-72 mb-2 flex flex-col gap-6 transition-opacity;
   }
 
   .auth-form.inactive {
@@ -281,20 +284,113 @@
   }
 
   .auth-form_link {
-    @apply mt-2 text-center text-sm text-muted hover:text-foreground transition-colors;
+    @apply text-center text-sm text-muted hover:text-foreground transition-colors;
   }
 
   .form-control-with-icon input {
     @apply pr-10;
   }
 
-  .dudo-container {
-    @apply w-[640px] pb-10 flex flex-col flex-1 items-center justify-center cursor-default;
+  .topbar {
+    @apply h-14 fixed left-1/2 -translate-x-1/2 w-full max-w-[640px] mx-auto flex items-center justify-between px-4 rounded-b-xl bg-card cursor-default z-50;
   }
 
-  @media (max-height: 640px) {
-    .dudo-container {
-      @apply pt-10 pb-0;
+  /* Dudo */
+
+  .dudo_container {
+    @apply h-full w-full max-w-[640px] p-4 flex flex-col flex-1 items-center justify-center cursor-default select-none;
+  }
+
+  .dudo_content,
+  .dudo_main {
+    @apply flex gap-4;
+  }
+
+  .dudo_content {
+    @apply flex-col flex-1 w-full;
+  }
+
+  .dudo_main {
+    @apply flex flex-row;
+  }
+
+  .dudo_players {
+    @apply max-w-[640px] flex flex-wrap items-center justify-center gap-3 p-2 rounded-xl bg-card/30;
+  }
+
+  .dudo_content .player-card {
+    @apply h-20 w-28 relative flex flex-col items-center justify-center gap-1 bg-card rounded-md transition-colors;
+  }
+
+  .dudo_main_column {
+    @apply flex flex-1 flex-col items-center justify-center p-4 rounded-xl bg-card transition-colors;
+  }
+
+  .dudo_main_bet {
+    @apply min-h-24 w-full flex-1 flex flex-col justify-center gap-3;
+  }
+
+  .dudo_main_statistics {
+    @apply h-10 mt-2 flex flex-col items-center justify-center;
+  }
+
+  .dudo_game-controls {
+    @apply relative h-54 flex px-4 py-8 bg-card rounded-xl;
+  }
+
+  .dudo_game-controls_bet {
+    @apply flex flex-1 flex-col items-center justify-between;
+  }
+
+  .dudo_game-controls_roll {
+    @apply absolute inset-0 flex flex-1 flex-col items-center justify-center gap-8;
+  }
+
+  .dudo_dice_select {
+    @apply flex items-center justify-center flex-wrap;
+  }
+
+  .dudo_dice_select--small-screen {
+    @apply gap-3 w-32 ml-2;
+  }
+
+  .dudo_dice_select--normal-screen {
+    @apply hidden;
+  }
+
+  .dudo_assistant {
+    @apply fixed top-4.5 z-60;
+  }
+
+  @media (min-width: 640px) {
+    .dudo_container {
+      @apply p-0;
+    }
+
+    .dudo_dice_select--small-screen {
+      @apply hidden;
+    }
+
+    .dudo_dice_select--normal-screen {
+      @apply flex gap-3 w-28;
+    }
+
+    .dudo_game-controls {
+      @apply h-30 w-[640px];
+    }
+
+    .dudo_game-controls_bet {
+      @apply flex-row px-2 gap-6 items-center justify-between;
+    }
+
+    .dudo_game-controls_roll {
+      @apply flex-row justify-evenly;
+    }
+  }
+
+  @media (max-height: 900px) {
+    .dudo_container {
+      @apply pt-12;
     }
   }
 }

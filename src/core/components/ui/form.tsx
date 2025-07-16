@@ -96,7 +96,7 @@ function FormLabel({
     <Label
       data-slot="form-label"
       data-error={!!error}
-      className={cn('text-muted', className)}
+      className={cn('text-accent/75', className)}
       htmlFor={formItemId}
       {...props}
     />
@@ -124,7 +124,7 @@ function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
 
 const FormControlIcon = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="absolute top-1/2 translate-y-[-12px] right-2 text-muted transition-opacity opacity-40 hover:opacity-100 cursor-pointer">
+    <div className="absolute top-1/2 translate-y-[-12px] right-2 text-icon transition-opacity opacity-50 hover:opacity-100 cursor-pointer">
       {children}
     </div>
   );
@@ -169,7 +169,10 @@ function FormMessage({ className, ...props }: React.ComponentProps<'p'>) {
     <p
       data-slot="form-message"
       id={formMessageId}
-      className={cn('text-red text-sm', className)}
+      className={cn(
+        'text-white text-xs text-shadow-xs tracking-wide p-2 bg-danger/85 rounded-sm',
+        className
+      )}
       {...props}
     >
       {body}

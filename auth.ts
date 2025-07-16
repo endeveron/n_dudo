@@ -2,11 +2,15 @@ import NextAuth, { User } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 // import Google from 'next-auth/providers/google';
 
-import { authorizeUser, signInSocial } from '@/core/actions/auth';
+import {
+  authorizeUser,
+  refreshAccessToken,
+  signInSocial,
+} from '@/core/actions/auth';
 import authConfig from '@/core/config/auth';
 import { signInSchema } from '@/core/schemas/auth';
 import { UserRole } from '@/core/types/user';
-import { SocialProvider } from '@/core/types/auth';
+import { CustomToken, SocialProvider } from '@/core/types/auth';
 
 export const {
   handlers: { GET, POST },
@@ -40,24 +44,70 @@ export const {
       }
       return true;
     },
-    async jwt({ token, user }) {
-      // Add a user role to the token
-      if (user) token.role = user?.role || UserRole.user;
-      return token;
-    },
-    async session({ session, token }) {
-      // Persist the user objectId
-      if (session.user && token.sub) {
-        session.user.id = token.sub;
+
+    async jwt({ token, user, account }) {
+      const customToken = token as CustomToken;
+
+      // Initial sign in
+      if (account && user) {
+        return {
+          ...customToken,
+          role: user?.role || UserRole.user,
+          accessToken: account.access_token,
+          refreshToken: account.refresh_token,
+          accessTokenExpires: account.expires_at
+            ? account.expires_at * 1000
+            : Date.now() + 24 * 60 * 60 * 1000, // 24 hours default
+        };
       }
+
+      // Add user role if not present
+      if (user && !customToken.role) {
+        customToken.role = user?.role || UserRole.user;
+      }
+
+      // Return previous token if the access token has not expired yet
+      if (
+        customToken.accessTokenExpires &&
+        Date.now() < customToken.accessTokenExpires
+      ) {
+        return customToken;
+      }
+
+      // Access token has expired, try to update it
+      console.log('Access token expired, attempting to refresh...');
+      return await refreshAccessToken(customToken);
+    },
+
+    async session({ session, token }) {
+      const customToken = token as CustomToken;
+
+      // Persist the user objectId
+      if (session.user && customToken?.sub) {
+        session.user.id = customToken.sub;
+      }
+
       // Persist the user role
       // https://authjs.dev/guides/basics/role-based-access-control#with-jwt
-      if (session.user && token.role) {
-        session.user.role = token.role as UserRole;
+      if (session.user && customToken.role) {
+        session.user.role = customToken.role as UserRole;
       }
+
+      // Add access token to session for API calls
+      if (customToken?.accessToken) {
+        session.accessToken = customToken.accessToken;
+      }
+
+      // Handle token refresh errors
+      if (customToken?.error === 'RefreshAccessTokenError') {
+        // Force sign out if refresh fails
+        session.error = 'RefreshAccessTokenError';
+      }
+
       return session;
     },
   },
+
   providers: [
     Credentials({
       async authorize(credentials) {

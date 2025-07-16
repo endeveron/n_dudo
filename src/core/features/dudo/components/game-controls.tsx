@@ -1,36 +1,51 @@
 'use client';
 
-import { Button } from '@/core/components/ui/button';
-import { cn } from '@/core/utils/common';
-import { Card, CardContent } from '@/core/components/ui/card';
-import { Bet } from '@/core/features/dudo/types';
-import DiceValueSelect from '@/core/features/dudo/components/dice-value-select';
-import DiceCountSelect from '@/core/features/dudo/components/dice-count-select';
+import { useMemo, useState } from 'react';
+
 import AnimatedAppear from '@/core/components/shared/animated-appear';
+import { Button } from '@/core/components/ui/button';
+import DiceCountSelect from '@/core/features/dudo/components/dice-count-select';
+import DiceValueSelect from '@/core/features/dudo/components/dice-value-select';
+import { Bet, GameMode } from '@/core/features/dudo/types';
+import { cn } from '@/core/utils/common';
 
 export interface GameControlsProps {
   currentBet: Bet | null;
+  gameMode: string;
   inputCount: number;
-  inputValue: number;
   isGameControls: boolean;
+  inputValue: number;
+  mainPlayerLost: boolean;
+  rolling: boolean;
+  roundNumber: number;
   totalDiceCount: number;
   onDiceCountUpdate: (value: number) => void;
   onDiceValueUpdate: (value: number) => void;
   onChallengeBet: () => void;
   onMakeBet: () => void;
+  onRollDice: () => void;
+  onStartNewGame: (gameMode: GameMode) => void;
 }
 
 const GameControls = ({
+  currentBet,
+  mainPlayerLost,
+  gameMode,
   inputCount,
   inputValue,
-  currentBet,
   isGameControls,
+  rolling,
+  roundNumber,
   totalDiceCount,
   onDiceCountUpdate,
   onDiceValueUpdate,
   onChallengeBet,
   onMakeBet,
+  onRollDice,
+  onStartNewGame,
 }: GameControlsProps) => {
+  const [processing, setProcessing] = useState(false);
+
   const handleCountUpdate = (newValue: number) => {
     onDiceCountUpdate(newValue);
   };
@@ -39,41 +54,97 @@ const GameControls = ({
     onDiceValueUpdate(newValue);
   };
 
-  return (
-    <div className="w-full h-[112px] rounded-xl bg-card/30">
-      <AnimatedAppear isShown={isGameControls} duration="fast">
-        <Card>
-          <CardContent className="py-6 flex-center">
-            <div className="flex-center gap-4">
-              <DiceCountSelect
-                value={inputCount}
-                min={1}
-                max={totalDiceCount}
-                onChange={handleCountUpdate}
-              />
+  const handleMakeBet = () => {
+    setProcessing(true);
+    onMakeBet();
+    setTimeout(() => {
+      setProcessing(false);
+    }, 1000);
+  };
 
-              <DiceValueSelect
-                onSelect={handleValueUpdate}
-                inputValue={inputValue}
-              />
+  // Memoized roll section content
+  const rollSectionContent = useMemo(() => {
+    if (!rolling) return null;
 
-              <Button variant="positive" onClick={onMakeBet}>
-                Make bet
-              </Button>
+    return (
+      <AnimatedAppear
+        className={cn('dudo_game-controls_roll', rolling ? 'z-10' : 'z-0')}
+        isShown={rolling}
+      >
+        <>
+          <div className="text-xl font-bold text-title leading-none">
+            Round {roundNumber}
+          </div>
 
+          <div className="flex gap-6">
+            {mainPlayerLost && (
               <Button
-                className={cn({
-                  'opacity-20 pointer-events-none': !currentBet?.count,
-                })}
-                variant={currentBet?.count ? 'negative' : 'ghost'}
-                onClick={onChallengeBet}
+                variant="accent"
+                onClick={() => onStartNewGame(gameMode as GameMode)}
               >
-                Challenge!
+                New game
               </Button>
-            </div>
-          </CardContent>
-        </Card>
+            )}
+            <Button variant="accent" onClick={onRollDice}>
+              Roll dice
+            </Button>
+          </div>
+        </>
       </AnimatedAppear>
+    );
+  }, [
+    mainPlayerLost,
+    gameMode,
+    rolling,
+    roundNumber,
+    onRollDice,
+    onStartNewGame,
+  ]);
+
+  return (
+    <div className="dudo_game-controls">
+      <AnimatedAppear
+        className={cn(
+          'dudo_game-controls_bet',
+          isGameControls ? 'z-10' : 'z-0'
+        )}
+        isShown={isGameControls}
+        duration="fast"
+      >
+        <div className="flex-center gap-4">
+          <DiceCountSelect
+            value={inputCount}
+            min={1}
+            max={totalDiceCount}
+            processing={processing}
+            onChange={handleCountUpdate}
+          />
+
+          <DiceValueSelect
+            onSelect={handleValueUpdate}
+            inputValue={inputValue}
+          />
+        </div>
+
+        <div className="flex-center gap-6 sm:flex-row-reverse sm:gap-4">
+          <Button
+            className={cn(
+              (processing || !currentBet?.count) &&
+                'opacity-0 pointer-events-none'
+            )}
+            variant="danger"
+            onClick={onChallengeBet}
+          >
+            Challenge!
+          </Button>
+
+          <Button variant="accent" onClick={handleMakeBet}>
+            Make bet
+          </Button>
+        </div>
+      </AnimatedAppear>
+
+      {rollSectionContent}
     </div>
   );
 };

@@ -55,9 +55,9 @@ const OnboardingForm = ({ userId }: TOnboardingFormProps) => {
         password: values.password,
       });
 
-      // If success redirect to sign-in
+      // If success redirect to signin
       if (res?.success) {
-        router.replace(`/sign-in?redirectTo=${DEFAULT_REDIRECT.slice(1)}`);
+        router.replace(`/signin?redirectTo=${DEFAULT_REDIRECT.slice(1)}`);
         return;
       }
 

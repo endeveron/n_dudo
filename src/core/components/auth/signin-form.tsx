@@ -110,7 +110,7 @@ const SignInForm = () => {
             Sign In
           </Button>
           {/* <div className="flex justify-center">
-          <Link href="/sign-up" className="auth-form_link">
+          <Link href="/signup" className="auth-form_link">
             Create an account
           </Link>
         </div> */}

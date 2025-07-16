@@ -29,7 +29,7 @@ const useDudo = () => {
   const [gameHistory, setGameHistory] = useState<GameHistoryEntry[]>([]);
   const [winner, setWinner] = useState<null | Player>(null);
   const [inputCount, setInputCount] = useState(1);
-  const [inputValue, setInputValue] = useState(1);
+  const [inputValue, setInputValue] = useState(2);
   const [currentBet, setCurrentBet] = useState<Bet | null>(null);
 
   const currentPlayerData = players[currentPlayer];
@@ -39,6 +39,16 @@ const useDudo = () => {
     latestHistoryItem?.action === 'challenge'
       ? latestHistoryItem.result
       : undefined;
+
+  // Auth session data
+  // const { session, status } = useSessionWithRefresh();
+  // For API calls (not currently in use)
+  // const response = await authenticatedFetch('/api/v1/protected-endpoint');
+
+  const resetInput = () => {
+    setInputCount(1);
+    setInputValue(2);
+  };
 
   // Initialize players
   const initializeGame = useCallback(
@@ -436,15 +446,12 @@ const useDudo = () => {
   const handleMakeBet = () => {
     const isBetMade = makeBet({ count: inputCount, value: inputValue });
     if (isBetMade) {
-      // Reset input values
-      setInputCount(1);
-      setInputValue(1);
+      resetInput();
     }
   };
 
   const handleStartNewGame = (mode: GameMode = 'standart') => {
-    setInputCount(1);
-    setInputValue(1);
+    resetInput();
 
     switch (mode) {
       case 'blitz':
@@ -468,8 +475,7 @@ const useDudo = () => {
 
   useEffect(() => {
     if (!roundNumber || gamePhase !== 'betting') return;
-    setInputCount(1);
-    setInputValue(1);
+    resetInput();
   }, [gamePhase, roundNumber]);
 
   return {

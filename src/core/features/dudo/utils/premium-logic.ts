@@ -15,7 +15,7 @@ export const getPremiumDecision = ({
 } => {
   const errResult = {
     decision: null,
-    confidence: 1,
+    confidence: 0,
   };
 
   if (!currentBet) {
@@ -149,7 +149,7 @@ function makeOptimalPremiumDecision(
   // Fallback to challenge (this should rarely happen with perfect info)
   return {
     decision: null,
-    confidence: 0,
+    confidence: 5,
   };
 }
 

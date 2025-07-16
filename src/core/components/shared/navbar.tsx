@@ -1,6 +1,5 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -12,6 +11,7 @@ import { useLangCode } from '@/core/context/lang-context';
 import { NavbarItem as TNavbarItem } from '@/core/types/common';
 import { getNavbarTranslation } from '@/core/utils/dictionary';
 import DashboardIcon from '~/public/icons/navbar/apps.svg';
+import { useSessionWithRefresh } from '@/core/hooks/use-session-with-refresh';
 
 const navbarItems: TNavbarItem[] = [
   // {
@@ -25,7 +25,7 @@ const Navbar = () => {
   const { langCode } = useLangCode();
   const pathname = usePathname();
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { session, status } = useSessionWithRefresh();
 
   const [translationMap, setTranslationMap] = useState<Map<string, string>>();
   const [isPending, setIsPending] = useState(false);
@@ -58,7 +58,7 @@ const Navbar = () => {
   useEffect(() => {
     if (status === 'loading') return;
 
-    const isAdmin = session?.user?.role === 'admin';
+    const isAdmin = session?.user.role === 'admin';
     const itemId = isAdmin ? 'admin' : 'dashboard';
 
     const exists = navbarItems.some((item) => item.id === itemId);

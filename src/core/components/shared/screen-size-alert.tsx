@@ -8,8 +8,8 @@ type ScreenSizeAlertProps = {
 };
 
 const ScreenSizeAlert = ({
-  minWidth = 640,
-  minHeight = 540,
+  minWidth = 410,
+  minHeight = 410,
 }: ScreenSizeAlertProps) => {
   const [isTooSmall, setIsTooSmall] = useState(false);
 
@@ -20,7 +20,7 @@ const ScreenSizeAlert = ({
       );
     };
 
-    checkSize(); // Initial check
+    checkSize();
     window.addEventListener('resize', checkSize);
 
     return () => {
@@ -31,19 +31,15 @@ const ScreenSizeAlert = ({
   if (!isTooSmall) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center backdrop-blur-xl z-40 screen-size-alert">
+    <div className="fixed inset-0 flex items-center justify-center backdrop-blur-2xl z-40  cursor-default">
       <div className="max-w-96 flex-center flex-col gap-4 p-8 rounded-xl bg-card">
-        <h2 className="text-3xl text-accent font-bold">Oops!</h2>
+        <h3 className="title text-3xl">Small screen</h3>
         <div className="space-y-2 text-sm leading-relaxed text-center">
           <p>
-            Looks like your screen
-            <br />
-            is a bit too small for this game.
-          </p>
-          <p>
             Try turning the device or switching to
-            <br />a larger device for a better experience.
+            <br />a larger device for a better experience
           </p>
+          {/* {window.innerWidth} x {window.innerHeight} */}
         </div>
       </div>
     </div>

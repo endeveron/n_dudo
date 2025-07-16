@@ -10,17 +10,18 @@ export default async function ProtectedLayout({
   children: React.ReactNode;
 }) {
   const session = await auth();
-  if (!session?.user) return redirect('/sign-in');
+  if (!session?.user) return redirect('/signin');
 
   return (
-    <main className="relative h-dvh flex-center bg-main-image-background">
+    <main className="main">
       <BackgroundImage />
 
       {/* Content */}
-      <div className="relative w-full flex flex-col h-dvh min-h-dvh max-h-dvh z-20">
+      <div className="relative w-full h-full flex flex-col z-10">
         <Topbar email={session?.user.email} />
         {/* Content area, scrollable */}
-        <div className="flex-center flex-col flex-1 overflow-y-auto">
+        <div className="h-full flex-center flex-col flex-1">
+          {/* <div className="h-full flex-center flex-col flex-1 overflow-y-auto"> */}
           {children}
         </div>
       </div>

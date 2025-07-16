@@ -15,7 +15,7 @@ const SignInButton = (props: TSignInButtonProps) => {
 
   const handleClick = () => {
     setLoading(true);
-    router.push('/sign-in');
+    router.push('/signin');
   };
 
   return (

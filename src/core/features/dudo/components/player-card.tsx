@@ -1,11 +1,5 @@
 import React from 'react';
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/core/components/ui/card';
 import Dice from '@/core/features/dudo/components/dice';
 import { Player, RecentHistoryResult } from '@/core/features/dudo/types';
 import { cn } from '@/core/utils/common';
@@ -49,47 +43,47 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
   }
 
   return (
-    <Card
+    <div
       className={cn(
-        'h-20 w-28 relative flex-center flex-col rounded-md',
+        'player-card',
         !player.isActive && 'opacity-20',
         isCurrentPlayer && 'ring-4',
-        result === 0 && 'ring-negative',
-        result === 1 && 'ring-positive',
-        result === undefined && 'ring-positive'
+        result === 0 && 'ring-danger',
+        result === 1 && 'ring-white/90 dark:ring-accent/80',
+        result === undefined && 'ring-white/90 dark:ring-accent/80'
       )}
     >
-      <CardHeader className="px-4 py-1">
-        <CardTitle className="py-2 text-center truncate">
-          <div className="-translate-x-0.5">{player.name}</div>
-        </CardTitle>
-      </CardHeader>
+      <div className="text-xl text-title font-bold leading-none">
+        {player.name}
+      </div>
 
-      {player.diceCount ? (
-        <CardContent className="px-4 py-1">
-          <div className="text-center -mt-2 mb-2">
-            <span className="font-bold">{player.diceCount}</span>
-            <span className="text-xs text-muted ml-1">dice</span>
-          </div>
-        </CardContent>
-      ) : null}
+      {player.isActive && (
+        <div className="mt-2 h-4 flex-center">
+          {isRolling && (
+            <div className="flex-center gap-1">
+              {player.dice.map((value: number, index: number) => (
+                <Dice
+                  className={cn(
+                    'text-white transition-opacity',
+                    value !== inputValue && value !== 1 && 'opacity-20'
+                  )}
+                  value={value}
+                  key={index}
+                  size="sm"
+                />
+              ))}
+            </div>
+          )}
 
-      {isRolling && (
-        <div className="absolute flex gap-1 p-2 left-1/2 -top-12 -translate-x-1/2">
-          {player.dice.map((value: number, index: number) => (
-            <Dice
-              className={cn(
-                'text-white transition-opacity',
-                value !== inputValue && value !== 1 && 'opacity-20'
-              )}
-              value={value}
-              key={index}
-              size="sm"
-            />
-          ))}
+          {!isRolling && player.diceCount ? (
+            <div className={cn('pb-1 text-center', isRolling && 'opacity-0')}>
+              <span className="font-bold">{player.diceCount}</span>
+              <span className="text-xs text-muted ml-1">dice</span>
+            </div>
+          ) : null}
         </div>
       )}
-    </Card>
+    </div>
   );
 };
 

@@ -51,7 +51,7 @@ const HistoryDisplay: React.FC<HistoryDisplayProps> = ({
                 ) : (
                   <div className="text-accent tracking-wide">
                     {entry.result.betWasCorrect ? (
-                      // <span className="text-negative-text">
+                      // <span className="text-danger-text">
                       <span>{players[entry.player]?.name} lost</span>
                     ) : (
                       // <span className="text-positive-text">

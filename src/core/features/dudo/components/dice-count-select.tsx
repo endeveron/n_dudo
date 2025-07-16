@@ -10,14 +10,15 @@ interface DiceCountSelectProps {
   value: number;
   min: number;
   max: number;
+  processing?: boolean;
   onChange: (value: number) => void;
 }
 
 const DiceCountSelect = ({
-  // label,
   value,
   min,
   max,
+  processing,
   onChange,
 }: DiceCountSelectProps) => {
   const increment = () => {
@@ -40,51 +41,42 @@ const DiceCountSelect = ({
   };
 
   return (
-    <div className="flex-1">
-      {/* <label className="h-5 block text-center text-sm text-accent font-bold">
-        {label}
-      </label> */}
-      <div className="my-2 flex items-center rounded-md bg-white/30 dark:bg-white/7">
-        <button
-          onClick={decrement}
-          disabled={value <= min}
-          className="flex-center w-12 h-12 disabled:opacity-50 cursor-pointer disabled:cursor-default transition-colors"
-          type="button"
-        >
-          <Minus
-            size={32}
-            className={cn(value > min ? 'text-accent' : 'text-system')}
-          />
-        </button>
+    <div className="my-2 flex items-center rounded-md bg-card dark:bg-white/7">
+      <button
+        onClick={decrement}
+        disabled={value <= min || processing}
+        className="flex-center w-12 h-12 disabled:opacity-50 cursor-pointer disabled:cursor-default transition-colors"
+        type="button"
+      >
+        <Minus
+          size={32}
+          className={cn(value > min ? 'text-title' : 'text-system')}
+        />
+      </button>
 
-        <div className="flex-1 text-center">
-          <input
-            type="number"
-            min={min}
-            max={max}
-            value={value}
-            onChange={handleInputChange}
-            className="w-10 text-center text-4xl font-bold bg-transparent border-none outline-none appearance-none cursor-default"
-            style={{ MozAppearance: 'textfield' }}
-          />
-          {/* {unit && <div className="text-xs text-muted mt-1">{unit}</div>} */}
-        </div>
-
-        <button
-          onClick={increment}
-          disabled={value >= max}
-          className="flex-center w-12 h-12 disabled:opacity-50 cursor-pointer disabled:cursor-default transition-colors"
-          type="button"
-        >
-          <Plus
-            size={32}
-            className={cn(value < max ? 'text-accent' : 'text-system')}
-          />
-        </button>
+      <div className={cn('flex-1 text-center', processing && 'opacity-0')}>
+        <input
+          type="number"
+          min={min}
+          max={max}
+          value={value}
+          onChange={handleInputChange}
+          className="w-10 text-center text-4xl font-bold bg-transparent border-none rounded-sm outline-none appearance-none cursor-default"
+          style={{ MozAppearance: 'textfield' }}
+        />
       </div>
-      {/* <div className="h-5 text-xs text-system text-center">
-        Range: {min} - {max}
-      </div> */}
+
+      <button
+        onClick={increment}
+        disabled={value >= max || processing}
+        className="flex-center w-12 h-12 disabled:opacity-50 cursor-pointer disabled:cursor-default transition-colors"
+        type="button"
+      >
+        <Plus
+          size={32}
+          className={cn(value < max ? 'text-title' : 'text-system')}
+        />
+      </button>
     </div>
   );
 };
