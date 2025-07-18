@@ -6,7 +6,7 @@ import BackgroundImage from '@/core/components/shared/background-image';
 
 const WelcomeClient = () => {
   return (
-    <div className="relative h-dvh flex flex-1 flex-col flex-center bg-main-image-background">
+    <div className="relative h-dvh flex flex-1 flex-col flex-center">
       <BackgroundImage />
 
       <div className="py-8 relative flex-center flex-1 flex-col cursor-default z-20">

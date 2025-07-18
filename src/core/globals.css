@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #fffaf4;
+  --background: #e5aa8a;
   --foreground: #1a171a;
 
   --main-image-background: #ffbbeb;
@@ -13,11 +13,11 @@
   --accent-foreground: #fffaf4;
   --title: #fffcfa;
   --brand: var(--blue);
-  --card: #fff0f62e;
+  --card: #fff0f51a;
   --muted: #1e1a18b3;
   --system: #fff8f46d;
-  --border: #fffafe3c;
-  --card-border: #fffafe15;
+  --border: #fffafe2a;
+  --card-border: #ffcff514;
   --input: #fefbf959;
   --input-border: #ffffff66;
   --input-autofill: #fff3ed;
@@ -65,7 +65,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0f0e0e;
+    --background: #1f0f11;
     --foreground: #fffbf6;
 
     --main-image-background: #3b0042;
@@ -77,8 +77,8 @@
     --card: #35002821;
     --muted: #fffaf68d;
     --system: #fff8f440;
-    --border: #fff5fd17;
-    --card-border: #8228700d;
+    --border: #fff5fd20;
+    --card-border: #260c2107;
     --input: #ffffff26;
     --input-border: #1d1a1c;
     --input-autofill: #4e2229;
