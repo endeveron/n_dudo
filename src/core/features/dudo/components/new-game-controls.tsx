@@ -11,7 +11,7 @@ const NewGameControls: React.FC<NewGameControlsProps> = ({
   onStartNewGame,
 }) => {
   return (
-    <div className="flex-center gap-6">
+    <div className="flex justify-center gap-4">
       <div className="text-center">
         <Button variant="accent" onClick={() => onStartNewGame('blitz')}>
           Blitz

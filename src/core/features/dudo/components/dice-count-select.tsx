@@ -41,7 +41,7 @@ const DiceCountSelect = ({
   };
 
   return (
-    <div className="my-2 flex items-center rounded-md bg-card dark:bg-white/7">
+    <div className="my-2 flex items-center rounded-md bg-card dark:bg-white/7 border-card-border dark:border-card-border/50 border-1">
       <button
         onClick={decrement}
         disabled={value <= min || processing}

@@ -10,26 +10,29 @@
   --main-image-background: #ffbbeb;
 
   --accent: #1c141c;
+  --accent-foreground: #fffaf4;
   --title: #fffcfa;
   --brand: var(--blue);
-
+  --card: #fff0f62e;
   --muted: #1e1a18b3;
-  --border: #fffcfa2f;
-  --input: rgba(254, 252, 249, 0.35);
-  --input-border: rgba(255, 255, 255, 0.4);
+  --system: #fff8f46d;
+  --border: #fffafe3c;
+  --card-border: #fffafe15;
+  --input: #fefbf959;
+  --input-border: #ffffff66;
   --input-autofill: #fff3ed;
-  --overlay: #fff9f3;
+  --overlay: var(--card);
   --icon: #1e1a18;
   --dice: #fff3ea;
 
-  --positive: hsl(164, 86%, 34%);
-  --danger: hsl(348, 100%, 60%);
+  --positive: #0ca179;
+  --danger: #ff335c;
 
   --ring: var(--accent);
 
   --btn-foreground: white;
   --btn-background: var(--accent);
-  --btn-background-hover: hsl(164, 86%, 30%);
+  --btn-background-hover: var(--accent);
   --btn-secondary-foreground: #262626; /* neutral-800 */
   --btn-secondary-background: #fff9f1c0; /* neutral-50 */
   --btn-secondary-background-hover: #fff8f1;
@@ -37,10 +40,9 @@
   --btn-accent-background: #170114;
   --btn-accent-background-hover: #3b0026;
 
-  --btn-danger-background: hsl(352, 70%, 52%);
-  --btn-danger-background-hover: hsl(352, 70%, 42%);
+  --btn-danger-background: #da2f46;
+  --btn-danger-background-hover: #b62034;
 
-  --card: hsla(334, 100%, 97%, 0.18);
   --popover: var(--card);
   --popover-foreground: var(--foreground);
 
@@ -66,24 +68,26 @@
     --background: #0f0e0e;
     --foreground: #fffbf6;
 
-    --main-image-background: hsl(293, 100%, 13%);
-    /* --main-image-background: #46003f; */
+    --main-image-background: #3b0042;
 
     --accent: #ffe5c7;
+    --accent-foreground: #0f0e0e;
     --title: var(--accent);
     --brand: var(--blue);
-
+    --card: #35002821;
     --muted: #fffaf68d;
-    --border: #fff5fd23;
-    --input: rgba(255, 255, 255, 0.15);
-    --input-border: #262626; /* neutral-800 */
+    --system: #fff8f440;
+    --border: #fff5fd17;
+    --card-border: #8228700d;
+    --input: #ffffff26;
+    --input-border: #1d1a1c;
     --input-autofill: #4e2229;
-    --overlay: #100f0f;
+    --overlay: #fff9f32e;
     --icon: var(--accent);
     --dice: #fff3ea;
 
-    --positive: hsl(164, 86%, 33%);
-    --danger: hsl(346, 88%, 54%);
+    --positive: #0c9d76;
+    --danger: #f12253;
 
     --btn-foreground: white;
     --btn-background: var(--accent);
@@ -95,10 +99,8 @@
     --btn-accent-background: var(--accent);
     --btn-accent-background-hover: #ffd2a2;
 
-    --btn-danger-background: hsl(350, 71%, 44%);
-    --btn-danger-background-hover: hsl(350, 71%, 49%);
-
-    --card: #35002821;
+    --btn-danger-background: #c0213b;
+    --btn-danger-background-hover: #d62442;
 
     --gform-background: #0e0e0e;
     --gform-text: #e3e3e3;
@@ -130,12 +132,14 @@
 
   --color-brand: var(--brand);
   --color-muted: var(--muted);
+  --color-system: var(--system);
   --color-title: var(--title);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
 
   --color-input: var(--input);
   --color-border: var(--border);
+  --color-card-border: var(--card-border);
   --color-input-border: var(--input-border);
   --color-overlay: var(--overlay);
   --color-icon: var(--icon);
@@ -267,10 +271,6 @@
     @apply flex-col items-center justify-center box-border;
   }
 
-  .text-system {
-    @apply text-muted/55 select-none;
-  }
-
   .auth-form {
     @apply relative w-72 mb-2 flex flex-col gap-6 transition-opacity;
   }
@@ -292,7 +292,7 @@
   }
 
   .topbar {
-    @apply h-14 fixed left-1/2 -translate-x-1/2 w-full max-w-[640px] mx-auto flex items-center justify-between px-4 rounded-b-xl bg-card cursor-default z-50;
+    @apply h-14 fixed left-1/2 -translate-x-1/2 w-full max-w-[640px] mx-auto flex items-center justify-between px-4 rounded-b-xl bg-card border-card-border border-1 cursor-default z-50;
   }
 
   /* Dudo */
@@ -319,11 +319,11 @@
   }
 
   .dudo_content .player-card {
-    @apply h-20 w-28 relative flex flex-col items-center justify-center gap-1 bg-card rounded-md transition-colors;
+    @apply h-20 w-28 relative flex flex-col items-center justify-center gap-1 bg-card border-card-border border-1 rounded-md transition-colors;
   }
 
   .dudo_main_column {
-    @apply flex flex-1 flex-col items-center justify-center p-4 rounded-xl bg-card transition-colors;
+    @apply flex flex-1 flex-col items-center justify-center p-4 rounded-xl bg-card border-card-border border-1 transition-colors;
   }
 
   .dudo_main_bet {
@@ -335,7 +335,7 @@
   }
 
   .dudo_game-controls {
-    @apply relative h-54 flex px-4 py-8 bg-card rounded-xl;
+    @apply relative h-54 flex px-4 py-8 bg-card border-card-border border-1 rounded-xl;
   }
 
   .dudo_game-controls_bet {
@@ -359,7 +359,7 @@
   }
 
   .dudo_assistant {
-    @apply fixed top-4.5 z-60;
+    @apply fixed top-5 z-60;
   }
 
   @media (min-width: 640px) {

@@ -63,9 +63,7 @@ const BettingDisplay: React.FC<BettingDisplayProps> = ({
       return (
         <div className="flex-center flex-1 flex-col gap-3">
           {actionElement}
-          <div className="text-sm text-muted leading-none">
-            Too few correct dice
-          </div>
+          <div className="text-sm text-muted leading-none">No correct dice</div>
         </div>
       );
     }

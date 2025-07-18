@@ -17,7 +17,7 @@ const WinnerDisplay: React.FC<WinnerDisplayProps> = ({
   if (!winner) return null;
   return (
     <div className="fixed inset-0 flex-center z-30">
-      <div className="flex-center flex-col px-4 py-8 sm:px-8 bg-card rounded-xl cursor-default">
+      <div className="flex-center flex-col px-4 py-8 sm:px-8 bg-card border-card-border border-1 rounded-xl cursor-default">
         <h3 className="text-4xl text-title font-extrabold">
           {winner.name === USER_NAME ? (
             <Fireworks active={true} duration={10}>

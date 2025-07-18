@@ -16,7 +16,6 @@ interface PlayerCardProps {
 const PlayerCard: React.FC<PlayerCardProps> = ({
   player,
   isCurrentPlayer,
-  // isYou,
   inputValue,
   isRolling,
   recentHistoryResult,

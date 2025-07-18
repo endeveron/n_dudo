@@ -10,16 +10,18 @@ const imgPlaceholder =
 const BackgroundImage = () => {
   return (
     <AnimatedAppear className="absolute inset-0 bg-main-image-background">
-      <Image
-        src="/images/bg.jpg"
-        alt="background"
-        className="object-cover opacity-85 dark:opacity-80"
-        fill
-        priority
-        quality={100}
-        placeholder="blur"
-        blurDataURL={imgPlaceholder}
-      />
+      <div className="relative h-full">
+        <Image
+          src="/images/bg.jpg"
+          alt="background"
+          className="object-cover opacity-85 dark:opacity-80"
+          fill
+          priority
+          quality={100}
+          placeholder="blur"
+          blurDataURL={imgPlaceholder}
+        />
+      </div>
     </AnimatedAppear>
   );
 };

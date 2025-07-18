@@ -149,7 +149,7 @@ function makeOptimalPremiumDecision(
   // Fallback to challenge (this should rarely happen with perfect info)
   return {
     decision: null,
-    confidence: 5,
+    confidence: 0,
   };
 }
 

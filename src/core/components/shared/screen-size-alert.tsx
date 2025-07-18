@@ -32,7 +32,7 @@ const ScreenSizeAlert = ({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center backdrop-blur-2xl z-40  cursor-default">
-      <div className="max-w-96 flex-center flex-col gap-4 p-8 rounded-xl bg-card">
+      <div className="max-w-96 flex-center flex-col gap-4 p-8 rounded-xl bg-card border-card-border border-1">
         <h3 className="title text-3xl">Small screen</h3>
         <div className="space-y-2 text-sm leading-relaxed text-center">
           <p>

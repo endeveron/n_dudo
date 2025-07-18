@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 
-import SignOutButton from '@/core/components/auth/sign-out-btn';
+import MainMenu from '@/core/components/shared/main-menu';
 
 type TopbarProps = {
   email?: string | null;
@@ -20,19 +20,12 @@ const Topbar = ({ email, title }: TopbarProps) => {
   return (
     <div className="topbar">
       {title || heading ? (
-        <div className="ml-1 -translate-y-0.5 text-2xl font-bold text-accent leading-none">
+        <div className="text-2xl font-bold text-accent leading-none">
           {title || heading}
         </div>
       ) : null}
       <div />
-      {email ? (
-        <div className="flex items-center gap-2">
-          <div className="-translate-y-[1px] text-sm text-muted/70 dark:text-accent dark:text-shadow-xs leading-none">
-            {email}
-          </div>
-          <SignOutButton />
-        </div>
-      ) : null}
+      <MainMenu email={email} />
     </div>
   );
 };
