@@ -4,23 +4,23 @@ import Dice from '@/core/features/dudo/components/dice';
 import { GamePhase, Player } from '@/core/features/dudo/types';
 
 interface DiceRollProps {
-  rolling: boolean;
-  mainPlayerLost: boolean;
+  isRolling: boolean;
+  isMainPlayerLost: boolean;
   gamePhase: GamePhase;
   winner: Player | null;
   playerDice: number[];
 }
 
 const DiceRoll: React.FC<DiceRollProps> = ({
-  rolling,
-  mainPlayerLost,
+  isRolling,
+  isMainPlayerLost,
   gamePhase,
   winner,
   playerDice,
 }) => {
   // Memoized dice display content
   const diceDisplayContent = useMemo(() => {
-    if (rolling || mainPlayerLost) return null;
+    if (isRolling || isMainPlayerLost) return null;
 
     const showDiceTitle = gamePhase !== 'rolling' || winner;
 
@@ -33,12 +33,12 @@ const DiceRoll: React.FC<DiceRollProps> = ({
         )}
         <div className="flex justify-center flex-wrap gap-3">
           {playerDice.map((die: number, index: number) => (
-            <Dice key={index} value={die} rolling />
+            <Dice key={index} value={die} isRolling />
           ))}
         </div>
       </div>
     );
-  }, [rolling, mainPlayerLost, gamePhase, winner, playerDice]);
+  }, [isRolling, isMainPlayerLost, gamePhase, winner, playerDice]);
 
   return (
     <>

@@ -4,7 +4,7 @@ import { Player, RecentHistoryResult } from '@/core/features/dudo/types';
 interface PlayersDisplayProps {
   inputValue: number;
   currentPlayer: number;
-  rolling: boolean;
+  isRolling: boolean;
   players: Player[];
   recentHistoryResult?: RecentHistoryResult;
 }
@@ -13,7 +13,7 @@ const PlayersDisplay: React.FC<PlayersDisplayProps> = ({
   inputValue,
   currentPlayer,
   players,
-  rolling,
+  isRolling,
   recentHistoryResult,
 }) => {
   return (
@@ -25,7 +25,7 @@ const PlayersDisplay: React.FC<PlayersDisplayProps> = ({
           isCurrentPlayer={player.id === currentPlayer}
           isYou={player.id === 0}
           inputValue={inputValue}
-          isRolling={rolling}
+          isRolling={isRolling}
           recentHistoryResult={recentHistoryResult}
         />
       ))}

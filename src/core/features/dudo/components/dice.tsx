@@ -11,7 +11,7 @@ interface DiceProps {
   value: number;
   size?: DiceSize;
   className?: string;
-  rolling?: boolean;
+  isRolling?: boolean;
   inputValue?: number;
   onClick?: (value: number) => void;
 }
@@ -143,12 +143,12 @@ const Dice: React.FC<DiceProps> = ({
   value,
   size = 'lg',
   className,
-  rolling = false,
+  isRolling = false,
   inputValue,
   onClick,
 }) => {
   const [currentValue, setCurrentValue] = useState<number>(value);
-  const [isRolling, setIsRolling] = useState<boolean>(false);
+  const [rolling, setRolling] = useState<boolean>(false);
 
   let svgSize: number;
   switch (size) {
@@ -167,8 +167,8 @@ const Dice: React.FC<DiceProps> = ({
   };
 
   useEffect(() => {
-    if (rolling) {
-      setIsRolling(true);
+    if (isRolling) {
+      setRolling(true);
 
       // Start the rolling animation
       const rollInterval = setInterval(() => {
@@ -179,7 +179,7 @@ const Dice: React.FC<DiceProps> = ({
       const rollTimeout = setTimeout(() => {
         clearInterval(rollInterval);
         setCurrentValue(value);
-        setIsRolling(false);
+        setRolling(false);
       }, ROLLING_ANIMATION_DURATION);
 
       return () => {
@@ -188,9 +188,9 @@ const Dice: React.FC<DiceProps> = ({
       };
     } else {
       setCurrentValue(value);
-      setIsRolling(false);
+      setRolling(false);
     }
-  }, [rolling, value]);
+  }, [isRolling, value]);
 
   const DiceComponent = DICE_COMPONENTS[currentValue];
 
@@ -206,7 +206,7 @@ const Dice: React.FC<DiceProps> = ({
       className={cn(
         'transition-all duration-100',
         !!onClick && 'cursor-pointer',
-        isRolling && 'opacity-50',
+        rolling && 'opacity-50',
         inputValue && inputValue !== value && 'opacity-30',
         inputValue && 'hover:opacity-100',
         className

@@ -15,8 +15,8 @@ export interface GameControlsProps {
   inputCount: number;
   isGameControls: boolean;
   inputValue: number;
-  mainPlayerLost: boolean;
-  rolling: boolean;
+  isMainPlayerLost: boolean;
+  isRolling: boolean;
   roundNumber: number;
   totalDiceCount: number;
   onDiceCountUpdate: (value: number) => void;
@@ -29,12 +29,12 @@ export interface GameControlsProps {
 
 const GameControls = ({
   currentBet,
-  mainPlayerLost,
+  isMainPlayerLost,
   gameMode,
   inputCount,
   inputValue,
   isGameControls,
-  rolling,
+  isRolling,
   roundNumber,
   totalDiceCount,
   onDiceCountUpdate,
@@ -64,12 +64,12 @@ const GameControls = ({
 
   // Memoized roll section content
   const rollSectionContent = useMemo(() => {
-    if (!rolling) return null;
+    if (!isRolling) return null;
 
     return (
       <AnimatedAppear
-        className={cn('dudo_game-controls_roll', rolling ? 'z-10' : 'z-0')}
-        isShown={rolling}
+        className={cn('dudo_game-controls_roll', isRolling ? 'z-10' : 'z-0')}
+        isShown={isRolling}
       >
         <>
           <div className="text-xl font-bold text-title leading-none">
@@ -77,7 +77,7 @@ const GameControls = ({
           </div>
 
           <div className="flex gap-6">
-            {mainPlayerLost && (
+            {isMainPlayerLost && (
               <Button
                 variant="accent"
                 onClick={() => onStartNewGame(gameMode as GameMode)}
@@ -93,9 +93,9 @@ const GameControls = ({
       </AnimatedAppear>
     );
   }, [
-    mainPlayerLost,
+    isMainPlayerLost,
     gameMode,
-    rolling,
+    isRolling,
     roundNumber,
     onRollDice,
     onStartNewGame,

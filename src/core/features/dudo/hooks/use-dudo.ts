@@ -79,6 +79,10 @@ const useDudo = () => {
     []
   );
 
+  const isGameBoard = useMemo(() => {
+    return !winner && players.length > 0;
+  }, [winner, players.length]);
+
   const recentChallengeResult = useMemo(() => {
     const lastChallenge = gameHistory
       .slice()
@@ -104,11 +108,11 @@ const useDudo = () => {
     return allDiceFiltered;
   }, [players]);
 
-  const rolling = useMemo(() => {
+  const isRolling = useMemo(() => {
     return gamePhase === 'rolling' && !winner;
   }, [gamePhase, winner]);
 
-  const mainPlayerLost = useMemo(() => {
+  const isMainPlayerLost = useMemo(() => {
     if (!players.length) return false;
     return !players[0].isActive && players.some((p) => p.isActive);
   }, [players]);
@@ -486,14 +490,15 @@ const useDudo = () => {
     gameHistory,
     gameMode,
     gamePhase,
+    isGameBoard,
+    isMainPlayerLost,
     isPlayerTurn,
-    mainPlayerLost,
+    isRolling,
     players,
     recentAction,
     recentChallengeResult,
     recentHistoryResult,
     recentPlayer,
-    rolling,
     roundNumber,
     totalDiceCount,
     winner,
