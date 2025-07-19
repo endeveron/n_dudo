@@ -1,6 +1,9 @@
 import GenerateTokenButton from '@/core/components/auth/generate-token-button';
-import AnimatedAppear from '@/core/components/shared/animated-appear';
-import DialogCard from '@/core/components/shared/dialog-card';
+import {
+  AnimatedCard,
+  CardContent,
+  CardTitle,
+} from '@/core/components/shared/card';
 import { SearchParams } from '@/core/types/common';
 
 export default async function Page({
@@ -16,22 +19,25 @@ export default async function Page({
   }
 
   return (
-    <AnimatedAppear>
-      <DialogCard title="Great, now verify email">
+    <AnimatedCard>
+      <CardTitle>Check your inbox</CardTitle>
+      <CardContent>
         <p>
-          Check your inbox at <strong>{email}</strong> and click the button
-          inside to complete your registration.
+          We&apos;ve sent a link to <strong>{email}</strong>. Please follow the
+          instructions to complete your registration.
         </p>
-        <p className="my-2">
+        <p className="mt-6">
           <strong>Don&apos;t see an email?</strong> Check spam folder.
         </p>
-        <GenerateTokenButton
-          email={email}
-          className="mt-6 mb-4"
-          btnTitle="Resend verification link"
-          variant="outline"
-        />
-      </DialogCard>
-    </AnimatedAppear>
+        <div className="flex-center">
+          <GenerateTokenButton
+            email={email}
+            className="mt-6"
+            btnTitle="Resend verification link"
+            variant="outline"
+          />
+        </div>
+      </CardContent>
+    </AnimatedCard>
   );
 }

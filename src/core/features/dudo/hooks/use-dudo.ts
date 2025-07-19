@@ -185,7 +185,8 @@ const useDudo = () => {
       // Guard against empty dice arrays
       if (myDice.length === 0 || totalDice === 0) {
         // Fallback behavior when no dice available
-        return { count: 1, value: 2 };
+        const randomValue = Math.floor(Math.random() * 6) + 1;
+        return { count: 1, value: randomValue };
       }
 
       // // Simple AI strategy
@@ -229,8 +230,6 @@ const useDudo = () => {
         roundNumber,
         isBot: !isPlayerTurn,
       });
-
-      // console.info('Advanced decision', advancedDecision, '\n\n');
 
       return botDecision;
     },

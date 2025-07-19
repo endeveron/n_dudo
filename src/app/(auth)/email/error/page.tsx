@@ -1,6 +1,9 @@
 import GenerateTokenButton from '@/core/components/auth/generate-token-button';
-import AnimatedAppear from '@/core/components/shared/animated-appear';
-import DialogCard from '@/core/components/shared/dialog-card';
+import {
+  AnimatedCard,
+  CardContent,
+  CardTitle,
+} from '@/core/components/shared/card';
 import { emailErrors } from '@/core/data/errors';
 import { SearchParams } from '@/core/types/common';
 import { getErrorMessageFromSearchParams } from '@/core/utils/error';
@@ -24,10 +27,20 @@ export default async function Page({
   );
 
   return (
-    <AnimatedAppear>
-      <DialogCard title={`Oops! ${errorMessage}`}>
-        <GenerateTokenButton email={email} />
-      </DialogCard>
-    </AnimatedAppear>
+    <AnimatedCard>
+      <CardTitle>Oops!</CardTitle>
+      <CardContent>
+        <p className="-mt-2 text-center">{errorMessage}</p>
+
+        <div className="flex-center">
+          <GenerateTokenButton
+            email={email}
+            className="mt-6"
+            btnTitle="Generate a new token"
+            variant="accent"
+          />
+        </div>
+      </CardContent>
+    </AnimatedCard>
   );
 }

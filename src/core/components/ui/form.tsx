@@ -96,7 +96,10 @@ function FormLabel({
     <Label
       data-slot="form-label"
       data-error={!!error}
-      className={cn('text-accent/75', className)}
+      className={cn(
+        'text-xs text-accent/75 tracking-wide leading-none',
+        className
+      )}
       htmlFor={formItemId}
       {...props}
     />

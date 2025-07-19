@@ -10,11 +10,11 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'text-btn-foreground font-semibold bg-btn-background hover:bg-btn-background-hover shadow-sm',
+          'text-btn-foreground font-semibold bg-btn-background hover:bg-btn-background-hover',
         accent:
           'text-btn-accent-foreground font-semibold bg-btn-accent-background hover:bg-btn-accent-background-hover',
         secondary:
-          'text-btn-secondary-foreground/80 bg-btn-secondary-background hover:text-btn-secondary-foreground hover:bg-btn-secondary-background-hover shadow-xs',
+          'text-btn-secondary-foreground/80 bg-btn-secondary-background hover:text-btn-secondary-foreground hover:bg-btn-secondary-background-hover',
         outline:
           'border border-border text-foreground/70 hover:text-foreground hover:bg-btn-secondary-background-hover hover:border-transparent',
         danger:

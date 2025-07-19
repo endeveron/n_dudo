@@ -1,5 +1,6 @@
 'use client';
 
+import AnimatedAppear from '@/core/components/shared/animated-appear';
 import ScreenSizeAlert from '@/core/components/shared/screen-size-alert';
 import { Separator } from '@/core/components/ui/separator';
 import Assistant from '@/core/features/dudo/components/assistant';
@@ -46,10 +47,9 @@ const DudoClient = () => {
   return (
     <div className="dudo_container">
       {/* Game board */}
-      {!winner && players.length > 0 && (
-        <div className="flex gap-4">
+      {!winner && !!players.length && (
+        <AnimatedAppear className="flex gap-4">
           <div className="dudo_content">
-            {/* Header */}
             <PlayersDisplay
               inputValue={inputValue}
               currentPlayer={currentPlayer}
@@ -58,7 +58,6 @@ const DudoClient = () => {
               recentHistoryResult={recentHistoryResult}
             />
 
-            {/* Main */}
             <div className="dudo_main">
               <div className="dudo_main_column">
                 <BettingDisplay
@@ -82,7 +81,6 @@ const DudoClient = () => {
               </div>
             </div>
 
-            {/* Footer */}
             <GameControls
               currentBet={currentBet}
               gameMode={gameMode}
@@ -104,12 +102,11 @@ const DudoClient = () => {
             />
           </div>
 
-          {/* Sidebar */}
           {/* <GameHistory gameHistory={gameHistory} players={players} /> */}
-        </div>
+        </AnimatedAppear>
       )}
 
-      <StartNewGame players={players} onGameStart={handleStartNewGame} />
+      <StartNewGame players={players} onStartNewGame={handleStartNewGame} />
 
       {/* Elevated overlay elements */}
 
@@ -118,6 +115,8 @@ const DudoClient = () => {
 
       {/* Alert ( z-40 ) */}
       <ScreenSizeAlert />
+
+      {/* Topbar has z-50 */}
 
       {/* Assistant ( z-60 ) */}
       <Assistant

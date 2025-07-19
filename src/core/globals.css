@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #e5aa8a;
+  --background: #ffe1d1;
   --foreground: #1a171a;
 
   --main-image-background: #ffbbeb;
@@ -65,7 +65,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #1f0f11;
+    --background: #1d1d1d;
     --foreground: #fffbf6;
 
     --main-image-background: #3b0042;
@@ -78,7 +78,7 @@
     --muted: #fffaf68d;
     --system: #fff8f440;
     --border: #fff5fd20;
-    --card-border: #260c2107;
+    --card-border: #260c2105;
     --input: #ffffff26;
     --input-border: #1d1a1c;
     --input-autofill: #4e2229;
@@ -92,9 +92,9 @@
     --btn-foreground: white;
     --btn-background: var(--accent);
     --btn-background-hover: #ffc889;
-    --btn-secondary-foreground: #f5f5f5; /* neutral-100 */
-    --btn-secondary-background: #262626; /* neutral-800 */
-    --btn-secondary-background-hover: #323232; /* ~neutral-700 */
+    --btn-secondary-foreground: var(--muted);
+    --btn-secondary-background: var(--card);
+    --btn-secondary-background-hover: var(--card);
     --btn-accent-foreground: #1c1918;
     --btn-accent-background: var(--accent);
     --btn-accent-background-hover: #ffd2a2;
@@ -272,7 +272,7 @@
   }
 
   .auth-form {
-    @apply relative w-72 mb-2 flex flex-col gap-6 transition-opacity;
+    @apply relative w-64 flex flex-col gap-6 transition-opacity;
   }
 
   .auth-form.inactive {
@@ -289,10 +289,6 @@
 
   .form-control-with-icon input {
     @apply pr-10;
-  }
-
-  .topbar {
-    @apply h-14 fixed left-1/2 -translate-x-1/2 w-full max-w-[640px] mx-auto flex items-center justify-between px-4 rounded-b-xl bg-card border-card-border border-1 cursor-default z-50;
   }
 
   /* Dudo */
@@ -319,11 +315,11 @@
   }
 
   .dudo_content .player-card {
-    @apply h-20 w-28 relative flex flex-col items-center justify-center gap-1 bg-card border-card-border border-1 rounded-md transition-colors;
+    @apply h-20 w-28 relative flex flex-col items-center justify-center gap-1 bg-card border-card-border border-1 rounded-md;
   }
 
   .dudo_main_column {
-    @apply flex flex-1 flex-col items-center justify-center p-4 rounded-xl bg-card border-card-border border-1 transition-colors;
+    @apply flex flex-1 flex-col items-center justify-center p-4 rounded-xl bg-card border-card-border border-1;
   }
 
   .dudo_main_bet {

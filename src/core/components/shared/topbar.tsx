@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 
 import MainMenu from '@/core/components/shared/main-menu';
+import AnimatedAppear from '@/core/components/shared/animated-appear';
 
 type TopbarProps = {
   email?: string | null;
@@ -18,7 +19,7 @@ const Topbar = ({ email, title }: TopbarProps) => {
     .replace(/^./, (c) => c.toUpperCase());
 
   return (
-    <div className="topbar">
+    <AnimatedAppear className="fixed left-1/2 -translate-x-1/2 h-14 w-full max-w-[640px] mx-auto flex items-center justify-between px-4 rounded-b-xl bg-card border-card-border border-1 cursor-default z-50">
       {title || heading ? (
         <div className="text-2xl font-bold text-accent leading-none">
           {title || heading}
@@ -26,7 +27,7 @@ const Topbar = ({ email, title }: TopbarProps) => {
       ) : null}
       <div />
       <MainMenu email={email} />
-    </div>
+    </AnimatedAppear>
   );
 };
 

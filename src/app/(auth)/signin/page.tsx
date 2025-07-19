@@ -1,25 +1,11 @@
 import SignInForm from '@/core/components/auth/signin-form';
-import AnimatedAppear from '@/core/components/shared/animated-appear';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/core/components/ui/card';
+import { AnimatedCard, CardTitle } from '@/core/components/shared/card';
 
 export default async function Page() {
   return (
-    <AnimatedAppear>
-      <>
-        <Card>
-          <CardHeader>
-            <CardTitle className="my-2 text-3xl">Sign In</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <SignInForm />
-          </CardContent>
-        </Card>
-      </>
-    </AnimatedAppear>
+    <AnimatedCard>
+      <CardTitle>Sign In</CardTitle>
+      <SignInForm />
+    </AnimatedCard>
   );
 }

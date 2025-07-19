@@ -8,6 +8,7 @@ import { Decision } from '@/core/features/dudo/types/advanced-logic';
 import { getPremiumDecision } from '@/core/features/dudo/utils/premium-logic';
 import { cn } from '@/core/utils/common';
 import DiamondIcon from '~/public/icons/ui/diamond.svg';
+import AnimatedAppear from '@/core/components/shared/animated-appear';
 
 // const HIDE_DELAY = 30000;
 
@@ -101,7 +102,7 @@ const Assistant = ({
   }, [cannotHelp, decision, isBet, isChallenge, players.length]);
 
   return (
-    <div className="dudo_assistant">
+    <AnimatedAppear className="dudo_assistant">
       <div className="flex-center gap-4">
         <div className="relative flex items-center gap-4">
           {/* Toggle */}
@@ -139,7 +140,7 @@ const Assistant = ({
           </div>
         </div>
       </div>
-    </div>
+    </AnimatedAppear>
   );
 };
 

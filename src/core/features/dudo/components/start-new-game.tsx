@@ -1,36 +1,46 @@
 'use client';
 
-import AnimatedAppear from '@/core/components/shared/animated-appear';
+import { useEffect, useState } from 'react';
+
 import {
-  Card,
+  AnimatedCard,
   CardContent,
-  CardHeader,
   CardTitle,
-} from '@/core/components/ui/card';
+} from '@/core/components/shared/card';
 import NewGameControls from '@/core/features/dudo/components/new-game-controls';
-import { Player } from '@/core/features/dudo/types';
+import { GameMode, Player } from '@/core/features/dudo/types';
 
 interface StartNewGameProps {
   players: Player[];
-  onGameStart: () => void;
+  onStartNewGame: (gameMode: GameMode) => void;
 }
 
-const StartNewGame = ({ players, onGameStart }: StartNewGameProps) => {
-  if (players.length !== 0) return null;
+const StartNewGame: React.FC<StartNewGameProps> = ({
+  players,
+  onStartNewGame,
+}) => {
+  const [isOpen, setIsOpen] = useState(true);
+
+  const isAllowed = players.length === 0;
+
+  const handleStartNewGame = (gameMode: GameMode) => {
+    setIsOpen(false);
+    if (onStartNewGame) onStartNewGame(gameMode);
+  };
+
+  useEffect(() => {
+    if (isAllowed && !isOpen) setIsOpen(true);
+  }, [isAllowed, isOpen]);
+
+  if (!isAllowed) return null;
 
   return (
-    <AnimatedAppear>
-      <Card className="-mx-4 py-6 sm:px-6 space-y-4">
-        <CardHeader>
-          <CardTitle className="text-center text-4xl font-extrabold">
-            New Game
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <NewGameControls onStartNewGame={onGameStart} />
-        </CardContent>
-      </Card>
-    </AnimatedAppear>
+    <AnimatedCard isOpen={isOpen}>
+      <CardTitle>New game</CardTitle>
+      <CardContent>
+        <NewGameControls onStartNewGame={handleStartNewGame} />
+      </CardContent>
+    </AnimatedCard>
   );
 };
 
