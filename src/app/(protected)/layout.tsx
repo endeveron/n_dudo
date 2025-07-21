@@ -17,11 +17,10 @@ export default async function ProtectedLayout({
       <BackgroundImage />
 
       {/* Content */}
-      <div className="relative w-full h-full flex flex-col z-10">
+      <div className="relative z-10">
         <Topbar email={session?.user.email} />
         {/* Content area, scrollable */}
-        <div className="h-full flex-center flex-col flex-1">
-          {/* <div className="h-full flex-center flex-col flex-1 overflow-y-auto"> */}
+        <div className="w-full h-full flex-center flex-col flex-1 overflow-y-auto">
           {children}
         </div>
       </div>

@@ -193,7 +193,7 @@
 
   html,
   body {
-    @apply h-dvh min-h-dvh;
+    @apply h-dvh;
   }
 
   body {
@@ -255,7 +255,7 @@
 
 @layer components {
   .layout {
-    @apply h-full m-auto;
+    @apply h-full m-auto overflow-hidden;
   }
 
   .layout,
@@ -294,12 +294,12 @@
   /* Dudo */
 
   .dudo_container {
-    @apply h-full w-full max-w-[640px] p-4 flex flex-col flex-1 items-center justify-center cursor-default select-none;
+    @apply h-full w-full max-w-[640px] p-2 flex flex-col flex-1 items-center justify-center cursor-default select-none;
   }
 
   .dudo_content,
   .dudo_main {
-    @apply flex gap-4;
+    @apply flex gap-1;
   }
 
   .dudo_content {
@@ -311,7 +311,7 @@
   }
 
   .dudo_players {
-    @apply max-w-[640px] flex flex-wrap items-center justify-center gap-3 p-2 rounded-xl bg-card/30;
+    @apply mb-1 max-w-[640px] flex flex-wrap items-center justify-center gap-2;
   }
 
   .dudo_content .player-card {
@@ -358,11 +358,35 @@
     @apply fixed top-5 z-60;
   }
 
-  @media (min-width: 640px) {
+  /* @media (min-height: 680px) {
+    .dudo_content,
+    .dudo_main {
+      @apply gap-2;
+    }
+  } */
+
+  /* @media (max-height: 740px) {
     .dudo_container {
-      @apply p-0;
+      @apply pt-16;
+    }
+  } */
+
+  @media (min-width: 640px), (min-height: 740px) {
+    .dudo_container {
+      @apply p-4;
     }
 
+    .dudo_content,
+    .dudo_main {
+      @apply gap-4;
+    }
+
+    .dudo_players {
+      @apply gap-4 mb-0;
+    }
+  }
+
+  @media (min-width: 640px) {
     .dudo_dice_select--small-screen {
       @apply hidden;
     }
@@ -384,9 +408,9 @@
     }
   }
 
-  @media (max-height: 900px) {
+  @media (max-height: 740px) {
     .dudo_container {
-      @apply pt-12;
+      @apply pt-16;
     }
   }
 }

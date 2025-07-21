@@ -3,21 +3,27 @@
 import { useEffect, useState } from 'react';
 
 type ScreenSizeAlertProps = {
-  minWidth?: number;
-  minHeight?: number;
+  portrait?: [number, number]; // [minWidth, minHeight]
+  landscape?: [number, number]; // [minWidth, minHeight]
 };
 
 const ScreenSizeAlert = ({
-  minWidth = 410,
-  minHeight = 410,
+  portrait = [410, 650],
+  landscape = [640, 500],
 }: ScreenSizeAlertProps) => {
-  const [isTooSmall, setIsTooSmall] = useState(false);
+  const [isSmall, setIsSmall] = useState(false);
 
   useEffect(() => {
     const checkSize = () => {
-      setIsTooSmall(
-        window.innerWidth < minWidth || window.innerHeight < minHeight
-      );
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const isPortrait = h >= w;
+
+      const [minW, minH] = isPortrait ? portrait : landscape;
+
+      const tooSmall = w < minW || h < minH;
+
+      setIsSmall(tooSmall);
     };
 
     checkSize();
@@ -26,9 +32,9 @@ const ScreenSizeAlert = ({
     return () => {
       window.removeEventListener('resize', checkSize);
     };
-  }, [minWidth, minHeight]);
+  }, [portrait, landscape]);
 
-  if (!isTooSmall) return null;
+  if (!isSmall) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center backdrop-blur-2xl z-40  cursor-default">

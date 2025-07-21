@@ -19,7 +19,7 @@ const Topbar = ({ email, title }: TopbarProps) => {
     .replace(/^./, (c) => c.toUpperCase());
 
   return (
-    <AnimatedAppear className="fixed left-1/2 -translate-x-1/2 h-14 w-full max-w-[640px] mx-auto flex items-center justify-between px-4 rounded-b-xl bg-card border-card-border border-1 cursor-default z-50">
+    <AnimatedAppear className="fixed top-0 left-1/2 -translate-x-1/2 h-14 w-full max-w-[640px] mx-auto flex items-center justify-between px-4 rounded-b-xl bg-card border-card-border border-1 cursor-default z-50">
       {title || heading ? (
         <div className="text-2xl font-bold text-accent leading-none">
           {title || heading}
