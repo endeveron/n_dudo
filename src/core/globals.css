@@ -318,8 +318,11 @@
     @apply h-20 w-28 relative flex flex-col items-center justify-center gap-1 bg-card border-card-border border-1 rounded-md;
   }
 
-  .dudo_main_column {
+  /* .dudo_main_column {
     @apply flex flex-1 flex-col items-center justify-center p-4 rounded-xl bg-card border-card-border border-1;
+  } */
+  .dudo_main_column {
+    @apply flex flex-1 flex-col items-center justify-center !p-4;
   }
 
   .dudo_main_bet {
@@ -331,7 +334,7 @@
   }
 
   .dudo_game-controls {
-    @apply relative h-54 flex px-4 py-8 bg-card border-card-border border-1 rounded-xl;
+    @apply relative h-54 flex px-4 py-8;
   }
 
   .dudo_game-controls_bet {
@@ -357,19 +360,6 @@
   .dudo_assistant {
     @apply fixed top-5 z-60;
   }
-
-  /* @media (min-height: 680px) {
-    .dudo_content,
-    .dudo_main {
-      @apply gap-2;
-    }
-  } */
-
-  /* @media (max-height: 740px) {
-    .dudo_container {
-      @apply pt-16;
-    }
-  } */
 
   @media (min-width: 640px), (min-height: 740px) {
     .dudo_container {

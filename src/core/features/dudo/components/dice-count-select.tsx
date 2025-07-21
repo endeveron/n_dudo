@@ -10,7 +10,7 @@ interface DiceCountSelectProps {
   value: number;
   min: number;
   max: number;
-  processing?: boolean;
+  isProcessing?: boolean;
   onChange: (value: number) => void;
 }
 
@@ -18,7 +18,7 @@ const DiceCountSelect = ({
   value,
   min,
   max,
-  processing,
+  isProcessing,
   onChange,
 }: DiceCountSelectProps) => {
   const increment = () => {
@@ -44,7 +44,7 @@ const DiceCountSelect = ({
     <div className="my-2 flex items-center rounded-md bg-card dark:bg-white/7 border-card-border dark:border-card-border/50 border-1">
       <button
         onClick={decrement}
-        disabled={value <= min || processing}
+        disabled={value <= min || isProcessing}
         className="flex-center w-12 h-12 disabled:opacity-50 cursor-pointer disabled:cursor-default transition-colors"
         type="button"
       >
@@ -54,7 +54,7 @@ const DiceCountSelect = ({
         />
       </button>
 
-      <div className={cn('flex-1 text-center', processing && 'opacity-0')}>
+      <div className={cn('flex-1 text-center', isProcessing && 'opacity-0')}>
         <input
           type="number"
           min={min}
@@ -68,7 +68,7 @@ const DiceCountSelect = ({
 
       <button
         onClick={increment}
-        disabled={value >= max || processing}
+        disabled={value >= max || isProcessing}
         className="flex-center w-12 h-12 disabled:opacity-50 cursor-pointer disabled:cursor-default transition-colors"
         type="button"
       >

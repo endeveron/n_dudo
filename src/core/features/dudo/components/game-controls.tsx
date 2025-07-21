@@ -8,6 +8,7 @@ import DiceCountSelect from '@/core/features/dudo/components/dice-count-select';
 import DiceValueSelect from '@/core/features/dudo/components/dice-value-select';
 import { Bet, GameMode } from '@/core/features/dudo/types';
 import { cn } from '@/core/utils/common';
+import { Card } from '@/core/components/shared/card';
 
 export interface GameControlsProps {
   currentBet: Bet | null;
@@ -44,7 +45,7 @@ const GameControls = ({
   onRollDice,
   onStartNewGame,
 }: GameControlsProps) => {
-  const [processing, setProcessing] = useState(false);
+  const [isProcessing, setProcessing] = useState(false);
 
   const handleCountUpdate = (newValue: number) => {
     onDiceCountUpdate(newValue);
@@ -55,8 +56,11 @@ const GameControls = ({
   };
 
   const handleMakeBet = () => {
+    if (isProcessing) return;
+
     setProcessing(true);
     onMakeBet();
+
     setTimeout(() => {
       setProcessing(false);
     }, 1000);
@@ -102,7 +106,7 @@ const GameControls = ({
   ]);
 
   return (
-    <div className="dudo_game-controls">
+    <Card className="dudo_game-controls">
       <AnimatedAppear
         className={cn(
           'dudo_game-controls_bet',
@@ -116,7 +120,7 @@ const GameControls = ({
             value={inputCount}
             min={1}
             max={totalDiceCount}
-            processing={processing}
+            isProcessing={isProcessing}
             onChange={handleCountUpdate}
           />
 
@@ -129,7 +133,7 @@ const GameControls = ({
         <div className="flex-center gap-6 sm:flex-row-reverse sm:gap-4">
           <Button
             className={cn(
-              (processing || !currentBet?.count) &&
+              (isProcessing || !currentBet?.count) &&
                 'opacity-0 pointer-events-none'
             )}
             variant="danger"
@@ -139,13 +143,13 @@ const GameControls = ({
           </Button>
 
           <Button variant="accent" onClick={handleMakeBet}>
-            Make bet
+            Place bet
           </Button>
         </div>
       </AnimatedAppear>
 
       {rollSectionContent}
-    </div>
+    </Card>
   );
 };
 

@@ -1,6 +1,7 @@
 'use client';
 
 import AnimatedAppear from '@/core/components/shared/animated-appear';
+import { Card } from '@/core/components/shared/card';
 import ScreenSizeAlert from '@/core/components/shared/screen-size-alert';
 import { Separator } from '@/core/components/ui/separator';
 import Assistant from '@/core/features/dudo/components/assistant';
@@ -60,7 +61,7 @@ const DudoClient = () => {
               />
 
               <div className="dudo_main">
-                <div className="dudo_main_column">
+                <Card className="dudo_main_column">
                   <BettingDisplay
                     currentBet={currentBet}
                     gamePhase={gamePhase}
@@ -69,9 +70,9 @@ const DudoClient = () => {
                   />
                   <Separator />
                   <StatisticsDisplay totalDiceCount={totalDiceCount} />
-                </div>
+                </Card>
 
-                <div className="dudo_main_column">
+                <Card className="dudo_main_column">
                   <DiceRoll
                     isRolling={isRolling}
                     isMainPlayerLost={isMainPlayerLost}
@@ -79,7 +80,7 @@ const DudoClient = () => {
                     winner={winner}
                     playerDice={players[0].dice}
                   />
-                </div>
+                </Card>
               </div>
 
               <GameControls
