@@ -48,11 +48,15 @@ export const {
     async jwt({ token, user, account }) {
       const customToken = token as CustomToken;
 
+      // console.log('JWT callback > user:', user);
+      // console.log('JWT callback > token before:', customToken);
+
       // Initial sign in
       if (account && user) {
         return {
           ...customToken,
           role: user?.role || UserRole.user,
+          premium: user?.premium || null,
           accessToken: account.access_token,
           refreshToken: account.refresh_token,
           accessTokenExpires: account.expires_at
@@ -61,9 +65,10 @@ export const {
         };
       }
 
-      // Add user role if not present
-      if (user && !customToken.role) {
+      // Add user data if not present (this handles subsequent calls)
+      if (user && (!customToken.role || customToken.premium === undefined)) {
         customToken.role = user?.role || UserRole.user;
+        customToken.premium = user?.premium || null;
       }
 
       // Return previous token if the access token has not expired yet
@@ -82,15 +87,18 @@ export const {
     async session({ session, token }) {
       const customToken = token as CustomToken;
 
-      // Persist the user objectId
-      if (session.user && customToken?.sub) {
-        session.user.id = customToken.sub;
-      }
+      // console.log('Session callback > token:', customToken);
+      // console.log('Session callback > session before:', session);
 
       // Persist the user role
       // https://authjs.dev/guides/basics/role-based-access-control#with-jwt
       if (session.user && customToken.role) {
         session.user.role = customToken.role as UserRole;
+      }
+
+      // Persist the premium data
+      if (session.user && customToken?.premium) {
+        session.user.premium = customToken.premium;
       }
 
       // Add access token to session for API calls
@@ -103,6 +111,8 @@ export const {
         // Force sign out if refresh fails
         session.error = 'RefreshAccessTokenError';
       }
+
+      // console.log('Session callback > session after:', session);
 
       return session;
     },

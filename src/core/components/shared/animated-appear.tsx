@@ -12,7 +12,15 @@ type AnimatedAppearProps = PropsWithChildren &
 
 const AnimatedAppear = forwardRef<HTMLDivElement, AnimatedAppearProps>(
   (
-    { children, className, delay, duration = 'normal', isShown, onClick },
+    {
+      children,
+      className,
+      delay,
+      duration = 'normal',
+      isShown,
+      title,
+      onClick,
+    },
     ref
   ) => {
     const [isReady, setIsReady] = useState(false);
@@ -51,6 +59,7 @@ const AnimatedAppear = forwardRef<HTMLDivElement, AnimatedAppearProps>(
           durationClassName,
           className
         )}
+        title={title}
       >
         {children}
       </div>

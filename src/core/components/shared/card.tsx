@@ -96,9 +96,9 @@ const CardDescription = forwardRef<
 >(({ children, className, ...props }, ref) => {
   if (!children) return null;
   return (
-    <p ref={ref} className={cn('mb-6 -mt-2 text-sm', className)} {...props}>
+    <div ref={ref} className={cn('mb-6 -mt-2 text-sm', className)} {...props}>
       {children}
-    </p>
+    </div>
   );
 });
 CardDescription.displayName = 'CardDescription';

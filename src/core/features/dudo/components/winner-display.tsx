@@ -24,7 +24,7 @@ const WinnerDisplay: React.FC<WinnerDisplayProps> = ({
 
   const isAllowed = !!winner;
 
-  const handleStartNewGame = (gameMode: GameMode) => {
+  const startNewGame = (gameMode: GameMode) => {
     setIsOpen(false);
     if (onStartNewGame) onStartNewGame(gameMode);
   };
@@ -54,7 +54,7 @@ const WinnerDisplay: React.FC<WinnerDisplayProps> = ({
         )}
       </CardDescription>
       <CardContent>
-        <NewGameControls onStartNewGame={handleStartNewGame} />
+        <NewGameControls onStartNewGame={startNewGame} />
       </CardContent>
     </AnimatedCard>
   );

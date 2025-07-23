@@ -18,16 +18,17 @@ import {
   validateBet,
   validateDice,
 } from '@/core/features/dudo/utils/validators';
+import { useSessionWithRefresh } from '@/core/hooks/use-session-with-refresh';
 
 const useDudo = () => {
-  const [gameMode, setGameMode] = useState<GameMode>('blitz');
+  const [gameMode, setGameMode] = useState<GameMode | null>(null);
   const [initialDiceCount, setInitialDiceCount] = useState(0);
-  const [roundNumber, setRoundNumber] = useState(1);
+  const [roundNumber, setRoundNumber] = useState(0);
   const [players, setPlayers] = useState<Player[]>([]);
   const [currentPlayer, setCurrentPlayer] = useState(0);
-  const [gamePhase, setGamePhase] = useState<GamePhase>('rolling');
+  const [gamePhase, setGamePhase] = useState<GamePhase | null>(null);
   const [gameHistory, setGameHistory] = useState<GameHistoryEntry[]>([]);
-  const [winner, setWinner] = useState<null | Player>(null);
+  const [winner, setWinner] = useState<Player | null>(null);
   const [inputCount, setInputCount] = useState(1);
   const [inputValue, setInputValue] = useState(2);
   const [currentBet, setCurrentBet] = useState<Bet | null>(null);
@@ -41,7 +42,9 @@ const useDudo = () => {
       : undefined;
 
   // Auth session data
-  // const { session, status } = useSessionWithRefresh();
+  const { session } = useSessionWithRefresh();
+  const email = session?.user.email;
+
   // For API calls (not currently in use)
   // const response = await authenticatedFetch('/api/v1/protected-endpoint');
 
@@ -149,10 +152,6 @@ const useDudo = () => {
       return `${playerName} won`;
     }
   }, [gameHistory, players]);
-
-  // const lostDice = useMemo(() => {
-  //   return initialDiceCount - totalDiceCount;
-  // }, [totalDiceCount]);
 
   // Roll dice for all players
   const rollDice = useCallback((): void => {
@@ -453,7 +452,7 @@ const useDudo = () => {
     }
   };
 
-  const handleStartNewGame = (mode: GameMode = 'standart') => {
+  const startNewGame = (mode: GameMode = 'standart') => {
     resetInput();
 
     switch (mode) {
@@ -483,6 +482,7 @@ const useDudo = () => {
 
   return {
     allDice,
+    email,
     inputCount,
     inputValue,
     currentBet,
@@ -505,12 +505,12 @@ const useDudo = () => {
     challengeBet,
     countDice,
     handleMakeBet,
-    handleStartNewGame,
     initializeGame,
     makeBet,
     rollDice,
     setInputCount,
     setInputValue,
+    startNewGame,
   };
 };
 

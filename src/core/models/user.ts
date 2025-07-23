@@ -10,6 +10,10 @@ const userSchema = new Schema<User>(
     password: { type: String },
     role: { type: String, enum: UserRole, default: UserRole.user },
     image: { type: String },
+    premium: {
+      timestamp: { type: Number },
+      transactionId: { type: String },
+    },
   },
   {
     versionKey: false,

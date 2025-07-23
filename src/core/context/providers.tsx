@@ -1,8 +1,9 @@
 'use client';
 
-import { ThemeProvider } from '@/core/components/ui/theme-provider';
-import { LangProvider } from '@/core/context/lang-context';
 import { SessionProvider } from 'next-auth/react';
+
+import { ThemeProvider } from '@/core/components/ui/theme-provider';
+import { LangProvider } from '@/core/context/lang';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (

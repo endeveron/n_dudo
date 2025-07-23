@@ -5,7 +5,7 @@ import { Bet, GamePhase } from '@/core/features/dudo/types';
 import { cn } from '@/core/utils/common';
 
 interface BettingDisplayProps {
-  gamePhase: GamePhase;
+  gamePhase: GamePhase | null;
   recentAction: string | null;
   currentBet: Bet | null;
   recentChallengeResult?: {

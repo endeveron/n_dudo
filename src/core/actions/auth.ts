@@ -20,7 +20,6 @@ import {
 import { EmailType, ServerActionResult } from '@/core/types/common';
 import { User, UserRole } from '@/core/types/user';
 import {
-  configurePromotionEmail,
   configureVerificationEmail,
   sendEmail,
   SendEmailArgs,
@@ -140,34 +139,15 @@ export const confirmEmail = async ({
       userId = user.id;
     }
 
-    // Configure email data
-    let emailData: SendEmailArgs;
-
     // Generate email token
     const token = generateEmailToken(userId);
 
-    // Configure URI
-    let url = `${BASE_URL}/email/result?e=${email}&t=${token}&i=${userId}`;
-    if (emailType === EmailType.PROMOTION) {
-      url += '&et=promo';
-    }
-
-    switch (emailType) {
-      case EmailType.PROMOTION:
-        {
-          emailData = configurePromotionEmail({
-            email,
-            url: encodeURI(url),
-          });
-        }
-        break;
-      default: {
-        emailData = configureVerificationEmail({
-          email,
-          url: encodeURI(url),
-        });
-      }
-    }
+    // Configure email data
+    const url = `${BASE_URL}/email/result?e=${email}&t=${token}&i=${userId}`;
+    const emailData: SendEmailArgs = configureVerificationEmail({
+      email,
+      url: encodeURI(url),
+    });
 
     // Send the email
     const messageSent = await sendEmail(emailData);
@@ -175,11 +155,9 @@ export const confirmEmail = async ({
       handleActionError('An email transporter error occured', null, true);
     }
 
-    // Update email status for the promo case
-    if (emailType === EmailType.PROMOTION) {
-      user.emailConfirmed = true;
-      await user.save();
-    }
+    // Update email status in db
+    user.emailConfirmed = true;
+    await user.save();
 
     return { success: true };
   } catch (err: unknown) {
@@ -280,16 +258,16 @@ export const verifyUserId = async (
   }
 };
 
-/**
- * Generates a JWT token for the user authentication using a user's object ID.
- *
- * @param {string} userId user._id, a mongoDb ObjectId prop of the user object.
- * @returns a JSON Web Token (JWT) that is signed with the userId and jwtAuthKey. The token has an
- * expiration time of 72 hours.
- */
-export const generateAuthToken = async (userId: string) => {
-  return jwt.sign({ userId }, EMAIL_JWT, { expiresIn: '72h' });
-};
+// /**
+//  * Generates a JWT token for the user authentication using a user's object ID.
+//  *
+//  * @param {string} userId user._id, a mongoDb ObjectId prop of the user object.
+//  * @returns a JSON Web Token (JWT) that is signed with the userId and jwtAuthKey. The token has an
+//  * expiration time of 72 hours.
+//  */
+// export const generateAuthToken = async (userId: string) => {
+//   return jwt.sign({ userId }, EMAIL_JWT, { expiresIn: '72h' });
+// };
 
 /**
  * Resends a verification email to a user's email address for email verification.
@@ -385,7 +363,7 @@ export const authorizeUser = async ({
     await mongoDB.connect();
 
     // Find a user document in the db that matches the provided email address.
-    const user = await UserModel.findOne({ email });
+    const user = await UserModel.findOne<User>({ email });
     if (!user || !user.id || !user.email || !user.role) return null;
 
     // Check the password
@@ -399,7 +377,12 @@ export const authorizeUser = async ({
       name: user.name as string,
       email: user.email as string,
       role: user.role as UserRole,
+      premium: user.premium ? user.premium.transactionId : null,
     };
+
+    // Debug logging
+    // console.log('User data being returned from authorizeUser:', userData);
+    // console.log('Premium value:', userData.premium);
 
     if (passwordsMatch) return userData;
     return null;

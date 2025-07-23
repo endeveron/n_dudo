@@ -2,20 +2,18 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
+import AnimatedAppear from '@/core/components/shared/animated-appear';
 import Dice from '@/core/features/dudo/components/dice';
 import { Bet, GamePhase, Player } from '@/core/features/dudo/types';
 import { Decision } from '@/core/features/dudo/types/advanced-logic';
 import { getPremiumDecision } from '@/core/features/dudo/utils/premium-logic';
+import { usePremium } from '@/core/features/premium/context';
 import { cn } from '@/core/utils/common';
-import DiamondIcon from '~/public/icons/ui/diamond.svg';
-import AnimatedAppear from '@/core/components/shared/animated-appear';
-
-// const HIDE_DELAY = 30000;
 
 export interface AssistantProps {
   allDice: number[];
   currentBet: Bet | null;
-  gamePhase: GamePhase;
+  gamePhase: GamePhase | null;
   isPlayerTurn: boolean;
   players: Player[];
 }
@@ -27,7 +25,7 @@ const Assistant = ({
   isPlayerTurn,
   players,
 }: AssistantProps) => {
-  const [isActive, setIsActive] = useState(false);
+  const { isPremiumFeatures } = usePremium();
   const [assistantData, setAssistantData] = useState<{
     decision: Decision | null;
     confidence: number;
@@ -43,7 +41,7 @@ const Assistant = ({
   }, [players.length, isPlayerTurn, gamePhase, currentBet]);
 
   const hasProcessedRequest = assistantData !== null;
-  const shouldShowTooltip = canAssist && isActive && hasProcessedRequest;
+  const isDecision = canAssist && isPremiumFeatures && hasProcessedRequest;
 
   const decision = assistantData?.decision ?? null;
   // const confidence = assistantData?.confidence ?? 0;
@@ -63,20 +61,16 @@ const Assistant = ({
   }, [allDice, currentBet, players]);
 
   useEffect(() => {
-    if (!isActive || !canAssist) {
+    if (!isPremiumFeatures || !canAssist) {
       setAssistantData(null);
       return;
     }
 
     const decision = getDecision() ?? null;
     setAssistantData(decision);
-  }, [isActive, canAssist, getDecision]);
+  }, [isPremiumFeatures, canAssist, getDecision]);
 
-  const handleToggle = () => {
-    setIsActive((prev) => !prev);
-  };
-
-  const tooltipContent = useMemo(() => {
+  const decisionContent = useMemo(() => {
     if (isChallenge) {
       return <span className="relative text-title z-10">Challenge</span>;
     }
@@ -105,27 +99,15 @@ const Assistant = ({
     <AnimatedAppear className="dudo_assistant">
       <div className="flex-center gap-4">
         <div className="relative flex items-center gap-4">
-          {/* Toggle */}
-          <div
-            className={cn(
-              'h-6 w-6 -translate-y-0.5 cursor-pointer transition-all',
-              isActive ? 'text-title' : 'text-white/40 dark:text-white/30'
-            )}
-            onClick={handleToggle}
-            title="Pro tips"
-          >
-            <DiamondIcon />
-          </div>
-
-          {/* Tooltip */}
+          {/* Decision */}
           <div
             className={cn(
               'absolute overflow-hidden w-30 h-14 p-0.5 opacity-0 top-11 left-1/2 -translate-x-1/2 rounded-md bg-card border-card-border border-1 pointer-events-none transition-opacity duration-300',
-              shouldShowTooltip && 'opacity-100'
+              isDecision && 'opacity-100'
             )}
           >
             <div className="relative h-full font-bold leading-none flex-center z-20">
-              {tooltipContent}
+              {decisionContent}
 
               {/* Confidence bar */}
               {/* {confidencePercentage && (

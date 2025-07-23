@@ -23,7 +23,7 @@ const StartNewGame: React.FC<StartNewGameProps> = ({
 
   const isAllowed = players.length === 0;
 
-  const handleStartNewGame = (gameMode: GameMode) => {
+  const startNewGame = (gameMode: GameMode) => {
     setIsOpen(false);
     if (onStartNewGame) onStartNewGame(gameMode);
   };
@@ -38,7 +38,7 @@ const StartNewGame: React.FC<StartNewGameProps> = ({
     <AnimatedCard isOpen={isOpen}>
       <CardTitle>New game</CardTitle>
       <CardContent>
-        <NewGameControls onStartNewGame={handleStartNewGame} />
+        <NewGameControls onStartNewGame={startNewGame} />
       </CardContent>
     </AnimatedCard>
   );

@@ -14,6 +14,10 @@ export type User = {
   password?: string;
   role: UserRole;
   image?: string;
+  premium?: {
+    timestamp: number;
+    transactionId: string;
+  };
 };
 
 export type TUserData = {

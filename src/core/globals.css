@@ -275,7 +275,7 @@
     @apply relative w-64 flex flex-col gap-6 transition-opacity;
   }
 
-  .auth-form.inactive {
+  .inactive {
     @apply opacity-20;
   }
 
@@ -318,9 +318,6 @@
     @apply h-20 w-28 relative flex flex-col items-center justify-center gap-1 bg-card border-card-border border-1 rounded-md;
   }
 
-  /* .dudo_main_column {
-    @apply flex flex-1 flex-col items-center justify-center p-4 rounded-xl bg-card border-card-border border-1;
-  } */
   .dudo_main_column {
     @apply flex flex-1 flex-col items-center justify-center !p-4;
   }
@@ -358,7 +355,7 @@
   }
 
   .dudo_assistant {
-    @apply fixed top-5 z-60;
+    @apply fixed top-5;
   }
 
   @media (min-width: 640px), (min-height: 740px) {

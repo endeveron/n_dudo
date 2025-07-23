@@ -4,8 +4,8 @@ import { JWT } from 'next-auth/jwt';
 import { UserRole } from '@/core/types/user';
 
 export interface CustomToken extends JWT {
-  sub?: string;
   role: UserRole;
+  premium: string | null;
   accessToken?: string;
   refreshToken?: string;
   accessTokenExpires?: number;
@@ -18,10 +18,11 @@ export interface ExtendedSession extends Session {
   error?: string;
   user: {
     id: string;
+    role: UserRole;
+    premium: string | null;
     name?: string | null;
     email?: string | null;
     image?: string | null;
-    role: UserRole;
   };
 }
 

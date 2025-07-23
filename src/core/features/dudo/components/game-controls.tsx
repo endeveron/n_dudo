@@ -12,7 +12,7 @@ import { Card } from '@/core/components/shared/card';
 
 export interface GameControlsProps {
   currentBet: Bet | null;
-  gameMode: string;
+  gameMode: string | null;
   inputCount: number;
   isGameControls: boolean;
   inputValue: number;

@@ -1,5 +1,6 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL as string;
+const STATE_KEY = process.env.NEXT_PUBLIC_STATE_KEY as string;
 
 const DB_CONNECTION_STRING = process.env.DB_CONNECTION_STRING as string;
 
@@ -18,13 +19,10 @@ const LANG_CODE_KEY = 'langCode';
 const REFERRAL_CODE_KEY = 'referralCode';
 const EMAIL_CONFIRMED_KEY = 'emailConfirmed';
 
-const WELCOME_BONUS = 10;
-const INVITE_BONUS = 5;
-const CURRENCY = 'USDT';
-
 export {
   API_URL,
   BASE_URL,
+  STATE_KEY,
   DB_CONNECTION_STRING,
   DATE_FORMAT,
   AUTH_SECRET,
@@ -36,7 +34,4 @@ export {
   LANG_CODE_KEY,
   REFERRAL_CODE_KEY,
   EMAIL_CONFIRMED_KEY,
-  WELCOME_BONUS,
-  INVITE_BONUS,
-  CURRENCY,
 };
