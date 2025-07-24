@@ -5,7 +5,7 @@ import { UserRole } from '@/core/types/user';
 
 export interface CustomToken extends JWT {
   role: UserRole;
-  premium: string | null;
+  isPremium: boolean;
   accessToken?: string;
   refreshToken?: string;
   accessTokenExpires?: number;
@@ -14,16 +14,19 @@ export interface CustomToken extends JWT {
 
 // Extended session type with custom properties
 export interface ExtendedSession extends Session {
-  accessToken?: string;
-  error?: string;
-  user: {
-    id: string;
-    role: UserRole;
-    premium: string | null;
-    name?: string | null;
-    email?: string | null;
-    image?: string | null;
-  };
+  // accessToken?: string;
+  // user: {
+  //   id: string;
+  //   role: UserRole;
+  //   premium: string | null;
+  //   name?: string | null;
+  //   email?: string | null;
+  //   image?: string | null;
+  // };
+  expires: string;
+  accessTokenExpiry?: number; // Custom field if you add it
+  refreshTokenExpiry?: number; // Custom field if you add it
+  iat?: number; // Token issued at time
 }
 
 export enum SocialProvider {

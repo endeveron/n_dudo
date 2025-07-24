@@ -15,8 +15,7 @@ export default function AuthLayout({
     <main className="main">
       <BackgroundImage />
 
-      {/* Content */}
-      <div className="relative z-10">{children}</div>
+      <div className="main_content">{children}</div>
     </main>
   );
 }

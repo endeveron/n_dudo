@@ -67,7 +67,7 @@ export const configureTransactionEmail = ({
       <p style="color:#5a5a5a;margin-bottom:2rem;margin-top:0.5rem;">
         ${email}
       </p>
-      <a style="background-color:#151518;border-radius:32px;color:#ffffff;display:inline-block;font-family:sans-serif;padding:1rem 2rem;font-size:1rem;text-decoration:none;" href="${BASE_URL}/admin?e=${email}" target="_blank" rel="noopener noreferrer">Admin dashboard</a>
+      <a style="background-color:#151518;border-radius:32px;color:#ffffff;display:inline-block;font-family:sans-serif;padding:1rem 2rem;font-size:1rem;text-decoration:none;" href="${BASE_URL}/admin?e=${email}&t=${transactionId}" target="_blank" rel="noopener noreferrer">Admin dashboard</a>
     </div>
   `;
 

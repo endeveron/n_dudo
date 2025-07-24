@@ -4,11 +4,10 @@ export enum PremiumStatus {
   processing = 'processing',
 }
 
-export type CheckPremiumStatusArgs = {
+export interface UserEmail {
   email: string;
-};
+}
 
-export type ProcessTransactionIdArgs = {
-  email: string;
+export interface PremiumArgs extends UserEmail {
   transactionId: string;
-};
+}

@@ -1,12 +1,11 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { signIn } from '@/core/actions/auth';
-import VisibilityToggle from '@/core/components/auth/visibility-toggle';
+import VisibilityToggle from '@/core/features/auth/components/visibility-toggle';
 import FormLoading from '@/core/components/shared/form-loading';
 import { Button } from '@/core/components/ui/button';
 import {
@@ -20,45 +19,55 @@ import {
   FormMessage,
 } from '@/core/components/ui/form';
 import { Input } from '@/core/components/ui/input';
+import { onboardUser } from '@/core/actions/user';
 import { useErrorHandler } from '@/core/hooks/error';
-import { SignInSchema, signInSchema } from '@/core/schemas/auth';
-import { SignInArgs } from '@/core/types/auth';
+import {
+  OnboardingSchema,
+  onboardingSchema,
+} from '@/core/features/auth/schemas';
 import { cn } from '@/core/utils/common';
+import { DEFAULT_REDIRECT } from '@/core/routes';
 
-const SignInForm = () => {
-  const searchParams = useSearchParams();
+type TOnboardingFormProps = {
+  userId: string;
+};
+
+const OnboardingForm = ({ userId }: TOnboardingFormProps) => {
+  const router = useRouter();
   const { toastError } = useErrorHandler();
 
-  const [isPending, setPending] = useState(false);
   const [pwdVisible, setPwdVisible] = useState(false);
+  const [confirmPwdVisible, setConfirmPwdVisible] = useState(false);
+  const [isPending, setPending] = useState(false);
 
-  const form = useForm<SignInSchema>({
-    resolver: zodResolver(signInSchema),
+  const form = useForm<OnboardingSchema>({
+    resolver: zodResolver(onboardingSchema),
     defaultValues: {
-      email: '',
+      name: '',
       password: '',
+      confirmPassword: '',
     },
   });
 
-  const redirectTo = searchParams.get('redirectTo') || undefined;
-
-  const onSubmit = async (values: SignInSchema) => {
-    const signinData: SignInArgs = {
-      email: values.email.toLowerCase(),
-      password: values.password,
-      redirectTo,
-    };
-
+  const onSubmit = async (values: OnboardingSchema) => {
     try {
       setPending(true);
-      const res = await signIn(signinData);
-      if (!res?.success) {
-        toastError(res);
+      const res = await onboardUser({
+        userId: userId,
+        name: values.name,
+        password: values.password,
+      });
+
+      // If success redirect to signin
+      if (res?.success) {
+        router.replace(`/signin?redirectTo=${DEFAULT_REDIRECT.slice(1)}`);
+        return;
       }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
+      toastError(res);
+      setPending(false);
     } catch (err: unknown) {
-      // toastError(err);
-    } finally {
+      toastError(err);
       setPending(false);
     }
   };
@@ -72,10 +81,10 @@ const SignInForm = () => {
         >
           <FormField
             control={form.control}
-            name="email"
+            name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>Your name</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -101,19 +110,36 @@ const SignInForm = () => {
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirm password</FormLabel>
+                <FormControlWithIcon>
+                  <FormControlIcon>
+                    <VisibilityToggle
+                      onClick={() => setConfirmPwdVisible((prev) => !prev)}
+                    />
+                  </FormControlIcon>
+                  <Input
+                    {...field}
+                    type={confirmPwdVisible ? 'text' : 'password'}
+                  />
+                </FormControlWithIcon>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <Button
             variant="accent"
             loading={isPending}
             className="auth-form_button"
             type="submit"
           >
-            Sign In
-          </Button>
-          {/* <div className="flex justify-center">
-          <Link href="/signup" className="auth-form_link">
             Create an account
-          </Link>
-        </div> */}
+          </Button>
+          <FormLoading loadigIconClassName="-mt-14" isPending={isPending} />
         </form>
         <FormLoading loadigIconClassName="-mt-14" isPending={isPending} />
       </div>
@@ -121,4 +147,4 @@ const SignInForm = () => {
   );
 };
 
-export default SignInForm;
+export default OnboardingForm;

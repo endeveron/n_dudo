@@ -1,5 +1,5 @@
-import { verifyUserId } from '@/core/actions/auth';
-import OnboardingForm from '@/core/components/auth/onboarding-form';
+import { verifyUserId } from '@/core/features/auth/actions';
+import OnboardingForm from '@/core/features/auth/components/onboarding-form';
 import {
   AnimatedCard,
   CardContent,

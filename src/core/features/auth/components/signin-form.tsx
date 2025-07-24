@@ -1,11 +1,12 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import VisibilityToggle from '@/core/components/auth/visibility-toggle';
+import { signIn } from '@/core/features/auth/actions';
+import VisibilityToggle from '@/core/features/auth/components/visibility-toggle';
 import FormLoading from '@/core/components/shared/form-loading';
 import { Button } from '@/core/components/ui/button';
 import {
@@ -19,52 +20,45 @@ import {
   FormMessage,
 } from '@/core/components/ui/form';
 import { Input } from '@/core/components/ui/input';
-import { onboardUser } from '@/core/actions/user';
 import { useErrorHandler } from '@/core/hooks/error';
-import { OnboardingSchema, onboardingSchema } from '@/core/schemas/auth';
+import { SignInSchema, signInSchema } from '@/core/features/auth/schemas';
+import { SignInArgs } from '@/core/features/auth/types';
 import { cn } from '@/core/utils/common';
-import { DEFAULT_REDIRECT } from '@/core/routes';
 
-type TOnboardingFormProps = {
-  userId: string;
-};
-
-const OnboardingForm = ({ userId }: TOnboardingFormProps) => {
-  const router = useRouter();
+const SignInForm = () => {
+  const searchParams = useSearchParams();
   const { toastError } = useErrorHandler();
 
-  const [pwdVisible, setPwdVisible] = useState(false);
-  const [confirmPwdVisible, setConfirmPwdVisible] = useState(false);
   const [isPending, setPending] = useState(false);
+  const [pwdVisible, setPwdVisible] = useState(false);
 
-  const form = useForm<OnboardingSchema>({
-    resolver: zodResolver(onboardingSchema),
+  const form = useForm<SignInSchema>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
-      name: '',
+      email: '',
       password: '',
-      confirmPassword: '',
     },
   });
 
-  const onSubmit = async (values: OnboardingSchema) => {
+  const redirectTo = searchParams.get('redirectTo') || undefined;
+
+  const onSubmit = async (values: SignInSchema) => {
+    const signinData: SignInArgs = {
+      email: values.email.toLowerCase(),
+      password: values.password,
+      redirectTo,
+    };
+
     try {
       setPending(true);
-      const res = await onboardUser({
-        userId: userId,
-        name: values.name,
-        password: values.password,
-      });
-
-      // If success redirect to signin
-      if (res?.success) {
-        router.replace(`/signin?redirectTo=${DEFAULT_REDIRECT.slice(1)}`);
-        return;
+      const res = await signIn(signinData);
+      if (!res?.success) {
+        toastError(res);
       }
-
-      toastError(res);
-      setPending(false);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err: unknown) {
-      toastError(err);
+      // toastError(err);
+    } finally {
       setPending(false);
     }
   };
@@ -78,10 +72,10 @@ const OnboardingForm = ({ userId }: TOnboardingFormProps) => {
         >
           <FormField
             control={form.control}
-            name="name"
+            name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Your name</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -107,36 +101,19 @@ const OnboardingForm = ({ userId }: TOnboardingFormProps) => {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Confirm password</FormLabel>
-                <FormControlWithIcon>
-                  <FormControlIcon>
-                    <VisibilityToggle
-                      onClick={() => setConfirmPwdVisible((prev) => !prev)}
-                    />
-                  </FormControlIcon>
-                  <Input
-                    {...field}
-                    type={confirmPwdVisible ? 'text' : 'password'}
-                  />
-                </FormControlWithIcon>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <Button
             variant="accent"
             loading={isPending}
             className="auth-form_button"
             type="submit"
           >
-            Create an account
+            Sign In
           </Button>
-          <FormLoading loadigIconClassName="-mt-14" isPending={isPending} />
+          {/* <div className="flex justify-center">
+          <Link href="/signup" className="auth-form_link">
+            Create an account
+          </Link>
+        </div> */}
         </form>
         <FormLoading loadigIconClassName="-mt-14" isPending={isPending} />
       </div>
@@ -144,4 +121,4 @@ const OnboardingForm = ({ userId }: TOnboardingFormProps) => {
   );
 };
 
-export default OnboardingForm;
+export default SignInForm;

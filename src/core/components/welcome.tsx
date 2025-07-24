@@ -1,6 +1,6 @@
 'use client';
 
-import SignInButton from '@/core/components/auth/signin-button';
+import SignInButton from '@/core/features/auth/components/signin-button';
 import AnimatedAppear from '@/core/components/shared/animated-appear';
 import BackgroundImage from '@/core/components/shared/background-image';
 

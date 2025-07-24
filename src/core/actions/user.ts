@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 
 import { mongoDB } from '@/core/lib/mongo';
 import UserModel from '@/core/models/user';
-import { CreateUserArgs, OnboardUserArgs } from '@/core/types/auth';
+import { CreateUserArgs, OnboardUserArgs } from '@/core/features/auth/types';
 import { ServerActionResult } from '@/core/types/common';
 import { handleActionError } from '@/core/utils/error';
 import { configureUser } from '@/core/utils/user';

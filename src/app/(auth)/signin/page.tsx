@@ -1,4 +1,4 @@
-import SignInForm from '@/core/components/auth/signin-form';
+import SignInForm from '@/core/features/auth/components/signin-form';
 import { AnimatedCard, CardTitle } from '@/core/components/shared/card';
 
 export default async function Page() {

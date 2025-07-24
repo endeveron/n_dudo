@@ -8,20 +8,20 @@ declare module 'next-auth' {
     user: {
       id: string;
       role: UserRole;
-      premium: string | null;
+      isPremium: boolean;
     } & DefaultSession['user'];
   }
 
   interface User extends DefaultUser {
     role: UserRole;
-    premium: string | null;
+    isPremium: boolean;
   }
 }
 
 declare module 'next-auth/jwt' {
   interface JWT {
     role: UserRole;
-    premium: string | null;
+    isPremium: boolean;
     accessToken?: string;
     refreshToken?: string;
     accessTokenExpires?: number;

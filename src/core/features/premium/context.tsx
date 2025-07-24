@@ -7,13 +7,14 @@ import {
   SetStateAction,
   useCallback,
   useContext,
+  useEffect,
   useRef,
   useState,
 } from 'react';
 
 import { PremiumStatus } from '@/core/features/premium/types';
 import { useLocalStorage } from '@/core/hooks/use-local-storage';
-import { useSessionWithRefresh } from '@/core/hooks/use-session-with-refresh';
+import { useSessionWithRefresh } from '@/core/features/auth/hooks/use-session-with-refresh';
 import { getPremiumStatus } from '@/core/features/premium/actions';
 
 const PREMIUM_KEY = 'premium';
@@ -31,7 +32,7 @@ interface PremiumContextType {
 const PremiumContext = createContext<PremiumContextType | undefined>(undefined);
 
 export function PremiumProvider({ children }: { children: ReactNode }) {
-  const { session } = useSessionWithRefresh();
+  const { session, status } = useSessionWithRefresh();
   const [getPremiumStatusFromStorage, savePremiumStatusInStorage] =
     useLocalStorage();
 
@@ -44,7 +45,7 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
   const statusCheckedRef = useRef(false);
 
   const email = session?.user.email;
-  const isPremiumFromSession = !!session?.user?.premium;
+  const isPremiumFromSession = !!session?.user.isPremium;
 
   const togglePremiumFeatures = () => {
     setIsPremiumFeatures((prev) => !prev);
@@ -76,26 +77,26 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
 
     // Handle processing case
     if (statusFromStorage === PremiumStatus.processing) {
-      console.log('[premium] checkPremiumStatus: Recieving status from db');
+      // console.log('[premium] checkPremiumStatus: Recieving status from db');
       try {
-        const statusRes = await getPremiumStatus({ email });
+        const statusRes = await getPremiumStatus({ email: email as string });
 
         if (!statusRes?.success) {
-          console.log(
+          console.error(
             '[premium] checkPremiumStatus: Unable to verify status in db'
           );
           return null;
         }
 
         if (statusRes.data) {
-          console.log(
-            '[premium] checkPremiumStatus: Premium has been confirmed. Update status to `active'
-          );
+          // console.log(
+          //   '[premium] checkPremiumStatus: Premium has been confirmed. Update status to `active'
+          // );
           return updateStatus(PremiumStatus.active);
         } else {
-          console.log(
-            '[premium] checkPremiumStatus: Premium has not been confirmed yet'
-          );
+          // console.log(
+          //   '[premium] checkPremiumStatus: Premium has not been confirmed yet'
+          // );
         }
 
         return null;
@@ -107,9 +108,9 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
 
     // Priority 1: Recieve status from the auth session
     if (isPremiumFromSession) {
-      console.log(
-        '[premium] checkPremiumStatus: Status recieved from the auth session'
-      );
+      // console.log(
+      //   '[premium] checkPremiumStatus: Status recieved from the auth session'
+      // );
       // Update LocalStorage item
       if (!statusFromStorage) {
         savePremiumStatusInStorage<PremiumStatus>(
@@ -129,29 +130,23 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
 
     // Priority 2: If status in LocalStorage is `active`, should be checked on server
     if (statusFromStorage === PremiumStatus.active) {
-      console.log(
-        '[premium] checkPremiumStatus: Recieved `active` from LocalStorage. Checking on the server...'
-      );
-      const errMsg = 'Unable to verify premium status on server';
-      if (!email) {
-        console.error(`${errMsg}. Email is not provided`);
-        return null;
-      }
+      // console.log(
+      //   '[premium] checkPremiumStatus: Recieved `active` from LocalStorage. Checking on the server...'
+      // );
       // Check status on server, update in LS if false
       try {
         const statusRes = await getPremiumStatus({ email });
 
         if (!statusRes?.success || !statusRes.data) {
-          console.log(
-            '[premium] checkPremiumStatus: Status `active` has not been confirmed. Update status to `inactive`'
-          );
+          // console.log(
+          //   '[premium] checkPremiumStatus: Status `active` has not been confirmed. Update status to `inactive`'
+          // );
           return updateStatus(PremiumStatus.inactive);
         }
 
-        console.log(
-          '[premium] checkPremiumStatus: Status `active` has been confirmed.'
-        );
-
+        // console.log(
+        //   '[premium] checkPremiumStatus: Status `active` has been confirmed'
+        // );
         if (statusRes.data && premiumStatus !== PremiumStatus.active) {
           return updateStatus(PremiumStatus.active);
         }
@@ -163,14 +158,16 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
 
     // Otherwise set status as `inactive`
     return updateStatus(PremiumStatus.inactive);
-  }, [
-    email,
-    getPremiumStatusFromStorage,
-    isPremiumFromSession,
-    premiumStatus,
-    savePremiumStatusInStorage,
-    updateStatus,
-  ]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [email]);
+
+  useEffect(() => {
+    // Only act when we have a definitive authenticated status
+    if (status === 'authenticated' && email) {
+      checkPremiumStatus();
+    }
+  }, [status, email, checkPremiumStatus]);
 
   return (
     <PremiumContext.Provider

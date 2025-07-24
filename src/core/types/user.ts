@@ -15,8 +15,8 @@ export type User = {
   role: UserRole;
   image?: string;
   premium?: {
-    timestamp: number;
     transactionId: string;
+    timestamp?: number;
   };
 };
 

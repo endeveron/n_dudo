@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 
 import { Button, ButtonProps } from '@/core/components/ui/button';
-import { resendVerifyEmailLink } from '@/core/actions/auth';
+import { resendVerifyEmailLink } from '@/core/features/auth/actions';
 import { useErrorHandler } from '@/core/hooks/error';
 
 type TGenerateTokenButtonProps = ButtonProps & {

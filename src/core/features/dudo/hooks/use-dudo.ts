@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 
+import { useSessionWithRefresh } from '@/core/features/auth/hooks/use-session-with-refresh';
 import {
   BOT_DECISION_TIMEOUT,
   initialPlayers,
@@ -18,7 +19,6 @@ import {
   validateBet,
   validateDice,
 } from '@/core/features/dudo/utils/validators';
-import { useSessionWithRefresh } from '@/core/hooks/use-session-with-refresh';
 
 const useDudo = () => {
   const [gameMode, setGameMode] = useState<GameMode | null>(null);

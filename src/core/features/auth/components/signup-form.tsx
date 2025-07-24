@@ -16,9 +16,9 @@ import {
   FormMessage,
 } from '@/core/components/ui/form';
 import { Input } from '@/core/components/ui/input';
-import { signUp } from '@/core/actions/auth';
+import { signUp } from '@/core/features/auth/actions';
 import { useErrorHandler } from '@/core/hooks/error';
-import { SignUpSchema, signUpSchema } from '@/core/schemas/auth';
+import { SignUpSchema, signUpSchema } from '@/core/features/auth/schemas';
 import FormLoading from '@/core/components/shared/form-loading';
 import { cn } from '@/core/utils/common';
 

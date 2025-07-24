@@ -6,11 +6,11 @@ import {
   authorizeUser,
   refreshAccessToken,
   signInSocial,
-} from '@/core/actions/auth';
-import authConfig from '@/core/config/auth';
-import { signInSchema } from '@/core/schemas/auth';
+} from '@/core/features/auth/actions';
+import authConfig from '@/core/features/auth/config';
+import { signInSchema } from '@/core/features/auth/schemas';
 import { UserRole } from '@/core/types/user';
-import { CustomToken, SocialProvider } from '@/core/types/auth';
+import { CustomToken, SocialProvider } from '@/core/features/auth/types';
 
 export const {
   handlers: { GET, POST },
@@ -56,7 +56,7 @@ export const {
         return {
           ...customToken,
           role: user?.role || UserRole.user,
-          premium: user?.premium || null,
+          isPremium: user?.isPremium || false,
           accessToken: account.access_token,
           refreshToken: account.refresh_token,
           accessTokenExpires: account.expires_at
@@ -66,9 +66,9 @@ export const {
       }
 
       // Add user data if not present (this handles subsequent calls)
-      if (user && (!customToken.role || customToken.premium === undefined)) {
+      if (user && (!customToken.role || customToken.isPremium === undefined)) {
         customToken.role = user?.role || UserRole.user;
-        customToken.premium = user?.premium || null;
+        customToken.isPremium = user?.isPremium || false;
       }
 
       // Return previous token if the access token has not expired yet
@@ -80,8 +80,16 @@ export const {
       }
 
       // Access token has expired, try to update it
-      console.log('Access token expired, attempting to refresh...');
-      return await refreshAccessToken(customToken);
+      try {
+        console.log('Access token expired, attempting to refresh...');
+        return await refreshAccessToken(customToken);
+      } catch (err: unknown) {
+        console.error('Unable to update access token', err);
+        return {
+          ...token,
+          error: 'RefreshAccessTokenError',
+        };
+      }
     },
 
     async session({ session, token }) {
@@ -97,8 +105,8 @@ export const {
       }
 
       // Persist the premium data
-      if (session.user && customToken?.premium) {
-        session.user.premium = customToken.premium;
+      if (session.user) {
+        session.user.isPremium = customToken.isPremium;
       }
 
       // Add access token to session for API calls

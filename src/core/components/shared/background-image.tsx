@@ -13,12 +13,12 @@ const BackgroundImage = () => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   return (
-    <AnimatedAppear className="absolute inset-0">
+    <AnimatedAppear className="fixed inset-0">
       <div className="relative h-full">
         <Image
           src="/images/bg.jpg"
           alt="background"
-          className="z-10 object-cover opacity-85 dark:opacity-75"
+          className="relative z-2 object-cover opacity-85 dark:opacity-75"
           fill
           priority
           quality={100}
@@ -28,7 +28,7 @@ const BackgroundImage = () => {
         />
         <div
           className={cn(
-            'opacity-0 absolute inset-0 bg-main-image-background transition-opacity',
+            'opacity-0 absolute inset-0 bg-main-image-background transition-opacity z-1',
             isImageLoaded && 'opacity-100'
           )}
         />

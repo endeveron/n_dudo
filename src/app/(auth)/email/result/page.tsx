@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 
-import { verifyEmailToken } from '@/core/actions/auth';
+import { verifyEmailToken } from '@/core/features/auth/actions';
 import { DEFAULT_REDIRECT } from '@/core/routes';
 import { SearchParams } from '@/core/types/common';
 

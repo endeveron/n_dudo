@@ -6,7 +6,7 @@ import { useState } from 'react';
 import FormLoading from '@/core/components/shared/form-loading';
 import { Button } from '@/core/components/ui/button';
 import { useErrorHandler } from '@/core/hooks/error';
-import { SocialProvider } from '@/core/types/auth';
+import { SocialProvider } from '@/core/features/auth/types';
 import { DEFAULT_REDIRECT } from '@/core/routes';
 
 const SocialButtons = () => {

@@ -255,7 +255,7 @@
 
 @layer components {
   .layout {
-    @apply h-full m-auto overflow-hidden;
+    @apply h-full m-auto;
   }
 
   .layout,
@@ -264,7 +264,13 @@
   }
 
   .main {
-    @apply relative h-dvh flex-col items-center justify-center;
+    /* ! Do not specify items-center justify-center; */
+    @apply relative h-dvh;
+  }
+
+  .main_content {
+    /* ! Do not specify h-full; */
+    @apply relative z-10;
   }
 
   .layout.align-center {
@@ -294,7 +300,7 @@
   /* Dudo */
 
   .dudo_container {
-    @apply h-full w-full max-w-[640px] p-2 flex flex-col flex-1 items-center justify-center cursor-default select-none;
+    @apply h-dvh w-full max-w-[640px] p-2 flex flex-col flex-1 items-center justify-center cursor-default select-none;
   }
 
   .dudo_content,

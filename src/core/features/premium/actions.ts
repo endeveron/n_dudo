@@ -1,7 +1,6 @@
 'use server';
 
-import { ProcessTransactionIdArgs } from '@/core/features/premium/types';
-import { CheckPremiumStatusArgs } from '@/core/features/premium/types';
+import { PremiumArgs, UserEmail } from '@/core/features/premium/types';
 import { mongoDB } from '@/core/lib/mongo';
 import { configureTransactionEmail, sendEmail } from '@/core/lib/nodemailer';
 import UserModel from '@/core/models/user';
@@ -16,9 +15,7 @@ import { handleActionError } from '@/core/utils/error';
  */
 export const getPremiumStatus = async ({
   email,
-}: CheckPremiumStatusArgs): Promise<
-  ServerActionResult<boolean> | undefined
-> => {
+}: UserEmail): Promise<ServerActionResult<boolean> | undefined> => {
   if (!email) {
     return handleActionError('checkPremiumStatus: Invalid email');
   }
@@ -36,7 +33,7 @@ export const getPremiumStatus = async ({
 
     return {
       success: true,
-      data: !!user.premium?.transactionId,
+      data: !!user.premium?.timestamp,
     };
   } catch (err: unknown) {
     return handleActionError('Unable to verify the status of premium', err);
@@ -52,7 +49,7 @@ export const getPremiumStatus = async ({
 export const processTransactionId = async ({
   email,
   transactionId,
-}: ProcessTransactionIdArgs): Promise<ServerActionResult | undefined> => {
+}: PremiumArgs): Promise<ServerActionResult | undefined> => {
   if (!email || !transactionId) {
     return handleActionError(
       'processTransactionId: Invalid arguments provided'
@@ -62,11 +59,11 @@ export const processTransactionId = async ({
   try {
     await mongoDB.connect();
 
-    const user = await UserModel.findOne<User>({ email });
+    const user = await UserModel.findOne({ email });
 
     if (!user) {
       return handleActionError(
-        'The user with the specified email does not exist'
+        'processTransactionId: The user with the specified email does not exist'
       );
     }
 
@@ -82,11 +79,59 @@ export const processTransactionId = async ({
       handleActionError('An email transporter error occured', null, true);
     }
 
+    // Update user
+    user.premium = {
+      transactionId,
+      // Do not save timestamp until transaction id has been verified
+    };
+
+    await user.save();
+
     return {
       success: true,
-      // data: { userId: userData.id },
     };
   } catch (err: unknown) {
-    return handleActionError('Unable to create a new user', err);
+    return handleActionError('Unable to handle transaction id', err);
+  }
+};
+
+/**
+ * Updates user.premium data in db.
+ * @param {string} params.email email address of the user.
+ * @param {string} params.transactionId transaction id.
+ * @returns a Promise that resolves to either a ServerActionResult object or undefined.
+ */
+export const activatePremium = async ({
+  email,
+  transactionId,
+}: PremiumArgs): Promise<ServerActionResult | undefined> => {
+  if (!email || !transactionId) {
+    return handleActionError('activatePremium: Invalid arguments provided');
+  }
+
+  try {
+    await mongoDB.connect();
+
+    const user = await UserModel.findOne({ email });
+
+    if (!user) {
+      return handleActionError(
+        'activatePremium: The user with the specified email does not exist'
+      );
+    }
+
+    // Update user
+    user.premium = {
+      transactionId,
+      timestamp: Date.now(),
+    };
+
+    await user.save();
+
+    return {
+      success: true,
+    };
+  } catch (err: unknown) {
+    return handleActionError('Unable to activate premium', err);
   }
 };

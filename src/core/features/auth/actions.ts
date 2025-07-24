@@ -3,7 +3,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
-import { AuthError, User as AuthUser } from 'next-auth';
+import { AuthError } from 'next-auth';
 
 import { signIn as nextSignIn } from '~/auth';
 
@@ -16,7 +16,7 @@ import {
   SignInArgs,
   SignInSocialArgs,
   SignUpArgs,
-} from '@/core/types/auth';
+} from '@/core/features/auth/types';
 import { EmailType, ServerActionResult } from '@/core/types/common';
 import { User, UserRole } from '@/core/types/user';
 import {
@@ -355,10 +355,7 @@ export const signIn = async ({
  * @param {string} params.password password to the user account.
  * @returns either the user data (id, name, email, role) if the provided email and password match a user in the database, or `null` if no user is found or the password does not match.
  */
-export const authorizeUser = async ({
-  email,
-  password,
-}: Credentials): Promise<AuthUser | null> => {
+export const authorizeUser = async ({ email, password }: Credentials) => {
   try {
     await mongoDB.connect();
 
@@ -377,7 +374,7 @@ export const authorizeUser = async ({
       name: user.name as string,
       email: user.email as string,
       role: user.role as UserRole,
-      premium: user.premium ? user.premium.transactionId : null,
+      isPremium: !!user?.premium?.timestamp as boolean,
     };
 
     // Debug logging

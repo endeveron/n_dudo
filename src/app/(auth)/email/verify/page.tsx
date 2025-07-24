@@ -1,4 +1,4 @@
-import GenerateTokenButton from '@/core/components/auth/generate-token-button';
+import GenerateTokenButton from '@/core/features/auth/components/generate-token-button';
 import {
   AnimatedCard,
   CardContent,

@@ -1,6 +1,6 @@
 'use client';
 
-import SignOutButton from '@/core/components/auth/sign-out-btn';
+import SignOutButton from '@/core/features/auth/components/sign-out-btn';
 import {
   DropdownMenu,
   DropdownMenuContent,
