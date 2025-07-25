@@ -7,7 +7,7 @@ import FormLoading from '@/core/components/shared/form-loading';
 import { Button } from '@/core/components/ui/button';
 import { useErrorHandler } from '@/core/hooks/error';
 import { SocialProvider } from '@/core/features/auth/types';
-import { DEFAULT_REDIRECT } from '@/core/routes';
+import { DEFAULT_REDIRECT } from '@/core/constants';
 
 const SocialButtons = () => {
   const { toastError } = useErrorHandler();

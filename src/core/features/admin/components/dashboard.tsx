@@ -15,13 +15,13 @@ import { activatePremium } from '@/core/features/premium/actions';
 const AdminDashboardClient: React.FC = ({}) => {
   const searchParams = useSearchParams();
   const targetEmail = searchParams.get('e') || undefined;
-  const transactionId = searchParams.get('t') || undefined;
+  const transIdSParams = searchParams.get('t') || undefined;
 
   const [users, setUsers] = useState<UserItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleActivatePremium = async () => {
-    if (!targetEmail || !transactionId) {
+    if (!targetEmail || !transIdSParams) {
       toast('Unable to activate premium. Invalid search params');
       return;
     }
@@ -29,7 +29,7 @@ const AdminDashboardClient: React.FC = ({}) => {
     setIsLoading(true);
     const res = await activatePremium({
       email: targetEmail,
-      transactionId,
+      transactionId: transIdSParams,
     });
 
     if (!res?.success) {
@@ -37,6 +37,8 @@ const AdminDashboardClient: React.FC = ({}) => {
       setIsLoading(false);
       return;
     }
+
+    // Notify user by email
 
     // Success, update local state
     const updUsers = [...users];
@@ -60,7 +62,7 @@ const AdminDashboardClient: React.FC = ({}) => {
 
     // If the search parameters specify a target
     // email address, place the target user first
-    if (targetEmail && transactionId) {
+    if (targetEmail && transIdSParams) {
       const target = [];
       const others = [];
 
@@ -79,7 +81,7 @@ const AdminDashboardClient: React.FC = ({}) => {
     }
 
     setUsers(userItems);
-  }, [targetEmail, transactionId]);
+  }, [targetEmail, transIdSParams]);
 
   useEffect(() => {
     initUsers();
@@ -88,7 +90,7 @@ const AdminDashboardClient: React.FC = ({}) => {
   return (
     <AnimatedAppear className="pt-20 pb-8 w-full max-w-[640px] flex flex-wrap gap-1">
       {users.map((user) => {
-        const transactionId = user.premium?.transactionId;
+        const transIdDb = user.premium?.transactionId;
         const timestamp = user.premium?.timestamp;
 
         return (
@@ -110,7 +112,14 @@ const AdminDashboardClient: React.FC = ({}) => {
                 >
                   {user.email}
                 </span>
-                <span className="truncate text-accent">{transactionId}</span>
+                <span
+                  className={cn(
+                    'truncate',
+                    transIdDb === transIdSParams && 'text-accent'
+                  )}
+                >
+                  {transIdDb}
+                </span>
               </div>
 
               <div className="flex-1 flex-center">
@@ -131,13 +140,6 @@ const AdminDashboardClient: React.FC = ({}) => {
           </Card>
         );
       })}
-
-      <div className="w-40 h-200 bg-red-500">200</div>
-      <div className="w-40 h-200 bg-red-500">200</div>
-      <div className="w-40 h-200 bg-red-500">200</div>
-      <div className="w-40 h-200 bg-red-500">200</div>
-      <div className="w-40 h-200 bg-red-500">200</div>
-      <div className="w-40 h-200 bg-red-500">200</div>
     </AnimatedAppear>
   );
 };

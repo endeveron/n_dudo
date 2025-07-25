@@ -1,3 +1,4 @@
+import { SIGNIN_REDIRECT, SIGNUP_REDIRECT } from '@/core/constants';
 import { NextAuthConfig } from 'next-auth';
 
 export default {
@@ -10,8 +11,8 @@ export default {
     updateAge: 24 * 60 * 60, // Update session every 24 hours
   },
   pages: {
-    signIn: '/signin',
-    newUser: '/signup',
+    signIn: SIGNIN_REDIRECT,
+    newUser: SIGNUP_REDIRECT,
   },
   providers: [],
 } satisfies NextAuthConfig;

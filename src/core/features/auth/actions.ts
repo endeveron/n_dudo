@@ -24,7 +24,7 @@ import {
   sendEmail,
   SendEmailArgs,
 } from '@/core/lib/nodemailer';
-import { DEFAULT_REDIRECT } from '@/core/routes/index';
+import { DEFAULT_REDIRECT } from '@/core/constants';
 import { handleActionError } from '@/core/utils/error';
 import { BASE_URL, EMAIL_JWT } from '@/core/constants';
 

@@ -26,7 +26,7 @@ import {
   onboardingSchema,
 } from '@/core/features/auth/schemas';
 import { cn } from '@/core/utils/common';
-import { DEFAULT_REDIRECT } from '@/core/routes';
+import { DEFAULT_REDIRECT } from '@/core/constants';
 
 type TOnboardingFormProps = {
   userId: string;

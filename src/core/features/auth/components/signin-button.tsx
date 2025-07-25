@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { Button } from '@/core/components/ui/button';
+import { SIGNIN_REDIRECT } from '@/core/constants';
 
 type TSignInButtonProps = React.ComponentPropsWithRef<typeof Button> & {
   title?: string;
@@ -15,7 +16,7 @@ const SignInButton = (props: TSignInButtonProps) => {
 
   const handleClick = () => {
     setLoading(true);
-    router.push('/signin');
+    router.push(SIGNIN_REDIRECT);
   };
 
   return (

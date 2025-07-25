@@ -5,14 +5,15 @@ import { usePathname } from 'next/navigation';
 import MainMenu from '@/core/components/shared/main-menu';
 import AnimatedAppear from '@/core/components/shared/animated-appear';
 import Premium from '@/core/features/premium/components/premium';
+import { useSessionWithRefresh } from '@/core/features/auth/hooks/use-session-with-refresh';
 
 type TopbarProps = {
-  email?: string | null;
   title?: string;
 };
 
-const Topbar = ({ email, title }: TopbarProps) => {
+const Topbar = ({ title }: TopbarProps) => {
   const path = usePathname();
+  const { session } = useSessionWithRefresh();
 
   // Remove the first character, replace all hyphens with spaces and capitalize the first letter: "/game-name" => "Game name"
   const heading = path
@@ -32,7 +33,7 @@ const Topbar = ({ email, title }: TopbarProps) => {
 
       <Premium />
 
-      <MainMenu email={email} />
+      <MainMenu email={session?.user.email} />
     </AnimatedAppear>
   );
 };

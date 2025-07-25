@@ -1,10 +1,10 @@
 import { redirect } from 'next/navigation';
 
 import { verifyEmailToken } from '@/core/features/auth/actions';
-import { DEFAULT_REDIRECT } from '@/core/routes';
+import { DEFAULT_REDIRECT } from '@/core/constants';
 import { SearchParams } from '@/core/types/common';
 
-export default async function Page({
+export default async function EmailResultPage({
   searchParams,
 }: {
   searchParams: SearchParams;

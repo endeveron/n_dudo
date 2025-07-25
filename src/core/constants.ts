@@ -19,6 +19,12 @@ const LANG_CODE_KEY = 'langCode';
 const REFERRAL_CODE_KEY = 'referralCode';
 const EMAIL_CONFIRMED_KEY = 'emailConfirmed';
 
+// Routes
+const SIGNIN_REDIRECT = '/signin';
+const SIGNUP_REDIRECT = '/signup';
+// Default redirect path after user signed in.
+const DEFAULT_REDIRECT = '/games';
+
 export {
   API_URL,
   BASE_URL,
@@ -34,4 +40,7 @@ export {
   LANG_CODE_KEY,
   REFERRAL_CODE_KEY,
   EMAIL_CONFIRMED_KEY,
+  SIGNIN_REDIRECT,
+  SIGNUP_REDIRECT,
+  DEFAULT_REDIRECT,
 };

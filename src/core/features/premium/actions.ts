@@ -1,8 +1,13 @@
 'use server';
 
+import { BILLING_ACC } from '@/core/features/premium/constants';
 import { PremiumArgs, UserEmail } from '@/core/features/premium/types';
 import { mongoDB } from '@/core/lib/mongo';
-import { configureTransactionEmail, sendEmail } from '@/core/lib/nodemailer';
+import {
+  configurePremiumEmail,
+  configureTransactionEmail,
+  sendEmail,
+} from '@/core/lib/nodemailer';
 import UserModel from '@/core/models/user';
 import { ServerActionResult } from '@/core/types/common';
 import { User } from '@/core/types/user';
@@ -127,6 +132,17 @@ export const activatePremium = async ({
     };
 
     await user.save();
+
+    // Configure mail data
+    const data = configurePremiumEmail({
+      email: BILLING_ACC,
+    });
+
+    // Send the email
+    const messageSent = await sendEmail(data);
+    if (!messageSent) {
+      handleActionError('An email transporter error occured', null, true);
+    }
 
     return {
       success: true,

@@ -8,7 +8,7 @@ import { emailErrors } from '@/core/data/errors';
 import { SearchParams } from '@/core/types/common';
 import { getErrorMessageFromSearchParams } from '@/core/utils/error';
 
-export default async function Page({
+export default async function EmailErrorPage({
   searchParams,
 }: {
   searchParams: SearchParams;

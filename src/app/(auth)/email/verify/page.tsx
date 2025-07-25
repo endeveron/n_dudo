@@ -6,7 +6,7 @@ import {
 } from '@/core/components/shared/card';
 import { SearchParams } from '@/core/types/common';
 
-export default async function Page({
+export default async function VerifyEmailPage({
   searchParams,
 }: {
   searchParams: SearchParams;

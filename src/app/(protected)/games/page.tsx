@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 // import Link from 'next/link';
 // import { Button } from '@/core/components/ui/button';
 
-export default async function MainPage() {
+export default async function GamesPage() {
   // return (
   //   <div className="flex-center flex-col flex-1 gap-4 cursor-default">
   //     <Link href="/dudo">

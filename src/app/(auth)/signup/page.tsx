@@ -1,7 +1,7 @@
 import SignUpForm from '@/core/features/auth/components/signup-form';
 import { AnimatedCard, CardTitle } from '@/core/components/shared/card';
 
-export default async function Page() {
+export default async function SignupPage() {
   return (
     <AnimatedCard>
       <CardTitle>Sign Up</CardTitle>
