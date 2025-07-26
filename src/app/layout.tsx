@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
-// import localFont from 'next/font/local';
 
 import { Toaster } from '@/core/components/ui/sonner';
 import { Providers } from '@/core/context/providers';
@@ -8,7 +7,6 @@ import '@/core/globals.css';
 import BackgroundImage from '@/core/components/shared/background-image';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://yourapp.com'), // Required for social media images
   title: 'Games',
   applicationName: 'Games',
   description: `Let's play!`,
@@ -23,23 +21,18 @@ export const metadata: Metadata = {
     locale: 'en_US',
     images: [
       {
-        url: '/images/og-image.png', // 1200x630 recommended
+        url: 'https://games-livid-one.vercel.app/images/og-image.png',
         width: 1200,
         height: 630,
         alt: `Games - Let's play!`,
         type: 'image/png',
       },
       {
-        url: '/images/og-image-square.png', // Square version for some platforms
+        url: 'https://games-livid-one.vercel.app/images/og-image-square.png',
         width: 1200,
         height: 1200,
         alt: `Games - Let's play!`,
         type: 'image/png',
-      },
-      {
-        url: '/icons/icon.svg',
-        width: 1024,
-        height: 1024,
       },
     ],
   },
@@ -56,7 +49,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Games',
     description: `Games - Let's play!`,
-    images: ['/twitter-image.png'], // 1200x675
+    images: ['https://games-livid-one.vercel.app/images/twitter-image.png'], // 1200x675
   },
 
   // Additional meta tags for messaging apps and social platforms
@@ -90,27 +83,6 @@ const interSans = Inter({
   display: 'swap',
 });
 
-// const googleSans = localFont({
-//   variable: '--font-google-sans',
-//   src: [
-//     {
-//       path: '../core/fonts/GoogleSans-Regular.woff2',
-//       weight: '400',
-//       style: 'normal',
-//     },
-//     {
-//       path: '../core/fonts/GoogleSans-Medium.woff2',
-//       weight: '500',
-//       style: 'normal',
-//     },
-//     {
-//       path: '../core/fonts/GoogleSans-Bold.woff2',
-//       weight: '700',
-//       style: 'normal',
-//     },
-//   ],
-// });
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -118,10 +90,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        // className={`${interSans.variable} ${googleSans.variable} antialiased`}
-        className={`${interSans.variable} antialiased`}
-      >
+      <body className={`${interSans.variable} antialiased`}>
         <BackgroundImage />
         <Providers>
           <div className="layout">{children}</div>
