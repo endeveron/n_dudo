@@ -99,25 +99,14 @@ const Assistant = ({
     <AnimatedAppear className="dudo_assistant">
       <div className="flex-center gap-4">
         <div className="relative flex items-center gap-4">
-          {/* Decision */}
           <div
             className={cn(
               'absolute overflow-hidden w-30 h-14 p-0.5 opacity-0 top-11 left-1/2 -translate-x-1/2 rounded-md bg-card border-card-border border-1 pointer-events-none transition-opacity duration-300',
               isDecision && 'opacity-100'
             )}
           >
-            <div className="relative h-full font-bold leading-none flex-center z-20">
+            <div className="relative h-full text-accent font-bold leading-none flex-center z-20">
               {decisionContent}
-
-              {/* Confidence bar */}
-              {/* {confidencePercentage && (
-                <div
-                  className="absolute left-0 bottom-0 h-0.75 bg-accent rounded-xs transition-all duration-500 z-20"
-                  style={{ width: confidencePercentage }}
-                />
-              )} */}
-
-              <div className="absolute -inset-0.5 bg-card/50 dark:hidden border-1" />
             </div>
           </div>
         </div>

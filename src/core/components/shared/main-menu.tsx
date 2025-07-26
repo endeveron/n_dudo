@@ -19,11 +19,11 @@ const MainMenu = ({ email }: MainMenuProps) => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="px-2 text-accent cursor-pointer outline-none">
+      <DropdownMenuTrigger className="px-2 text-icon cursor-pointer outline-none">
         <MenuIcon />
       </DropdownMenuTrigger>
       <DropdownMenuContent sideOffset={24}>
-        <DropdownMenuLabel className="my-2 text-sm text-muted/70 dark:text-accent dark:text-shadow-xs leading-none cursor-default">
+        <DropdownMenuLabel className="my-2 text-sm dark:text-muted leading-none cursor-default">
           {email}
         </DropdownMenuLabel>
         {/* <DropdownMenuSeparator /> */}

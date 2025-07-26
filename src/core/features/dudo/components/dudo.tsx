@@ -63,72 +63,62 @@ const DudoClient = () => {
         {!isPremiumDialog && (
           <>
             {isGameBoard && (
-              <>
-                {/* Backdrop */}
-                <AnimatedAppear className="fixed inset-0 backdrop-blur-xl" />
+              <AnimatedAppear className="relative flex gap-4">
+                <div className="dudo_content">
+                  <PlayersDisplay
+                    inputValue={inputValue}
+                    currentPlayer={currentPlayer}
+                    isRolling={isRolling}
+                    players={players}
+                    recentHistoryResult={recentHistoryResult}
+                  />
 
-                {/* Game board */}
-                <AnimatedAppear className="relative flex gap-4">
-                  <div className="dudo_content">
-                    <PlayersDisplay
-                      inputValue={inputValue}
-                      currentPlayer={currentPlayer}
-                      isRolling={isRolling}
-                      players={players}
-                      recentHistoryResult={recentHistoryResult}
-                    />
+                  <div className="dudo_main">
+                    <Card className="dudo_main_column">
+                      <BettingDisplay
+                        currentBet={currentBet}
+                        gamePhase={gamePhase}
+                        recentAction={recentAction}
+                        recentChallengeResult={recentChallengeResult}
+                      />
+                      <Separator />
+                      <StatisticsDisplay totalDiceCount={totalDiceCount} />
+                    </Card>
 
-                    <div className="dudo_main">
-                      <Card className="dudo_main_column">
-                        <BettingDisplay
-                          currentBet={currentBet}
-                          gamePhase={gamePhase}
-                          recentAction={recentAction}
-                          recentChallengeResult={recentChallengeResult}
-                        />
-                        <Separator />
-                        <StatisticsDisplay totalDiceCount={totalDiceCount} />
-                      </Card>
-
-                      <Card className="dudo_main_column">
-                        <DiceRoll
-                          isRolling={isRolling}
-                          isMainPlayerLost={isMainPlayerLost}
-                          gamePhase={gamePhase}
-                          winner={winner}
-                          playerDice={players[0].dice}
-                        />
-                      </Card>
-                    </div>
-
-                    <GameControls
-                      currentBet={currentBet}
-                      gameMode={gameMode}
-                      inputCount={inputCount}
-                      inputValue={inputValue}
-                      isGameControls={
-                        isPlayerTurn && gamePhase === 'betting' && !winner
-                      }
-                      isMainPlayerLost={isMainPlayerLost}
-                      isRolling={isRolling}
-                      roundNumber={roundNumber}
-                      totalDiceCount={totalDiceCount}
-                      onChallengeBet={challengeBet}
-                      onDiceCountUpdate={(value: number) =>
-                        setInputCount(value)
-                      }
-                      onDiceValueUpdate={(value: number) =>
-                        setInputValue(value)
-                      }
-                      onMakeBet={handleMakeBet}
-                      onRollDice={rollDice}
-                      onStartNewGame={startNewGame}
-                    />
+                    <Card className="dudo_main_column">
+                      <DiceRoll
+                        isRolling={isRolling}
+                        isMainPlayerLost={isMainPlayerLost}
+                        gamePhase={gamePhase}
+                        winner={winner}
+                        playerDice={players[0].dice}
+                      />
+                    </Card>
                   </div>
 
-                  {/* <GameHistory gameHistory={gameHistory} players={players} /> */}
-                </AnimatedAppear>
-              </>
+                  <GameControls
+                    currentBet={currentBet}
+                    gameMode={gameMode}
+                    inputCount={inputCount}
+                    inputValue={inputValue}
+                    isGameControls={
+                      isPlayerTurn && gamePhase === 'betting' && !winner
+                    }
+                    isMainPlayerLost={isMainPlayerLost}
+                    isRolling={isRolling}
+                    roundNumber={roundNumber}
+                    totalDiceCount={totalDiceCount}
+                    onChallengeBet={challengeBet}
+                    onDiceCountUpdate={(value: number) => setInputCount(value)}
+                    onDiceValueUpdate={(value: number) => setInputValue(value)}
+                    onMakeBet={handleMakeBet}
+                    onRollDice={rollDice}
+                    onStartNewGame={startNewGame}
+                  />
+                </div>
+
+                {/* <GameHistory gameHistory={gameHistory} players={players} /> */}
+              </AnimatedAppear>
             )}
             <StartNewGame players={players} onStartNewGame={startNewGame} />
             <WinnerDisplay winner={winner} onStartNewGame={startNewGame} />

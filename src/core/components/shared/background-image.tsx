@@ -3,34 +3,24 @@
 import Image from 'next/image';
 
 import AnimatedAppear from '@/core/components/shared/animated-appear';
-import { useState } from 'react';
-import { cn } from '@/core/utils/common';
 
 const imgPlaceholder =
-  'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAYGBgYGBgYHBwYJCgkKCQ0MCwsMDRQODw4PDhQfExYTExYTHxshGxkbIRsxJiIiJjE4Ly0vOEQ9PURWUVZwcJYBBgYGBgYGBgcHBgkKCQoJDQwLCwwNFA4PDg8OFB8TFhMTFhMfGyEbGRshGzEmIiImMTgvLS84RD09RFZRVnBwlv/CABEIAAYACgMBEQACEQEDEQH/xAAVAAEBAAAAAAAAAAAAAAAAAAADBv/aAAgBAQAAAACXX//EABUBAQEAAAAAAAAAAAAAAAAAAAIF/9oACAECEAAAAIS//8QAFQEBAQAAAAAAAAAAAAAAAAAAAAb/2gAIAQMQAAAApX//xAAfEAACAgEEAwAAAAAAAAAAAAACAwESBAAFBiFSVNL/2gAIAQEAAT8AxMrE2RLmgzKTKVsMYQRRFjmvmPU170HPAoFp3OZr7jPrX//EABwRAQACAQUAAAAAAAAAAAAAAAEAAhEDFDFSkv/aAAgBAgEBPwC5fUuDYc85CbN7V8k//8QAGxEAAgIDAQAAAAAAAAAAAAAAAQIAAxESISL/2gAIAQMBAT8AqRXGtaAd5kwlgT5Wf//Z';
+  'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCAAGAAoDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAABAn/xAAdEAABBQEAAwAAAAAAAAAAAAAEAQIDBQYHCRIT/8QAFwEAAwEAAAAAAAAAAAAAAAAABAUICf/EACERAAMAAgIBBQEAAAAAAAAAAAECAwQRBRITAAYUITFB/9oADAMBAAIRAxEAPwCUPOehcs4tX3eizwe7ya4ys0+xrxMHNYULQbg54uSdIFPWdFpCHuLCqzwbclZRZj6w9gyowcUcOKf89eRzMrHS/JeV3VZWrbDhZ6yTHnleMncyo7XUqysvRgx6N/dI/aZ4dUeHD8YvHgVNIJNvjxjkXy8jB84nHurEzwSlEI7Un418yn7QgflOIQMRCKTsRJCDQJOTD3jpAEJEyRMSWeIFNSWgUcr/AGkYIhZSDNckKEToz6uNHt2JAIymUEAgfDxzoH71ssCdfm9ffpnT3HzEqPJpwo03aZc5uWpcoSpcr4jrsRvWzretn99f/9k=';
 
 const BackgroundImage = () => {
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
-
   return (
     <AnimatedAppear className="fixed inset-0">
       <div className="relative h-full">
         <Image
           src="/images/bg.jpg"
           alt="background"
-          className="relative z-2 object-cover opacity-85 dark:opacity-75"
+          className="relative z-2 object-cover dark:opacity-25 "
           fill
           priority
           quality={100}
+          unoptimized
           placeholder="blur"
           blurDataURL={imgPlaceholder}
-          onLoad={() => setIsImageLoaded(true)}
-        />
-        <div
-          className={cn(
-            'opacity-0 absolute inset-0 bg-main-image-background transition-opacity z-1',
-            isImageLoaded && 'opacity-100'
-          )}
         />
       </div>
     </AnimatedAppear>

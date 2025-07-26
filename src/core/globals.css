@@ -4,49 +4,47 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #ffe1d1;
-  --foreground: #1a171a;
+  --background: #ffd9cf;
+  --foreground: #fff9f3;
 
-  --main-image-background: #ffbbeb;
-
-  --accent: #1c141c;
-  --accent-foreground: #fffaf4;
-  --title: #fffcfa;
+  --accent: #fff1e6;
+  --accent-foreground: #0f0e0e;
+  --title: var(--accent);
   --brand: var(--blue);
-  --card: #fff0f51a;
-  --muted: #1e1a18b3;
+  --card: #ffd1e418;
+  --muted: #fff9f6af;
   --system: #fff8f46d;
-  --border: #fffafe2a;
+  --border: #fff3fd25;
   --card-border: #ffcff514;
-  --input: #fefbf959;
+  --input: #fefbf92f;
   --input-border: #ffffff66;
-  --input-autofill: #fff3ed;
+  --input-autofill: var(--accent);
   --overlay: var(--card);
-  --icon: #1e1a18;
-  --dice: #fff3ea;
+  --icon: #fff9f6;
+  --dice: #fff8f2;
 
   --positive: #0ca179;
-  --danger: #ff335c;
+  --danger: #ff1e61;
 
   --ring: var(--accent);
 
   --btn-foreground: white;
   --btn-background: var(--accent);
   --btn-background-hover: var(--accent);
-  --btn-secondary-foreground: #262626; /* neutral-800 */
-  --btn-secondary-background: #fff9f1c0; /* neutral-50 */
+  --btn-secondary-foreground: #201d1b;
+  --btn-secondary-background: #fff9f1c0;
   --btn-secondary-background-hover: #fff8f1;
-  --btn-accent-foreground: #fff9f3;
-  --btn-accent-background: #170114;
-  --btn-accent-background-hover: #3b0026;
+  --btn-accent-foreground: #2d1f1e;
+  --btn-accent-background: var(--accent);
+  --btn-accent-background-hover: #ffffff;
 
-  --btn-danger-background: #da2f46;
-  --btn-danger-background-hover: #b62034;
+  --btn-danger-background: #eb244c;
+  --btn-danger-background-hover: #f82852;
 
   --popover: var(--card);
-  --popover-foreground: var(--foreground);
+  --popover-foreground: var(--accent);
 
-  --gform-background: white;
+  /* --gform-background: white;
   --gform-text: #1f1f1f;
   --gform-description: #1f1f1f;
   --gform-label: #2d2d2d;
@@ -60,25 +58,23 @@
   --gform-progressbar-background: #c8e6ff;
   --gform-error: #f04949;
   --gform-autofill-text: #1f1f1f;
-  --gform-autofill-background: white;
+  --gform-autofill-background: white; */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #1d1d1d;
+    --background: #1f000f;
     --foreground: #fffbf6;
 
-    --main-image-background: #3b0042;
-
-    --accent: #ffe5c7;
-    --accent-foreground: #0f0e0e;
+    --accent: #ffe7d2;
+    --accent-foreground: #211f1e;
     --title: var(--accent);
     --brand: var(--blue);
-    --card: #35002821;
-    --muted: #fffaf68d;
+    --card: #ffe0ed0c;
+    --muted: #fff8f671;
     --system: #fff8f440;
-    --border: #fff5fd20;
-    --card-border: #260c2105;
+    --border: #fff5fd17;
+    --card-border: #ffcff50f;
     --input: #ffffff26;
     --input-border: #1d1a1c;
     --input-autofill: #4e2229;
@@ -87,7 +83,7 @@
     --dice: #fff3ea;
 
     --positive: #0c9d76;
-    --danger: #f12253;
+    --danger: #e91756;
 
     --btn-foreground: white;
     --btn-background: var(--accent);
@@ -97,12 +93,15 @@
     --btn-secondary-background-hover: var(--card);
     --btn-accent-foreground: #1c1918;
     --btn-accent-background: var(--accent);
-    --btn-accent-background-hover: #ffd2a2;
+    --btn-accent-background-hover: #ffcfb3;
 
-    --btn-danger-background: #c0213b;
-    --btn-danger-background-hover: #d62442;
+    --btn-danger-background: #d9134e;
+    --btn-danger-background-hover: #c80640;
 
-    --gform-background: #0e0e0e;
+    --popover: var(--card);
+    --popover-foreground: var(--accent);
+
+    /* --gform-background: #0e0e0e;
     --gform-text: #e3e3e3;
     --gform-description: #c4c7c5;
     --gform-label: #8e918f;
@@ -116,7 +115,7 @@
     --gform-progressbar-background: #2a364c;
     --gform-error: #f2b8b5;
     --gform-autofill-text: #ededed;
-    --gform-autofill-background: #18191a;
+    --gform-autofill-background: #18191a; */
   }
 }
 
@@ -126,9 +125,6 @@
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-
-  /* --color-main-image-foreground: var(--main-image-foreground); */
-  --color-main-image-background: var(--main-image-background);
 
   --color-brand: var(--brand);
   --color-muted: var(--muted);
@@ -169,7 +165,7 @@
   --color-ring: var(--ring);
 
   /* Google Form */
-  --color-gform-background: var(--gform-background);
+  /* --color-gform-background: var(--gform-background);
   --color-gform-text: var(--gform-text);
   --color-gform-description: var(--gform-description);
   --color-gform-label: var(--gform-label);
@@ -183,7 +179,7 @@
   --color-gform-progressbar-background: var(--gform-progressbar-background);
   --color-gform-error: var(--gform-error);
   --color-gform-autofill-text: var(--gform-autofill-text);
-  --color-gform-autofill-background: var(--gform-autofill-background);
+  --color-gform-autofill-background: var(--gform-autofill-background); */
 }
 
 @layer base {

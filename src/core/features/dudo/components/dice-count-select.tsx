@@ -61,7 +61,7 @@ const DiceCountSelect = ({
           max={max}
           value={value}
           onChange={handleInputChange}
-          className="w-10 text-center text-4xl font-bold bg-transparent border-none rounded-sm outline-none appearance-none cursor-default"
+          className="w-10 text-center text-accent text-4xl font-bold bg-transparent border-none rounded-sm outline-none appearance-none cursor-default"
           style={{ MozAppearance: 'textfield' }}
         />
       </div>

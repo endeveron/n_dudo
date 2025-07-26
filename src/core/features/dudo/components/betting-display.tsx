@@ -93,8 +93,10 @@ const BettingDisplay: React.FC<BettingDisplayProps> = ({
 
     return (
       <div className="flex-center gap-3 font-bold">
-        <div className="text-4xl leading-none">{currentBet.count}</div>
-        <div className="text-2xl">×</div>
+        <div className="text-4xl text-accent leading-none">
+          {currentBet.count}
+        </div>
+        <div className="text-2xl text-accent">×</div>
         <Dice value={currentBet.value} />
       </div>
     );

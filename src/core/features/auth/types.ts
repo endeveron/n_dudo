@@ -3,6 +3,14 @@ import { JWT } from 'next-auth/jwt';
 
 import { UserRole } from '@/core/types/user';
 
+export interface GlobalAuthState {
+  isSigningOut: boolean;
+  isSignedOut: boolean;
+  lastSignOutTime: number;
+  sessionId: string | null;
+  signOutCount: number;
+}
+
 export interface CustomToken extends JWT {
   role: UserRole;
   isPremium: boolean;
