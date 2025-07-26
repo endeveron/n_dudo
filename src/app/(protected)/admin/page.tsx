@@ -1,9 +1,20 @@
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
-import { BASE_URL, DEFAULT_REDIRECT, SIGNIN_REDIRECT } from '@/core/constants';
+import {
+  APP_NAME,
+  BASE_URL,
+  DEFAULT_REDIRECT,
+  SIGNIN_REDIRECT,
+} from '@/core/constants';
 import AdminDashboardClient from '@/core/features/admin/components/dashboard';
 import { SearchParams } from '@/core/types/common';
 import { auth } from '~/auth';
+
+export const metadata: Metadata = {
+  title: `Admin | ${APP_NAME}`,
+  description: 'Admin dashboard',
+};
 
 export default async function AdminDashboardPage({
   searchParams,

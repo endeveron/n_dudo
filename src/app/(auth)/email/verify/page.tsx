@@ -1,10 +1,18 @@
-import GenerateTokenButton from '@/core/features/auth/components/generate-token-button';
+import { Metadata } from 'next';
+
 import {
   AnimatedCard,
   CardContent,
   CardTitle,
 } from '@/core/components/shared/card';
+import { APP_NAME } from '@/core/constants';
+import GenerateTokenButton from '@/core/features/auth/components/generate-token-button';
 import { SearchParams } from '@/core/types/common';
+
+export const metadata: Metadata = {
+  title: `Verify Email | ${APP_NAME}`,
+  description: 'Account creation',
+};
 
 export default async function VerifyEmailPage({
   searchParams,

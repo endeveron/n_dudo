@@ -1,12 +1,20 @@
-import GenerateTokenButton from '@/core/features/auth/components/generate-token-button';
+import { Metadata } from 'next';
+
 import {
   AnimatedCard,
   CardContent,
   CardTitle,
 } from '@/core/components/shared/card';
+import { APP_NAME } from '@/core/constants';
 import { emailErrors } from '@/core/data/errors';
+import GenerateTokenButton from '@/core/features/auth/components/generate-token-button';
 import { SearchParams } from '@/core/types/common';
 import { getErrorMessageFromSearchParams } from '@/core/utils/error';
+
+export const metadata: Metadata = {
+  title: `Email error | ${APP_NAME}`,
+  description: 'Email confirmation',
+};
 
 export default async function EmailErrorPage({
   searchParams,

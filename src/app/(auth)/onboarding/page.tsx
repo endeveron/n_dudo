@@ -1,3 +1,5 @@
+import { Metadata } from 'next';
+
 import { verifyUserId } from '@/core/features/auth/actions';
 import OnboardingForm from '@/core/features/auth/components/onboarding-form';
 import {
@@ -7,6 +9,12 @@ import {
   CardTitle,
 } from '@/core/components/shared/card';
 import { SearchParams } from '@/core/types/common';
+import { APP_NAME } from '@/core/constants';
+
+export const metadata: Metadata = {
+  title: `Onboarding | ${APP_NAME}`,
+  description: 'Account creation',
+};
 
 export default async function OnboardingPage({
   searchParams,
