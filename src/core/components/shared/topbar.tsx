@@ -22,7 +22,7 @@ const Topbar = ({ title }: TopbarProps) => {
     .replace(/^./, (c) => c.toUpperCase());
 
   return (
-    <AnimatedAppear className="fixed top-0 left-1/2 -translate-x-1/2 h-14 w-full max-w-[640px] mx-auto flex items-center justify-between px-4 rounded-b-xl bg-card border-card-border border-1 cursor-default z-50">
+    <AnimatedAppear className="fixed top-0 left-1/2 -translate-x-1/2 h-14 w-full max-w-[640px] flex items-center justify-between px-4 rounded-b-xl bg-card border-card-border border-1 cursor-default z-50">
       <div className="relative w-5">
         {title || heading ? (
           <div className="absolute top-0 left-0 bottom-0 flex-center text-2xl font-bold text-accent leading-none">

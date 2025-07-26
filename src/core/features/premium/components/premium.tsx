@@ -25,7 +25,7 @@ const Premium: React.FC = ({}) => {
             onClick={() => setIsPremiumDialog(true)}
             variant="accent"
           >
-            Get Premium Bet Tips
+            Premium Bet Tips
           </Button>
         </AnimatedAppear>
       )}

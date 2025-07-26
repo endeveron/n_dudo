@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google';
 import { Toaster } from '@/core/components/ui/sonner';
 import { Providers } from '@/core/context/providers';
 import '@/core/globals.css';
+import BackgroundImage from '@/core/components/shared/background-image';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://yourapp.com'), // Required for social media images
@@ -121,6 +122,7 @@ export default function RootLayout({
         // className={`${interSans.variable} ${googleSans.variable} antialiased`}
         className={`${interSans.variable} antialiased`}
       >
+        <BackgroundImage />
         <Providers>
           <div className="layout">{children}</div>
           <Toaster />

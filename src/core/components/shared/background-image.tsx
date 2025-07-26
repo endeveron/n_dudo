@@ -14,7 +14,7 @@ const BackgroundImage = () => {
         <Image
           src="/images/bg.jpg"
           alt="background"
-          className="relative z-2 object-cover dark:opacity-25 "
+          className="object-cover dark:opacity-25 "
           fill
           priority
           quality={100}

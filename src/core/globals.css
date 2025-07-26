@@ -31,12 +31,12 @@
   --btn-foreground: white;
   --btn-background: var(--accent);
   --btn-background-hover: var(--accent);
-  --btn-secondary-foreground: #201d1b;
-  --btn-secondary-background: #fff9f1c0;
-  --btn-secondary-background-hover: #fff8f1;
+  --btn-secondary-foreground: var(--accent);
+  --btn-secondary-background: var(--card);
+  --btn-secondary-background-hover: #ffd1e41f;
   --btn-accent-foreground: #2d1f1e;
   --btn-accent-background: var(--accent);
-  --btn-accent-background-hover: #ffffff;
+  --btn-accent-background-hover: #fffafa;
 
   --btn-danger-background: #eb244c;
   --btn-danger-background-hover: #f82852;
@@ -87,10 +87,10 @@
 
     --btn-foreground: white;
     --btn-background: var(--accent);
-    --btn-background-hover: #ffc889;
+    --btn-background-hover: #ffcfb3;
     --btn-secondary-foreground: var(--muted);
     --btn-secondary-background: var(--card);
-    --btn-secondary-background-hover: var(--card);
+    --btn-secondary-background-hover: #ffe0ed19;
     --btn-accent-foreground: #1c1918;
     --btn-accent-background: var(--accent);
     --btn-accent-background-hover: #ffcfb3;
@@ -251,22 +251,12 @@
 
 @layer components {
   .layout {
-    @apply h-full m-auto;
-  }
-
-  .layout,
-  main {
-    @apply flex flex-col grow-1;
+    @apply h-dvh;
   }
 
   .main {
     /* ! Do not specify items-center justify-center; */
-    @apply relative h-dvh;
-  }
-
-  .main_content {
-    /* ! Do not specify h-full; */
-    @apply relative z-10;
+    @apply h-full flex flex-col grow-1;
   }
 
   .layout.align-center {
