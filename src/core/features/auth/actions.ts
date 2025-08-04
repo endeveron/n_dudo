@@ -12,7 +12,6 @@ import { mongoDB } from '@/core/lib/mongo';
 import UserModel from '@/core/models/user';
 import {
   Credentials,
-  CustomToken,
   SignInArgs,
   SignInSocialArgs,
   SignUpArgs,
@@ -33,45 +32,45 @@ type TJwtEmailPayload = {
   exp: number;
 };
 
-// Function to refresh the access token
-export const refreshAccessToken = async (
-  token: CustomToken
-): Promise<CustomToken> => {
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/refresh`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          refreshToken: token.refreshToken,
-        }),
-      }
-    );
+// // Function to refresh the access token
+// export const refreshAccessToken = async (
+//   token: CustomToken
+// ): Promise<CustomToken> => {
+//   try {
+//     const response = await fetch(
+//       `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/refresh`,
+//       {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({
+//           refreshToken: token.refreshToken,
+//         }),
+//       }
+//     );
 
-    const refreshedTokens = await response.json();
+//     const refreshedTokens = await response.json();
 
-    if (!response.ok) {
-      throw new Error('Failed to refresh token');
-    }
+//     if (!response.ok) {
+//       throw new Error('Failed to refresh token');
+//     }
 
-    return {
-      ...token,
-      accessToken: refreshedTokens.accessToken,
-      accessTokenExpires: Date.now() + refreshedTokens.expiresIn * 1000,
-      refreshToken: refreshedTokens.refreshToken ?? token.refreshToken,
-    };
-  } catch (error) {
-    console.error('Error refreshing access token:', error);
+//     return {
+//       ...token,
+//       accessToken: refreshedTokens.accessToken,
+//       accessTokenExpires: Date.now() + refreshedTokens.expiresIn * 1000,
+//       refreshToken: refreshedTokens.refreshToken ?? token.refreshToken,
+//     };
+//   } catch (error) {
+//     console.error('Error refreshing access token:', error);
 
-    return {
-      ...token,
-      error: 'RefreshAccessTokenError',
-    };
-  }
-};
+//     return {
+//       ...token,
+//       error: 'RefreshAccessTokenError',
+//     };
+//   }
+// };
 
 /**
  * Generates a JWT token for email verification using a user's object ID.

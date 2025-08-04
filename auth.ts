@@ -2,11 +2,7 @@ import NextAuth, { User } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 // import Google from 'next-auth/providers/google';
 
-import {
-  authorizeUser,
-  refreshAccessToken,
-  signInSocial,
-} from '@/core/features/auth/actions';
+import { authorizeUser, signInSocial } from '@/core/features/auth/actions';
 import authConfig from '@/core/features/auth/config';
 import { signInSchema } from '@/core/features/auth/schemas';
 import { UserRole } from '@/core/types/user';
@@ -58,10 +54,10 @@ export const {
           role: user?.role || UserRole.user,
           isPremium: user?.isPremium || false,
           accessToken: account.access_token,
-          refreshToken: account.refresh_token,
-          accessTokenExpires: account.expires_at
-            ? account.expires_at * 1000
-            : Date.now() + 24 * 60 * 60 * 1000, // 24 hours default
+          // refreshToken: account.refresh_token,
+          // accessTokenExpires: account.expires_at
+          //   ? account.expires_at * 1000
+          //   : Date.now() + 24 * 60 * 60 * 1000, // 24 hours default
         };
       }
 
@@ -71,25 +67,27 @@ export const {
         customToken.isPremium = user?.isPremium || false;
       }
 
-      // Return previous token if the access token has not expired yet
-      if (
-        customToken.accessTokenExpires &&
-        Date.now() < customToken.accessTokenExpires
-      ) {
-        return customToken;
-      }
+      // // Return previous token if the access token has not expired yet
+      // if (
+      //   customToken.accessTokenExpires &&
+      //   Date.now() < customToken.accessTokenExpires
+      // ) {
+      //   return customToken;
+      // }
 
-      // Access token has expired, try to update it
-      try {
-        console.log('Access token expired, attempting to refresh...');
-        return await refreshAccessToken(customToken);
-      } catch (err: unknown) {
-        console.error('Unable to update access token', err);
-        return {
-          ...token,
-          error: 'RefreshAccessTokenError',
-        };
-      }
+      // // Access token has expired, try to update it
+      // try {
+      //   console.log('Access token expired, attempting to refresh...');
+      //   return await refreshAccessToken(customToken);
+      // } catch (err: unknown) {
+      //   console.error('Unable to update access token', err);
+      //   return {
+      //     ...token,
+      //     error: 'RefreshAccessTokenError',
+      //   };
+      // }
+
+      return customToken;
     },
 
     async session({ session, token }) {
@@ -114,11 +112,11 @@ export const {
         session.accessToken = customToken.accessToken;
       }
 
-      // Handle token refresh errors
-      if (customToken?.error === 'RefreshAccessTokenError') {
-        // Force sign out if refresh fails
-        session.error = 'RefreshAccessTokenError';
-      }
+      // // Handle token refresh errors
+      // if (customToken?.error === 'RefreshAccessTokenError') {
+      //   // Force sign out if refresh fails
+      //   session.error = 'RefreshAccessTokenError';
+      // }
 
       // console.log('Session callback > session after:', session);
 

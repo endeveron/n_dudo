@@ -23,8 +23,8 @@ declare module 'next-auth/jwt' {
     role: UserRole;
     isPremium: boolean;
     accessToken?: string;
-    refreshToken?: string;
-    accessTokenExpires?: number;
+    // refreshToken?: string;
+    // accessTokenExpires?: number;
     error?: string;
   }
 }

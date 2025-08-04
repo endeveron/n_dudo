@@ -15,8 +15,8 @@ export interface CustomToken extends JWT {
   role: UserRole;
   isPremium: boolean;
   accessToken?: string;
-  refreshToken?: string;
-  accessTokenExpires?: number;
+  // refreshToken?: string;
+  // accessTokenExpires?: number;
   error?: string;
 }
 
@@ -32,8 +32,8 @@ export interface ExtendedSession extends Session {
   //   image?: string | null;
   // };
   expires: string;
-  accessTokenExpiry?: number; // Custom field if you add it
-  refreshTokenExpiry?: number; // Custom field if you add it
+  // accessTokenExpiry?: number;
+  // refreshTokenExpiry?: number;
   iat?: number; // Token issued at time
 }
 

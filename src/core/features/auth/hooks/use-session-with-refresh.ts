@@ -80,23 +80,23 @@ export function useSessionWithRefresh(): UseSessionWithRefreshReturn {
     }
   }, []);
 
-  // Handle refresh token errors and automatic sign out with simultaneous prevention
-  useEffect(() => {
-    if (!session?.error || signOutInProgress.current) return;
+  // // Handle refresh token errors and automatic sign out with simultaneous prevention
+  // useEffect(() => {
+  //   if (!session?.error || signOutInProgress.current) return;
 
-    if (session.error === 'RefreshAccessTokenError') {
-      // console.log('Refresh token expired, signing out...');
+  //   if (session.error === 'RefreshAccessTokenError') {
+  //     // console.log('Refresh token expired, signing out...');
 
-      // Prevent multiple simultaneous sign-outs from refresh token errors
-      if (authStateManager.canSignOut()) {
-        signOutSafely();
-      } else {
-        // console.log(
-        //   'Sign out already in progress due to refresh token error, skipping...'
-        // );
-      }
-    }
-  }, [session?.error, signOutSafely]);
+  //     // Prevent multiple simultaneous sign-outs from refresh token errors
+  //     if (authStateManager.canSignOut()) {
+  //       signOutSafely();
+  //     } else {
+  //       // console.log(
+  //       //   'Sign out already in progress due to refresh token error, skipping...'
+  //       // );
+  //     }
+  //   }
+  // }, [session?.error, signOutSafely]);
 
   // Conditional auto-refresh logic
   useEffect(() => {
